@@ -1,0 +1,24 @@
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# making data that can be destroyed 
+mkdir -p ../sandbox/shell-demo
+printf 'species\tcount\noak\t12\n' > ../sandbox/shell-demo/test.txt
+cat ../sandbox/shell-demo/test.txt
+# making data that can be destroyed 
+mkdir -p ../sandbox/shell-demo
+printf 'species\tcount\noak\t12\n' > ../sandbox/shell-demo/test.txt
+cat ../sandbox/shell-demo/test.txt

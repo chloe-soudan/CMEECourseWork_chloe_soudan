@@ -1,0 +1,50 @@
+[4mWC[24m(1)                             General Commands Manual                            [4mWC[24m(1)
+
+[1mNAME[0m
+       wc  -  Print newline, word, and byte counts for each FILE, and a total line if more
+       than one FILE is specified.
+
+[1mSYNOPSIS[0m
+       [1mwc [22m[[1m-c[22m|[1m--bytes[22m] [[1m-m[22m|[1m--chars[22m]  [[1m--files0-from[22m]  [[1m-l[22m|[1m--lines[22m]  [[1m-L[22m|[1m--max-line-length[22m]
+       [[1m--total[22m] [[1m-w[22m|[1m--words[22m] [[1m-h[22m|[1m--help[22m] [[1m-V[22m|[1m--version[22m] [[4mfiles[24m]
+
+[1mDESCRIPTION[0m
+       Print  newline,  word, and byte counts for each FILE, and a total line if more than
+       one FILE is specified.
+
+[1mOPTIONS[0m
+       [1m-c[22m, [1m--bytes[0m
+              print the byte counts
+
+       [1m-m[22m, [1m--chars[0m
+              print the character counts
+
+       [1m--files0-from [4m[22m<F>[0m
+              read input from the files specified by NUL-terminated names in file F; If  F
+              is - then read names from standard input
+
+       [1m-l[22m, [1m--lines[0m
+              print the newline counts
+
+       [1m-L[22m, [1m--max-line-length[0m
+              print the length of the longest line
+
+       [1m--total [4m[22m<WHEN>[0m
+              when  to  print  a  line with total counts; WHEN can be: auto, always, only,
+              never
+
+       [1m-w[22m, [1m--words[0m
+              print the word counts
+
+       [1m-h[22m, [1m--help[0m
+              Print help
+
+       [1m-V[22m, [1m--version[0m
+              Print version
+
+       [[4mfiles[24m]
+
+[1mVERSION[0m
+       v(uutils coreutils) 0.8.0
+
+                                        2026-04-16                                   [4mWC[24m(1)
