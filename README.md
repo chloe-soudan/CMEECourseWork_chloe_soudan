@@ -1,1 +1,1 @@
-my git practice repository 
+my git practice reposittory
