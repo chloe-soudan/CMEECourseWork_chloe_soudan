@@ -11,12 +11,9 @@ echo -e "\ntest \n"
 
 # confirmation code ran correctly
 
-echo input_file = "field_notes.csv"
+echo input_file = "field notes.csv"
 printf '<%s>\n' "$input_file"
 printf '<%s>\n' $input_file
 
-# making data that can be destroyed 
-mkdir -p ../sandbox/shell-demo
-printf 'species\tcount\noak\t12\n' > ../sandbox/shell-demo/test.txt
-cat ../sandbox/shell-demo/test.txt
+
 
