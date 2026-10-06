@@ -1,0 +1,48 @@
+#1 Count file lines 
+wc -l ../data/fasta/407228326.fasta
+note: wc = word count; -l = lines format. Counts newline characters in the 407228326.fasta file.There were 27. 
+wc -l ../data/fasta/407228412.fasta
+note: wc = word count; -l = lines format. Coutns newline characters in the 407228412.fasta file.There were 127.
+wc -l ../data/fasta/e_coli.fasta 
+note:wc = word count; -l = lines format. Counts newline characters in the e_coli.fasta file. There were 78104. 
+
+#2 Display the E. coli sequence lines
+head -n +2 ../data/fasta/e_coli.fasta 
+note: print the n first lines (head -n), starting from the second line (+2).
+ 
+OR
+tail -n -2
+note: print the n last lines (tail -n), except for the two first ones (+2)
+
+#3 Count sequence length 
+grep -v ">" ../data/fasta/e_coli.fasta | tr -d "\n" | wc -c
+note: grep = read input file (../data/fasta/e_coli.fasta)
+note: -v "^>" = exclude lines containing >
+note: tr -d "\n" = remove newline characters
+note: wc -c = count all characters
+note: sequence was 4686136 characters long 
+
+ 
+#4 Count a literal motif 
+grep -v ">" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "ATGC" | wc -l
+note: same concept as previous command except for:
+note: grep -o "ATGC" = finds each "ATGC" motif 
+note: wc -l = counts amount matches that grep -o "ATGC" found 
+note: 21968 motifs found 
+
+#5 Calculate the AT/GC ratio 
+a=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "A" | wc -l)
+note: same concept as previous step. added a=$() to store the output of the command as a 
+t=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "T" | wc -l)
+g=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "G" | wc -l)
+c=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "C" | wc -l)
+
+
+t = grep "T"
+g = grep "G"
+c = grep "C"
+
+(a+t)//
+(g+c) 
+
+
