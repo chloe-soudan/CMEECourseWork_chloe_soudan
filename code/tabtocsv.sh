@@ -1,20 +1,39 @@
+
+###### IMPPROVED TABTOCSV SCRIPT #########
+
 #!/bin/bash
 # chloe.soudan26@imperial.ac.uk
 # script: tabtocsv.sh
-# desc: substitute the tab# making data that can be destroyed 
+# desc: substitute the tab
 # date: oct 2026
 
-echo "creating a comma delimited version of $1 ..."
-cat $1 | tr -s "\t" "," >> $1.csv
+chmod u+x tabtocsv.sh
 
-echo "done"
+#Accepting only one readable CSV input path 
+if [ "$#" -ne 1 ]; then
+    echo "error: more than one readable input file provided" >&2
+    exit 2
 
-exit
+fi 
 
-shell_practice=$(mktemp -d)
-printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
-printf 'Practice data: %s\n' "$shell_practice"
+# Reporting a error for unreadable or invalid input
 
-sample_pattern="$shell_practice/*.txt"
-printf '<%s>\n' "$sample_pattern"
-printf '<%s>\n' $sample_pattern
+if [ ! -f "$1" ] || [ ! -r "$1" ]; then
+    echo "error: unreadable or invalid input" >&2
+    exit 2
+
+fi
+# making results directory if it doesn't exist yet 
+mkdir -p ../results
+
+# stating our task
+echo "creating a comma delimited version of $1..."
+
+# converting text file to csv format
+cat "$1" | tr "\t" "," >  "../results/$(basename "$1").csv"
+
+ echo "done"
+
+
+
+
