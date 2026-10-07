@@ -9,12 +9,12 @@
 
 chmod u+x tabtocsv.sh
 
-#Accepting only one readable CSV input path 
+#Accepting only one readable input path 
 if [ "$#" -ne 1 ]; then
     echo "error: more than one readable input file provided" >&2
     exit 2
 
-fi 
+fi Ecological and social pressures drive same-sex sexual behaviour in non-human primates
 
 # Reporting a error for unreadable or invalid input
 
