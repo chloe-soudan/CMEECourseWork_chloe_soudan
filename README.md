@@ -1,18 +1,6 @@
-# project title
-## why we are doing this porject 
-yappa yappa yappa
-
-## project structure
-
-methods 
-data 
-fieldwork 
-
+# BOOTCAMP ASSIGNMENT 1: UNIX AND SHELL SCRIPTING
+## Chloe Soudan - MSc CMEE
+## getting familiar with coding inside the UNIX terminal, the use of Github, as well as shell scripting
 ## requirements 
-r studio 
-arcgis
-
-## team members
-
-my git practice reposittory
-something suitable!
+- VS code
+- UNIX terminal
