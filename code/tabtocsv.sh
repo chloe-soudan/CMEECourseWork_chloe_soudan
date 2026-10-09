@@ -14,7 +14,7 @@ if [ "$#" -ne 1 ]; then
     echo "error: more than one readable input file provided" >&2
     exit 2
 
-fi Ecological and social pressures drive same-sex sexual behaviour in non-human primates
+fi 
 
 # Reporting a error for unreadable or invalid input
 
@@ -34,6 +34,10 @@ cat "$1" | tr "\t" "," >  "../results/$(basename "$1").csv"
 
  echo "done"
 
-
+### ran the following code separately:
+# shell_practice=$(mktemp -d)
+# printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
+# printf 'Practice data: %s\n' "$shell_practice"
+# bash tabtocsv.sh "$shell_practice/test.txt"
 
 
