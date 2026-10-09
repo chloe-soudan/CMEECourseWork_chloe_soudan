@@ -11,6 +11,7 @@ head -n +2 ../data/fasta/e_coli.fasta
 note: print the n first lines (head -n), starting from the second line (+2).
  
 OR
+
 tail -n -2
 note: print the n last lines (tail -n), except for the two first ones (+2)
 
@@ -33,6 +34,7 @@ note: 21968 motifs found
 #5 Calculate the AT/GC ratio 
 a=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "A" | wc -l)
 note: same concept as previous step. added a=$() to store the output of the command as a 
+
 t=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "T" | wc -l)
 g=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "G" | wc -l)
 c=$(grep -v "^>" ../data/fasta/e_coli.fasta | tr -d "\n" | grep -o "C" | wc -l)
@@ -41,6 +43,7 @@ ratio=$(echo "($a + $t) / ($c + $g)" | bc -l)
 note: ratio=$ = store the output of the command as ratio
 note: ($a + $t) / ($c + $g)" = ratio formula
 note: bc -l = calls for calculator
+
 echo "$ratio"
 note: print the output that was store as ratio
 note:  ratio is .96922822848944879586
