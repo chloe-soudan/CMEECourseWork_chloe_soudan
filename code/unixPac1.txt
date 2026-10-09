@@ -1,7 +1,0 @@
-#1
-wc -l ../data/fatsa/407228326.fasta 
-note  wc: word count; -l: long format. Counts newline characters in 407228326.fasta file. 
-wc -l ../data/fasta/407228412.fasta
-note  wc: word count; -l: long format. Counts newline characters in 407228412.fasta file.
-wc -l ../data/fasta/e_coli.fasta  
-note wc: word count; -l long format. Counts newline characters in e_coli.fasta file. 
