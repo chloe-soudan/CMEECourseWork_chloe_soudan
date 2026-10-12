@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# chloe.soudan26@imperial.ac.uk
 ### FUNCTIONS EXERCISES ###
 
 def foo_1(x):
@@ -72,3 +74,42 @@ foo_6(3) # (1*3)*(2*1) = 6 => will return 6
 foo_6(4) # (4*1)*(4*3)*(3*2)*(2*1) = 24 => will return 24
 # returned 24
 
+## 
+if __name__ == "__main__":
+    # testing foo_1
+    print(foo_1(2))
+    print(foo_1(0))
+    print(foo_1(-2))
+
+    # testing foo_2
+    print(foo_2(0,0))
+    print(foo_2(-10, 5))
+    print(foo_2(5, -10))
+
+    # testing foo_3
+    print(foo_3(1,2,3))
+    print(foo_3(1,1,1))
+    print(foo_3(-1,-2,-3))
+    print(foo_3(3,2,1))
+
+    # testing foo_4
+    print(foo_4(0))
+    print(foo_4(-2))
+    print(foo_4(5))
+
+    #testing foo_5
+    print(foo_5(0))
+    print(foo_5(-1))
+    print(foo_5(1))
+    print(foo_5(2))
+
+    # testing foo_6
+    print(foo_6(0))
+    print(foo_6(-1))
+    print(foo_6(1))
+    print(foo_6(2))
+# all functions work, foo_5 and foo_6 return 
+# the same output, as expected
+
+# ram the file from the coursework project root using: 
+# python3 code/cfexercises1.py
