@@ -45,5 +45,5 @@ note: ($a + $t) / ($c + $g)" = ratio formula
 note: bc -l = calls for calculator
 
 echo "$ratio"
-note: print the output that was store as ratio
+note: print the output that was stored as ratio
 note:  ratio is .96922822848944879586

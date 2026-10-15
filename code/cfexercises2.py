@@ -34,4 +34,25 @@ hello_4(0) # will print hello 5 times, after 5 iterations x will be euqla to 15 
 
 ###################
 
-def hello_5(x)
+def hello_5(x): # defining a function where
+    while x < 100: # as long as x is smaller than 100
+        if x == 31: # when x is equal to 31, print 'hello' 7 times
+            for k in range(7):
+                print('hello') 
+        elif x == 18: # when x is 18, print 'hello'
+            print('hello')
+        x = x + 1 # increasing x by 1 at each iteration
+    print(' ') # print ' ' at the end of each iteration
+
+hello_5(12) # will print hello 8 times 
+
+### while loop with break ###
+def hello_6(x,y):
+    while x: #while x is true
+        print('hello!' + str(y))
+        y +=1 # increment y by 1 at each iteration
+        if y == 6:
+            break
+    print(' ')
+
+hello_6(True, 0) # will print hello!5 times (until y =6) followed by the y value

@@ -41,3 +41,13 @@ if (__name__ == "__main__"):
 
 doctest.testmod() 
 
+def square(number):
+    """
+    Return the square of a number. 
+
+    >>> square(4)
+    16
+    """
+    return number * number
+
+

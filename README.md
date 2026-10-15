@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ########### BOOTCAMP ASSIGNMENT 1: UNIX, SHELL AND GIT ############
 
 ## Chloe Soudan - MSc CMEE
@@ -28,11 +27,3 @@
 ## workflow: adapting csvtotab.sh to current aims and optimizing it
 ## files needed: temperatures folder from MQB repository (MQB/content/data/temperatures)
 
-=======
-# BOOTCAMP ASSIGNMENT 1: UNIX AND SHELL SCRIPTING
-## Chloe Soudan - MSc CMEE
-## getting familiar with coding inside the UNIX terminal, the use of Github, as well as shell scripting
-## requirements 
-- VS code
-- UNIX terminal
->>>>>>> origin/master
