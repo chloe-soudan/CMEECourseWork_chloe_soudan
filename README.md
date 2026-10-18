@@ -1,4 +1,6 @@
-########### BOOTCAMP ##########
+BOOTCAMP 
+
+
 
 ## Chloe Soudan - MSc CMEE
 ## chloe.soudan26@imperial.ac.uk
