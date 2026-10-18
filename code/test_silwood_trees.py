@@ -28,19 +28,14 @@ INPUT_FIELDS = [
 ISSUE_FIELDS = ["source_row", "record_id", "reasons"]
 OAK_COUNT_FIELDS = ["species", "count"]
 
+from clean_silwood_trees import load_records, INPUT_FIELDS
 
-def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]:
-    """Read the survey and check its column names."""
-    with path.open(newline="", encoding="utf-8") as source:
-        reader = csv.DictReader(source)
-        if reader.fieldnames != INPUT_FIELDS:
-            raise ValueError(
-                f"Expected columns {INPUT_FIELDS}, found {reader.fieldnames}"
-            )
-        return list(reader)
+records = load_records()
 
+print(records[3])
+#note: went into code directory for testing instead of root directory
 
-
+####### TEST VALIDATE RECORD ##############
 def validate_record(
     row: dict[str, str],
     source_row: int,
@@ -105,7 +100,7 @@ def validate_record(
 
     # checking the range of numerical fields
 
-    # checking for duplicata record_id
+    # checking for duplicate record_id
     if row["record_id"] in accepted_ids:
         reasons.append("duplicate record_id")
 
@@ -122,9 +117,36 @@ def validate_record(
     accepted_ids.add(row["record_id"]
                  )
     return row, []
-# source: https://www.geeksforgeeks.org/python/python-sort-list-of-list-by-specified-index/
-# wasn't working, asked ai why and itsuggested i add .index to the key 
 
+
+validated_records =validate_record(records[3], source_row=1, accepted_ids = set())
+print(validated_records)
+# record[3] was validated 
+
+# trying again with other records to see if they get errors
+
+validated_records =validate_record(records[2], source_row=1, accepted_ids = set())
+print(validated_records)
+# no error
+
+validated_records =validate_record(records[7], source_row=1, accepted_ids = set())
+print(validated_records)
+validated_records =validate_record(records[8], source_row=1, accepted_ids = set())
+print(validated_records)
+validated_records =validate_record(records[13], source_row=1, accepted_ids = set())
+print(validated_records)
+validated_records =validate_record(records[14], source_row=1, accepted_ids = set())
+print(validated_records)
+# note: all valid, returns the rows
+
+validated_records =validate_record(records[27], source_row=1, accepted_ids = set())
+print(validated_records)
+# Error message: invalid location
+validated_records =validate_record(records[28], source_row=1, accepted_ids = set())
+print(validated_records)
+# Error message: invalid location
+
+############# TESTING PROCESS_RECORDS ##########
 
 def process_records(
     rows: Iterable[dict[str, str]],
@@ -146,37 +168,28 @@ def process_records(
     return accepted_records, invalid_records
 
 
-# sources
-# https://stackoverflow.com/questions/61063965/in-python-can-a-loop-be-used-within-a-function
+accepted_records, invalid_records = process_records(records)
+print(accepted_records, invalid_records)
 
-test_rows = [
-    {
-        "record_id": "ST001",
-        "location": "Silwood Bottom",
-        "genus": "Quercus",
-        "species": "robur",
-        "distance_m": "12.5",
-        "angle_degrees": "45",
-    },
-    {
-        "record_id": "ST002",
-        "location": "Unknown Place",
-        "genus": "Quercus",
-        "species": "robur",
-        "distance_m": "10",
-        "angle_degrees": "90",
-    },
-    {
-        "record_id": "ST003",
-        "location": "Manor House",
-        "genus": "Acer",
-        "species": "pseudoplatanus",
-        "distance_m": "8.2",
-        "angle_degrees": "30",
-    },
-]
+# note: prints a list of dict of the accepted records and their data
 
-accepted, rejected = process_records(test_rows)
+##### TESTING SUMMARY_OAKS ######
 
-print("Accepted records:", accepted)
-print("Rejected records:", rejected)
+from collections import Counter 
+
+def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
+    """Count accepted oak records by species."""
+
+    oak_species = []
+
+    for row in clean_records:
+        if row["genus"].casefold().strip() == "quercus":
+            oak_species.append(row["species"].casefold().strip())
+
+    oak_counts = Counter (oak_species)
+
+    return [{"species": species, "count": count}
+            for species, count in oak_counts.items()]
+
+
+oak_summary = summarise_oaks(accepted_records)

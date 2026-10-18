@@ -3,6 +3,7 @@
 """Validate and clean the synthetic Silwood tree survey."""
 
 from __future__ import annotations
+from collections import Counter
 
 import csv
 import re
@@ -101,7 +102,7 @@ def validate_record(
 
     # checking the range of numerical fields
 
-    # checking for duplicata record_id
+    # checking for duplicate record_id
     if row["record_id"] in accepted_ids:
         reasons.append("duplicate record_id")
 
@@ -118,8 +119,6 @@ def validate_record(
     accepted_ids.add(row["record_id"]
                  )
     return row, []
-# source: https://www.geeksforgeeks.org/python/python-sort-list-of-list-by-specified-index/
-# wasn't working, asked ai why and itsuggested i add .index to the key 
 
 
 def process_records(
@@ -143,25 +142,22 @@ def process_records(
 
 
 
-
 def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
     """Count accepted oak records by species."""
 
-    oak_counts = {}
+    oak_species = []
 
     for row in clean_records:
         if row["genus"].casefold().strip() == "quercus":
-            species = row["species"]
+            oak_species.append(row["species"].casefold().strip())
 
-            if species not in oak_counts:
-                oak_counts[species] = 0
+    oak_counts = Counter (oak_species)
 
-            oak_counts["count"] +=1 
-    
-            
-    #return ["species" = species, {"name": dfgdgd } COUNT FOR EACH SPECIES]
+    print(oak_counts.items())
 
-    return [{"species": species, "count": count} for species, count in oak_counts.items()]
+    return [{"species": species, "count": count}
+            for species, count in oak_counts.items()]
+
 
 
 def write_csv(
@@ -201,3 +197,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
