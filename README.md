@@ -119,13 +119,22 @@ if unvalid reocrd: none, followed by a list of the reason(s) why
 INPUT: records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]
 AIMS: Validate every record; stop and report an error for invalid input & identify exact duplicate records and keep one copy of each.
 FUNCTION
-For each site:
-    count the observations with missing counts
-    if at least one count is known:
-        add the known counts and report their total
-    otherwise:
-        report that no known total is available
-OUTPUT: known-count total (or unavailable) and missing-count number per site. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
+
+Create accepted_records and invalid_records lists, and an accepted_ids set
+For each record row, going through each row and starting at the second one:
+  got through the cleaned record and pass it through the validate_records function (calling the output of this reasons)
+
+  if cleaned_record was not rejected (is not None):
+    then append this cleaned_record to the accepted_records list 
+
+  else (if it was rejected):
+    append this record to the invalid_records list, and put its record_id and the reason of rejection in dictionaries
+  * sources
+  https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
+  https://realpython.com/nested-loops-python/
+  
+OUTPUT: Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
+
 
 #### 3. Summarise_oaks ####
 INPUT: the validated records obtained through process_records. Format: (Iterable[dict[str, str]])
