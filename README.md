@@ -146,4 +146,4 @@ OUTPUT: list of dictionaries of oak species and respective counts. Format: list[
 - https://realpython.com/python-counter/
 - https://www.geeksforgeeks.org/python/counters-in-python-set-1/
 - https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
-- Asked AI for help with strcutstrcutring my function's return
+- Asked AI for help with structurin my function's return
