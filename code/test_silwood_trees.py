@@ -95,10 +95,18 @@ def validate_record(
 
             if not math.isfinite(value):
                 reasons.append(f"invalid {field}")
+
+            else:
+                if field == "distance_m":
+                    if value <= 0 or value > 100:
+                        reasons.append("distance_m out of range")
+
+                if field == "angle_degrees":
+                    if value <= 0 or value >=90:
+                        reasons.append("angle_degrees out of range")
+
         except ValueError:
             reasons.append(f"invalid {field}")
-
-    # checking the range of numerical fields
 
     # checking for duplicate record_id
     if row["record_id"] in accepted_ids:

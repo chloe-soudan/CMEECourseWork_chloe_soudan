@@ -84,7 +84,8 @@ def validate_record(
         if (row["genus"].casefold(), row["species"].casefold()) not in valid_combinations:
             reasons.append("invalid genus/species combination")
 
-    # checking for invalid numerical fields
+  
+    # checking for invalid numerical fields and our of range values
 
     NUMERIC_FIELDS = ["distance_m", "angle_degrees"]
 
@@ -97,15 +98,24 @@ def validate_record(
 
             if not math.isfinite(value):
                 reasons.append(f"invalid {field}")
+
+            else:
+                if field == "distance_m":
+                    if value <= 0 or value > 100:
+                        reasons.append("distance_m out of range")
+
+                if field == "angle_degrees":
+                    if value <= 0 or value >=90:
+                        reasons.append("angle_degrees out of range")
+
         except ValueError:
             reasons.append(f"invalid {field}")
-
-    # checking the range of numerical fields
 
     # checking for duplicate record_id
     if row["record_id"] in accepted_ids:
         reasons.append("duplicate record_id")
 
+    # ordering reasons for unvalid record
 
     REASONS_ORDER = ["missing record_id", "invalid record_id", "duplicate record_id", "missing location", "invalid location", "missing genus",
                  "invalid genus", "missing species", "invalid species", "invalid genus/species combination", "missing distance_m",
@@ -152,8 +162,6 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
             oak_species.append(row["species"].casefold().strip())
 
     oak_counts = Counter (oak_species)
-
-    print(oak_counts.items())
 
     return [{"species": species, "count": count}
             for species, count in oak_counts.items()]

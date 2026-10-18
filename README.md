@@ -83,8 +83,15 @@ https://zetcode.com/python/regex-fullmatch-function/
   if that row[field] is empty (None) or just made of empty spaces "": 
   skip the following chunk (continue) 
   if not though try to create a float string from row[field] and name it value. 
-  if value is not mathematically finite (outsie of range):
-  add as reason for rejection of that row: "{field} out of range"
+  if value is not mathematically finite :
+  add as reason for rejection of that row: "invalid {field}"
+  if field mathematically finite: 
+    if field is distance_m:
+      if value not greater than 0 or greater than 100: 
+        add as reason for rejection of the row: "distance_m out of range"
+    if filed is angle_degrees:
+      if value smaller not greater than 0 or larger than 90:
+        add as reason for rejection of the row: "angle_degrees out of range"
   when converting to float fails (except ValueError):
   add as reason for rejection of that row "invalid {field}
     # sources: 
