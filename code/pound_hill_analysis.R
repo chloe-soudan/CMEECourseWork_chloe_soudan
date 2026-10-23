@@ -1,10 +1,15 @@
-#!/usr/bin/env R
+#!/usr/bin/env Rscript
 # chloe.soudan26@imperial.ac.uk
-# Pound hill practical
+# POUND HILL PRACTICAL
+
+# installing and loading libraries 
+install.packages("ggplot2")
+install.packages("tidyverse")
 install.packages("languageserver")
 library(languageserver)
 library(tidyverse)
 library(ggplot2)
+
 # loading the data and metadata
 data <- as.matrix(read.csv("data/pound_hill_data.csv", header = FALSE))
 metadata <- read.csv("data/pound_hill_meta_data.csv", header = TRUE, sep = ";")
@@ -40,8 +45,6 @@ colnames(TempData) <- data[1,] # assign column names from original data
 colnames(TempData)
 
 # Converting from wide to long format  
-# sources: https://www.geeksforgeeks.org/r-language/pivot-longer-in-r/
-# https://gist.github.com/ramhiser/93fe37be439c480dc26c4bed8aab03dd
 
 mydata <- TempData %>%
     pivot_longer(
@@ -119,7 +122,7 @@ plot_mean_richness_fig <- ggplot(plot_mean_richness_table, aes(x = Cultivation, 
     title = "Figure of the mean species richness at each plot, in relation to cultivation",
     x = "Cultivation",
     y = "Mean species richness",
-    caption = "Figure dislpaying the mean species richness (y-axis) for each cultivation (x-axis) at all the plots. \n Each point represents a different point. \n Mean species richness was calculated by taking the mean of the number of the species recorded at each plot, thus removing species with count 0. "
+    caption = "Figure dislpaying the mean species richness (y-axis) for each cultivation (x-axis) at all the plots. \n Each point represents a different plot and different colours refer to different cultivations. \n Mean species richness was calculated by taking the mean of the number of the species recorded at each plot, thus removing species with count 0. "
   ) + 
   scale_colour_manual(values = c("march" = "#76BD6A",
     "may" = "#F49335",
@@ -136,10 +139,4 @@ plot_mean_richness_fig
 pdf("results/pound_hill_richness.pdf", 11.7, 8.3)
 print(plot_mean_richness_fig)
 graphics.off()
-
-
-
-# sources: https://ggplot2.tidyverse.org/reference/scale_manual.html
-# https://www.r-bloggers.com/2025/03/how-to-center-ggplot-title-subtitle-and-caption-in-ggplot2-with-r/
-
 
