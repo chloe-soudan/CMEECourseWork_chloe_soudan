@@ -163,6 +163,8 @@ OUTPUT: list of dictionaries of oak species and respective counts. Format: list[
 
 AIMS: getting familiar with data wrangling and plotting in R. 
 
+SOFTWARE REQUIREMENTS: VS cde (or equivalent environment that can run R)
+
 ### Tree height practical ###
 
 #### Part 1 ####
@@ -196,7 +198,7 @@ create a function check_trees where {
   state the message "done!" after having done all this
   return trees}
 
-Run command was: Rscript code/TreeHeight.R (from porject root Bash terminal)
+Run command was: Rscript code/TreeHeight.R (from porject root Bash terminal) 
 
 OUTPUT: 
 (1) script named TreeHeight.R stored in codes
