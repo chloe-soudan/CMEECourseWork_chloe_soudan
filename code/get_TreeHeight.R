@@ -1,4 +1,4 @@
-#!/usr/bin/env R
+#!/usr/bin/env Rscript
 # chloe.soudan26@imperial.ac.uk
 # GENERALIZE TREE-HEIGHT SCRIPT PRACTICAL
 
@@ -59,10 +59,6 @@ trees_height1 <- check_trees1(trees1)
 
 basename <- tools:: file_path_sans_ext(basename(args[1]))
 write.csv(trees_height1, paste0("results/", basename, "_treeheights.csv"))
-
-# note: asked AI to give me hint on how to tackle this, which led me to this webstie:
-# https://maple60.github.io/en/posts/2026-02-06-r-extract-filename/
-# asked AI for hint to remove.csv after basename, it suggeste tools::file_path_sans_ext
 
 # checked height calculation with browser():
 # added browser before the trees <- trees %>% etc
