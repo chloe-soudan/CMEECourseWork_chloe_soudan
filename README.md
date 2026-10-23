@@ -150,9 +150,100 @@ then, return a list of dict with each species (in the species dict) and its resp
 
 OUTPUT: list of dictionaries of oak species and respective counts. Format: list[dict[str, str]]
 *sources
-- https://introcs-python.cs.luc.edu/dict_algorithms/overview.html?utm_source=chatgpt.com
+- https://introcs-python.cs.luc.edu/dict_algorithms/overview.html
 - https://www.geeksforgeeks.org/python/python-counter-items-counter-keys-and-counter-values/
 - https://realpython.com/python-counter/
 - https://www.geeksforgeeks.org/python/counters-in-python-set-1/
 - https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
 - Asked AI for help with structurin my function's return
+- Asked AI to help with correcting indents
+
+
+## ASSIGNMENT 3: R ##
+
+AIMS: getting familiar with data wrangling and plotting in R. 
+
+### Tree height practical ###
+
+#### Part 1 ####
+
+AIMS: checking trees data and calculating tree height, using tidyverse and already entered distance and angle data.
+
+DETAILS: importing trees data and checking its formatting (missing values, NAs, if numeric values are finite, ranges of angles and distances,...). Then, using already inputted distances and angles, calculate tree height and adding it as a new column in the table (height_m). Checking that calculations were correct and saving the file in results as a cv.
+
+INPUT: trees.csv from MQB/content/data
+
+PSEUDOCODE FOR FUNCTION:
+create a function check_trees where {
+  the col_order is c("Species", "Distance.m", "Angle.degrees")
+  if the column names from trees are not identical (!identical) to col_order {
+    stop the command and state as a reason "wrong/headers/ header order"
+  }
+   for each col in num_col (num_col = Distance.m and Angle.degrees)
+    if the are any NA values or (|) any empty strings {
+      stop the command and state as a reason "missing", col}
+    if any col values are not finite (!finite) {
+    stop the command and state as a reason "invalid", col}
+  if any trees$Distance_m value is outside of its range {
+    stop the command and state as a reason "Distance_m out of range"}
+  repeat last statement but for Angle.degrees range
+  
+  set trees to be trees where (%>%)
+    a new column is created (mutate), called height_m and is equal to 
+    Distance.m *tan(Angle.degrees * pi /180)) %>%
+    and reorder (select) the columns to be: Species, Distance.m, Angle.degrees, height_m
+
+  state the message "done!" after having done all this
+  return trees}
+
+OUTPUT: 
+(1) script named TreeHeight.R stored in codes
+(2) csv with the checked and modified data in results named TreeHts.csv
+SOURCES:
+-  https://www.statology.org/r-filter-between-two-values/
+- https://dplyr.tidyverse.org/reference/filter.html
+- if row missing https://www.geeksforgeeks.org/r-language/address-errors-in-if-statements-in-r/
+- ordering columns: https://www.geeksforgeeks.org/r-language/reorder-the-column-of-dataframe-in-r-using-dplyr/
+- https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
+
+#### Part 2 ####
+
+AIMS: checking trees data and calculating tree height, using tidyverse and already inputted distance and angle data and by passing trees.csv as an argument.
+
+DETAILS:running a similar code than in part 1 (file: get_treeHeight.R) ). However, this time passing the input data as an argument when running the code from the Bash terminal. Thus, the code first ensures that exactly one argument gets passed, and that that argument actually exists. It then goes through the function and some checks for the calculations. Lastly, the output gets saved in results as a csv, and its name is set to be the basename of the argument that was passed. 
+
+Then, we created a shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash, and terminate execution if the script fails. 
+
+INPUT: trees.csv from MQB/content/data, passed as an argument
+
+OUTPUT: 
+(1) get_TreeHeight.R, script file that checks the argument, has the function,...
+(2) run_get_TreeHeight.sh: a shell script has the command to run the get_TreeHeight.R script, and makes sure the command gets terminated if the script fails
+(3) csv file with the checked and modified data, stored in results as <input-basename-without-.csv>_treeheights.csv
+
+SOURCES:
+- https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
+- asked AI to give me hint on how to tackle this, which led me to this website: https://maple60.github.io/en/posts/2026-02-06-r-extract-filename/
+- asked AI for hint to remove.csv after basename, it suggested tools::file_path_sans_ext
+- for terminating command if script fails: https://www.statology.org/reorder-columns-r/
+
+
+### Pound hill practical ###
+
+AIMS: wrangling pound hill data, calculating mean species richness at plots, blocks, and cultivation combinations, and plotting it.
+
+DETAILS:  wrangling pound to convert blank spaces to observed zeros,transpose the data, convert table from wide to long format, and check counts (numeric, non-zero). Once data has been wrangled and coverted to a tibble, use %>% pipeline to modify it into a table that shows Cultivation, Plot, Quadrat, and Block and calculate richness at each of these combinations (richness here refers to number of species detected). Then use this table to find mean richness at each Cultivation, Block, and Plot combination. We then stored this table as a csv in the results folder, and used ggplot to create a figure of the mean species richness at each plot, in relation to cultivation. This plot was then saved as a pdf in the results folder of the root project. 
+
+INPUT: pound_hill_data.csv and pound_hill_meta_data.csv from MQB/content/data
+
+OUTPUT: 
+(1) pound_hill_analysis.R: R script stored in project root codes folder
+(2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.
+(3) pound_hill_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.
+
+SOURCES: 
+- https://www.geeksforgeeks.org/r-language/pivot-longer-in-r/
+- https://gist.github.com/ramhiser/93fe37be439c480dc26c4bed8aab03dd
+- https://ggplot2.tidyverse.org/reference/scale_manual.html
+- https://www.r-bloggers.com/2025/03/how-to-center-ggplot-title-subtitle-and-caption-in-ggplot2-with-r/
+
