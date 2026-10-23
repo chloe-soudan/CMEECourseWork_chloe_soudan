@@ -1,6 +1,6 @@
-#!/usr/bin/env R
+#!/usr/bin/env Rscript
 # chloe.soudan26@imperial.ac.uk
-# CALCULATE TREE HEIGHTS PRACTICAL 
+# CALCULATE TREE HEIGHTS PRACTICAL
 
 
 library(dplyr)
@@ -73,7 +73,6 @@ write.csv(trees_height, "results/TreeHts.csv")
 #    print("wrong height")
 #}
 # printed "correct"
-# asked AI to help with correcting indents
 
 # forming a toy measurement to double-check the formula
 toy_measurement <- 8 * tan(45 * pi / 180) 
@@ -81,16 +80,3 @@ toy_measurement
 
 # note: output is 8 (as expected)
 
-
-# sources: https://www.statology.org/r-filter-between-two-values/
-# https://dplyr.tidyverse.org/reference/filter.html
-
-# sources:
-# if row missing https://www.geeksforgeeks.org/r-language/address-errors-in-if-statements-in-r/
-# ordering columns: https://www.geeksforgeeks.org/r-language/reorder-the-column-of-dataframe-in-r-using-dplyr/
-
-# the toy thing??
-# readme.md stuff
-
-
-# sources: https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
