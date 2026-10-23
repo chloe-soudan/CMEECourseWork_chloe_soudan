@@ -196,6 +196,8 @@ create a function check_trees where {
   state the message "done!" after having done all this
   return trees}
 
+Run command was: Rscript code/TreeHeight.R (from porject root Bash terminal)
+
 OUTPUT: 
 (1) script named TreeHeight.R stored in codes
 (2) csv with the checked and modified data in results named TreeHts.csv
