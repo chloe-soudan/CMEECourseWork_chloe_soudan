@@ -21,15 +21,15 @@ printf 'You entered %s and %s\n' "$first_number" "$second_number"
 my_sum=$(expr "$first_number" + "$second_number")
 printf ' Their sum is: %s\n' "$my_sum"
 
-# ran this shell in terminal by using following command: bash variables.sh 
+# ran this shell in terminal (from CMEECourseWork directory) using following command: bash code/variables.sh 
 # note: script worked but first lines printed had empty values for first and second arguments (as no aruguments were passed).
 # was later prompted to enter a new string, and then two integers which were summed up.
 
-# ran this shell in terminal by using following command: bash variables.sh "two words"
+# ran this shell in terminal (from CMEECourseWork directory) by using following command: bash code/variables.sh "two words"
 # note: script worked but terminal cosnidered that only one arguments was passed (because of the quotes)
 # was later prompted to enter a new string, and then two integers which were summed up.
 
-# ran this shell in terminal by using following command: bash variables.sh two words
+# ran this shell in terminal (from CMEECourseWork directory) by using following command: bash code/variables.sh two words
 # note: script worked. terminal considered that two arguments were passed (removed the quotes).
 # was later prompted to enter a new string, and then two integers which were summed up.
 
