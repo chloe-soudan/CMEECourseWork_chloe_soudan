@@ -1,4 +1,9 @@
-### MORE EXAMPLES OF LOOPS AND CONDITIONALS COMBINED ###
+#!/usr/bin/env python3
+# Chloe Soudan - chloe.soudan26@imperial.ac.uk
+# Script: cfexercises2.py
+# Desc: More loops and conditionals exercises
+# Date: Oct 2026
+
 
 def hello_1(x): # defining hello_1 to be a fucntion where  
     for j in range(x): # for each iteration(j) in range x 
@@ -56,3 +61,6 @@ def hello_6(x,y):
     print(' ')
 
 hello_6(True, 0) # will print hello!5 times (until y =6) followed by the y value
+
+# ran the file from the coursework project root (CMEECourseWork) using: 
+# python3 code/cfexercises2.py
