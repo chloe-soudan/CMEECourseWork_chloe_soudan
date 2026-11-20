@@ -74,3 +74,6 @@ def main():
 if __name__ == "__main__":
     main()
 
+# ran doctest in the terminal (from the CMEECourseWork directory) by using the following command:
+# python3 -m doctest -v code/control_flow.py
+# Output says: Test passed (the functions thus work as expected)
