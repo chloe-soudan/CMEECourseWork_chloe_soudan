@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-# chloe.soudan26@imperial.ac.uk
-### FUNCTIONS EXERCISES ###
+# Chloe Soudan - chloe.soudan26@imperial.ac.uk
+# Script: cfexercises.py
+# Desc: Practicing python functions
+# Date: Oct 2026
 
 def foo_1(x):
     return x **0.5
@@ -49,7 +51,7 @@ def foo_5(x):
         return 1 # handling the 0! issue
     if x ==1:
         return 1 # if x equals 1 return 1
-    return x*foo_5(x-1) #if else, return x times the result of this function for x-1
+    return x*foo_5(x-1) #otherwise, return x times the result of this function for x-1
 foo_5(2) #1, 2*1 =2  => will return 2
 #returned 2
 foo_5(3) # 1, 2*1 =2, 3*(2*1)*1 =6 => will return 6
@@ -61,7 +63,7 @@ def foo_6(x):
     facto =1 #starting facto equals 1
     while x >=1: # when x is equal to or bigger than 1 
         facto = facto*x #facto equals facto from previous iteration times x
-        x = x-1 #substracting 1 from x, and keep loop going 
+        x = x-1 #subtracting 1 from x, and keep loop going 
     # with x-1 until x >= 1 condition returns false
     return facto
 
