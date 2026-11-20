@@ -12,10 +12,10 @@ def even_or_odd(x):
     """ Return  a description of whether integer x is even or odd.
 
     >>> even_or_odd(10)
-    '10 is even!'
+    '10 is Even!'
     >>> even_or_odd(5)
     '5 is Odd!'
-    >>> even_or_dd(-2)
+    >>> even_or_odd(-2)
     '-2 is Even!'
     """
     if not isinstance(x, int): # raise error if x is not an integer
@@ -43,7 +43,7 @@ def is_prime(x):
     for divisor in range (2,x): # for each divisor in the set range (2 to x-1)
         if x % divisor == 0: # if x divided by the divisor has a remainder of 0, 
             return False # return False  (x not prime)
-        return True # otherwise, return True (x is prime)
+    return True # otherwise, return True (x is prime)
 
 
 def find_all_primes(limit):
@@ -74,5 +74,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# ran the script in the terminal (from the CMEECourseWork directory) by using the following command:
-# python3 code/control_flow.py
