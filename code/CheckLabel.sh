@@ -22,15 +22,15 @@ fi
 printf 'selected species: %s\n' "$1"
 
 
-## Ran the following lines in bash terminal from the CMEECoursework/code directory:
-# bash CheckLabel.sh oak
+## Ran the following lines in bash terminal from the CMEECoursework directory:
+# bash code/CheckLabel.sh oak
 # echo "$?"  - here was  0
 
-# bash CheckLabel.sh  - output: usage: CheckLabel.sh oak|pine
+# bash code/CheckLabel.sh  - output: usage: CheckLabel.sh oak|pine
 # echo "$?" - output: 2
 
-# bash CheckLabel.sh birch - output: unknown label: birch
+# bash code/CheckLabel.sh birch - output: unknown label: birch
 # echo "$?" - output: 1
 
-# bash CheckLabel.sh oak pine - output: usage: CheckLabel.sh oak|pine
+# bash code/CheckLabel.sh oak pine - output: usage: CheckLabel.sh oak|pine
 # echo "$?" - output: 2
