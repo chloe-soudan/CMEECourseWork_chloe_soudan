@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Chloe Soudan - chloe.soudan26@imperial.ac.uk
-# Script: cfexercises.py
+# Script: cfexercises1.py
 # Desc: Practicing python functions
 # Date: Oct 2026
 
