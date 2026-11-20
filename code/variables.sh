@@ -1,5 +1,8 @@
 # !/bin/bash
-# chloe.soudan26@imperial.ac.uk
+# Chloe Soudan
+# Script: variables.sh
+# Desc: Running basic commands and understanding how arguments are passed in shell scripts
+# Date: Oct 2026
 
 printf 'this script was called with %s parameters\n' "$#"
 printf 'this script was invoked as %s\n' "$0"
