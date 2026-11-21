@@ -1,7 +1,7 @@
 
 # Chloe Soudan - chloe.soudan26@imperial.ac.uk
 # Script: unixPrac1.txt
-# Desc: FASTA practical questions - answers
+# Desc: FASTA practical answers
 # Date: Oct 2026
 
 ### 1. Count file lines 
