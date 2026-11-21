@@ -4,7 +4,6 @@
 # Desc: Practicing using the browser() function
 # Date: Oct 2026
 
-## Debugging using breakpoints 
 
 # using the browser() function
 
