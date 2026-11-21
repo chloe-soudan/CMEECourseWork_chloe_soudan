@@ -1,2 +1,5 @@
 *~
 *.tmp
+
+# ignore results generated from scripts
+results/
