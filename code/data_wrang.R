@@ -1,6 +1,9 @@
-################################################################
-################## Wrangling the Pound Hill Dataset ############
-################################################################
+#!/usr/bin/env Rscript
+# Chloe Soudan - chloe.soudan26@imperial.ac.uk
+# Script: data_wrang.R
+# Desc: Wranlging the Pound Hill Dataset
+# Date: Oct 2026
+
 
 ############# Load the dataset ###############
 # header = false because the raw data don't have real headers
@@ -86,3 +89,6 @@ MyWrangledData %>% # my data where counts are grouped by species
     group_by(Species) %>% # and for which 
         summarise(avg = mean(Count)) # avg is the avg count for each Species group
 # note: same as this (in base R): aggregate(MYWrangledData$Count, list(MYWrangledData$Species), FUN=mean)
+
+# ran the code in the terminal from the project root using the following command:
+# R code/data_wrang.R
