@@ -1,3 +1,8 @@
+#!/usr/bin/env Rscript
+# Chloe Soudan - chloe.soudan26@imperial.ac.uk
+# Script: browse.R
+# Desc: Practicing using the browser() function
+# Date: Oct 2026
 
 ## Debugging using breakpoints 
 
@@ -24,11 +29,3 @@ plot(Exponential(), type = "l", main ="Exponential growth")
 # examined the varuables using n, c, Q, and ls()
 # ls() returned "generations", "N", "N0", "r", and "t"
 
-## using debug()
-buggy_function <- function(n) {
-    result <- n + unknown_variable
-    return(result)
-}
-
-# ran debug(buggy_function) in R terminal
-# ran buggy_function(10) in R terminal
