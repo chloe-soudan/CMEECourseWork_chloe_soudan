@@ -27,16 +27,22 @@ INPUT_FIELDS = [
 ISSUE_FIELDS = ["source_row", "record_id", "reasons"]
 OAK_COUNT_FIELDS = ["species", "count"]
 
+# Loading the records
 
-def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]:
+
+def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function returns a list of dictionaries 
     """Read the survey and check its column names."""
     with path.open(newline="", encoding="utf-8") as source:
-        reader = csv.DictReader(source)
+        reader = csv.DictReader(source) # reading the input file row by row
+        # checking that the input file fieldnames are different than expected INPUT_FIELDS
         if reader.fieldnames != INPUT_FIELDS:
             raise ValueError(
                 f"Expected columns {INPUT_FIELDS}, found {reader.fieldnames}"
             )
-        return list(reader)
+        return list(reader) # return a list of dictionaries 
+
+
+# Validating each row 
 
 def validate_record(
     row: dict[str, str],
