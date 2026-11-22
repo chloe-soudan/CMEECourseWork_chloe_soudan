@@ -49,7 +49,7 @@ exit
 #printf 'Practice data: %s\n' "$shell_practice"
 
 # ran the following code in the terminal from the project root:
-# bash tabtocsv.sh "$shell_practice/test.txt"
+# bash code/tabtocsv.sh "$shell_practice/test.txt"
 # output:
 # creating a comma delimited version of /tmp/tmp.77hRHCA2Vo/test.txt...
 # done
