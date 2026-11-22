@@ -30,7 +30,7 @@ tail -n +2 data/fasta/e_coli.fasta
 ###3 Count sequence length 
 grep -v ">" data/fasta/e_coli.fasta | tr -d "\n" | wc -c
 
-#note: grep = read input file (../data/fasta/e_coli.fasta)
+#note: grep = read input file (data/fasta/e_coli.fasta)
 #note: -v "^>" = exclude lines containing >
 #note: tr -d "\n" = remove newline characters
 #note: wc -c = count all characters
