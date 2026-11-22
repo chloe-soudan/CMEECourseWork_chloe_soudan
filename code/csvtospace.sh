@@ -1,13 +1,14 @@
-### CONVERTING CSV-DELIMITED FILES TO SPACE-DELIMITED FILES ####
-
 
 #!/bin/bash
 # chloe.soudan26@imperial.ac.uk
 # script: csvtospace.sh
 # desc: substitute the comma with a tab
+# arguments: 1 -> tab delimited file
 # date: oct 2026
 
-chmod u+x csvtospace.sh
+### CONVERTING CSV-DELIMITED FILES TO SPACE-DELIMITED FILES ####
+
+# made the script executable using: chmod u+x tabtocsv.sh
 
 #Accepting only one readable CSV input path 
 if [ "$#" -ne 1 ]; then
@@ -30,10 +31,16 @@ fi
 echo "creating a tab delimited version of $1..."
 
 # converting text file to csv format
-# note: asked AI how to do the following  ../results/<input-filename>.txt
-cat "$1" | tr "," "\t" >  "../results/$(basename "$1").txt"
+# note: asked AI how to do the following  CMEECourseWork/results/<input-filename>.txt
+cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
 
- echo "done"
+echo "done"
 
-# entered the follwing into bash terminal to actually convert the file:
-# bash csvtospace.sh ../data/temperatures/1800.csv
+# ran the following command into terminal from project root:
+# bash csvtospace.sh data/temperatures/1800.csv
+# output:
+# creating a tab delimited version of data/temperatures/1800.csv...
+# done
+
+# then ran cat results/1800.csv.txt in the terminal from project root to check conversion output
+# note: output was tab delimited version of 1800.csv. Conversion was thus succesful. 
