@@ -21,30 +21,30 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
 
 ### Assigment 1 
 
-### Aims
+#### Aims
 1. Using UNIX commands to inspect FASTA files and their contents. 
 2. Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv).
 3. Using shell scripting to improve a script converting a comma-delimited file (csv)to a tab-delimited one. 
 
-### Software requirements 
+#### Software requirements 
 VS Code (or equivalent environment that can run Unix and Bash terminal).
 
-### External sources
+#### External sources
 - https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
 - https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
 
 
 
-### 1. Fasta exercises 
+#### 1. Fasta exercises 
 
-**Filename**: unixPrac1.txt 
-**File format**: text file
-**How to run**: from project root using ```bash code/unixPrac1.txt``` 
+**Filename**: unixPrac1.txt   
+**File format**: text file  
+**How to run**: from project root using ```bash code/unixPrac1.txt```   
 
-#### Required data
+##### Required data
 FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored in the data folder of the project root. 
 
-#### Workflow
+##### Workflow
 1. Counting lines in three different FASTA files using: ``` wc -l ```
 2. Displaying certain lines of a FASTA file using the ```tail``` command
 3. Counting sequence length of FASTA file using the ```wc -c```
@@ -57,7 +57,7 @@ FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored
 Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) into one line of code.
 
 
-### 2. Shell practical 
+#### 2. Shell practical 
 
 **Filename**: tabtocsv.sh  
 **File type**: shell script  
@@ -70,10 +70,10 @@ printf 'Practice data: %s\n' "$shell_practice"
 ```
 
 
-#### Required data 
+##### Required data 
 - tabtocsv.sh - Shell Scripting chapter 
 
-#### Workflow
+##### Workflow
 
 Worked through provided scripts and removed redudancies, unnecessary steps, and optimized the provided script.
 
@@ -95,17 +95,17 @@ cat "$1" | tr "\t" "," >  "results/$(basename "$1").csv"
 4.  Printing a completion message at the end of the script to mark that it has been completed (```echo "done"```)
 
 
-### 3. New script practical 
+#### 3. New script practical 
 
 **Filename**: csvtospace.sh  
 **File type**: shell script  
 **How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv```
 
 
-#### Required data
+##### Required data
 - Any csv file (here used 1800.csv, stored in temperatures folder in the project root's data folder - acquired from from MQB repository (MQB/content/data/temperatures))
 
-#### Workflow
+##### Workflow
 
 Adapted tabtocsv.sh to convert csv to tab (other way around).
 Workflow follows exact same steps as [Shell practical](#2-shell-practical) except for Step 3 (Converting the text file to a CSV format). Here,
@@ -117,16 +117,40 @@ cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
 ```
 
 
-## ASSIGNMENT 2:PYTHON ## 
+##  Python
 
-### Aims ###
+### Aims 
 
-Adapting functions in clean_silwood_trees.py so that the script produices three files in results folder: silwood_trees_clean.csv, silwood_trees_issues.csv (rejected rows), oak_species_counts.csv (oak summary)
+Getting familiar with coding in Python.
 
-### Software requirements ###
+### In-class scripts
+> - loops.py
+> - cfexercises1.py
+> - cfexercises2.py
+> - MyExampleScript.py
+> - boilerplate.py
+> - using_name.py
+> - sysargv.py
+> - control_flow.py
+> - test_control_flow.py
+> - observations_practice.py
+> - test_observations_practice.py
+> - debugme.py
+
+### Assignment 2
+
+**Filenames**: clean_silwood_trees.py and test_silwood_trees.py
+**File types**: python scripts 
+**How to run**: XXXX
+
+#### Aims 
+
+Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
+
+#### Software requirements 
 Vs Code (or equivalent environment that can run Python)
 
-### Required data and scripts ###
+#### Required data and scripts
 From MQB repostiory into own repository 
 (1) from content/data to project root data folder
     - silwood_trees_raw
@@ -136,9 +160,17 @@ From MQB repostiory into own repository
 (3) To create within project root code folder:
     - test_silwood_trees 
 
-### Adapting the functions ###
+#### Workflow
 
-#### 1. Validated_records ####
+(1) Creating a function (load_records)that reads the CSV input file (load_records)
+(2) Creating a function (validate_records) that checks whether a row is valid, and if not, return why (error message)
+(3) Creating a function (process_records) that repeats the validation step for the whole survey 
+(4) Creating a function (summarise_oaks) that, based only on the valid records, summarises the oak species encountered and their respective counts.
+(5) Checking if the functions work correctly
+
+##### 1. Load_records 
+
+##### 2. Validated_records 
 INPUT: a record from records (records = load_records()). Format: row: dict[str, str], source_row: int, accepted_ids: set[str]
 AIMS: validating if a record is valid or not, and if unvalid, print the reason why
 FUNCTION:
