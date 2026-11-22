@@ -51,7 +51,7 @@ exit
 
 # then ran cat results/test.txt.csv in the terminal from project root to check conversion output
 # output:
-# cat results/test.txt.csv
-
+#species,count
+# oak,12
 
 
