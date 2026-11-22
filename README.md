@@ -1,32 +1,120 @@
- # BOOTCAMP #
+ # BOOTCAMP 
 
 Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
-## ASSIGNMENT 1: UNIX, SHELL, AND GIT ##
+Based on BOOK!!!!!!! XXXX
 
-###  Aims ###
+## Unix, Shell, and Git
+
+### Aims 
+
 Getting familiar with unix, shell scripting, and using GitHub repositories
 
-### Software requirements ###
+### In-class scripts
+> - variables.sh
+> - MyExampleScript.sh
+> - boilerplate.sh
+> - CheckLabel.sh
+> - CountLines.sh
+> - ConcatenateTwoFiles.sh
+> - tiff2_png.sh
 
-VS Code (or equivalent environment that can run Unix and Bash terminal)
+### Assigment 1 
 
-### Fasta exercises ###
-Aims: getting familiar with coding in FASTA files
-Workflow: counting lines, displaying certain lines, counting sequence length, counting motif occurences, calculating base ratios 
-Files needed: FASTA folder from MQB repository (MQB/content/data/fasta)
-Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) into one line of code
+### Aims
+1. Using UNIX commands to inspect FASTA files and their contents. 
+2. Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv).
+3. Using shell scripting to improve a script converting a comma-delimited file (csv)to a tab-delimited one. 
+
+### Software requirements 
+VS Code (or equivalent environment that can run Unix and Bash terminal).
+
+### External sources
+- https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
+- https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
 
 
-### Shell practical ###
-Aims: improving a script that converts tab-delimimted files into comma-delimited (csv) files
-Workflow: working throuhg a provided script and removing redundancies, unnecessary steps, and optimizing the provided script 
-Files needed: tabtocsv.sh - Shell Scripting chapter
 
-### New script practical ###
-Aims: based on previous practical, creating a script that converts csv files to tab-delimited ones
-Workflow: adapting csvtotab.sh to current aims and optimizing it
-Files needed: temperatures folder from MQB repository (MQB/content/data/temperatures)
+### 1. Fasta exercises 
+
+**Filename**: unixPrac1.txt 
+**File format**: text file
+**How to run**: from project root using ```bash code/unixPrac1.txt``` 
+
+#### Required data
+FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored in the data folder of the project root. 
+
+#### Workflow
+1. Counting lines in three different FASTA files using: ``` wc -l ```
+2. Displaying certain lines of a FASTA file using the ```tail``` command
+3. Counting sequence length of FASTA file using the ```wc -c```
+  - used ```-v "^>"``` and ```tr -d "\n"``` to remove lines starting with > and newline characters, respectively
+4. Counting motif occurance in a FASTA file sequence using the ```grep -o``` command to set the desired motif, and ```wc -l``` to count the mathches
+5. Calculating base rations in a FASTA file sequence using the 
+``` ratio=$(echo "($a + $t) / ($c + $g)" | bc -l)``` command. 
+
+
+Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) into one line of code.
+
+
+### 2. Shell practical 
+
+**Filename**: tabtocsv.sh  
+**File type**: shell script  
+**How to run**: from project root using ```bash code/tabtocsv.sh "$shell_practice/test.txt"```  
+
+Note: need to first run following lines in terminal:
+```shell_practice=$(mktemp -d)
+printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
+printf 'Practice data: %s\n' "$shell_practice"
+```
+
+
+#### Required data 
+- tabtocsv.sh - Shell Scripting chapter 
+
+#### Workflow
+
+Worked through provided scripts and removed redudancies, unnecessary steps, and optimized the provided script.
+
+Final script workflow:
+1. Terminating the script when input is more than one readable path
+> if the number of inputs (```$~"```) is not equal to 1 (```-ne 1```); then an error message is printed to standard error (```>&2```) and the script is terminated with exit status 2.  
+
+2. Terminating the script when input is unreadable or invalid
+> if script is not valid (```! -f "$1"```) or (```|```) not readable (```! -r "$1"```); then an error message is printed to standard erroor and the script is terminated with exit status 2. 
+
+3. Converting the text file to a CSV format
+
+>Reading the input file (```cat "$1$```), converting its tabs with commas (```tr "\t" ","```), and writing it (```>```) as a .csv output file in the results folder.  
+> Code:
+```
+cat "$1" | tr "\t" "," >  "results/$(basename "$1").csv"
+```
+  
+4.  Printing a completion message at the end of the script to mark that it has been completed (```echo "done"```)
+
+
+### 3. New script practical 
+
+**Filename**: csvtospace.sh  
+**File type**: shell script  
+**How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv```
+
+
+#### Required data
+- Any csv file (here used 1800.csv, stored in temperatures folder in the project root's data folder - acquired from from MQB repository (MQB/content/data/temperatures))
+
+#### Workflow
+
+Adapted tabtocsv.sh to convert csv to tab (other way around).
+Workflow follows exact same steps as [Shell practical](#2-shell-practical) except for Step 3 (Converting the text file to a CSV format). Here,
+(1) instead of replacing the tabs with commas (```tr "\t" ","```), commas were replaced with tabs (```tr "," "\t"```),
+(2) the file was stored as a text filed (```.txt```) instead of a csv file ```.csv``` .
+> Code:
+```
+cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
+```
 
 
 ## ASSIGNMENT 2:PYTHON ## 
