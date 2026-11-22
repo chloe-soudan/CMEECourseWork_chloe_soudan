@@ -37,7 +37,7 @@ cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
 echo "done"
 
 # ran the following command into terminal from project root:
-# bash csvtospace.sh data/temperatures/1800.csv
+# bash code/csvtospace.sh data/temperatures/1800.csv
 # output:
 # creating a tab delimited version of data/temperatures/1800.csv...
 # done
