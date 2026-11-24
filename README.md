@@ -453,10 +453,17 @@ def process_records(
 
 ```
 
-#### 3. Summarise_oaks ####
-INPUT: the validated records obtained through process_records. Format: (Iterable[dict[str, str]])
-AIMS: Identifying all the oak species in the accepted records, counting the frequency of each species, and putting this into a list
-FUNCTION:
+##### 4. Summarise_oaks
+
+**Input**:  
+The validated records obtained through process_records.  
+Format: (Iterable[dict[str, str]])
+
+**Aims**:  
+Identifying all the oak species in the accepted records, counting the frequency of each species, and putting this into a list,
+
+**Function**:
+
 for each row in clean_records 
   if the genus of that row (row[genus]), regardless of trailing whitespaces and casefold (.strip.casefold()), equals "quercus", then:
    append that row's species (removing casefold and stripping withespaces) to the oak_species list
