@@ -29,7 +29,6 @@ from clean_silwood_trees import (
     INPUT_PATH,
     RESULTS_DIR)
 
-
 ## 1. Load records
 records = load_records(INPUT_PATH)
 
@@ -122,7 +121,7 @@ distance_out_of_range1 = {
     'location': "Nash's Field",
     'genus': 'Quercus',
     'species': 'petraea',
-    'distance_m': '-1',
+    'distance_m': '0',
     'angle_degrees': '45.0'}
 validate_record(distance_out_of_range1, source_row=1, accepted_ids=set())
 # returns (None, ['distance_m out of range']), as expected
@@ -160,23 +159,105 @@ distance_out_of_range4 = {
 validate_record(distance_out_of_range4, source_row=1, accepted_ids=set())
 # returns (None, ['distance_m out of range']), as expected
 
-# dstance check was succesful 
+# distance check was succesful 
+
+## Out of range angle_degrees
+# a. just under the lower range limit
+angle_out_of_range1 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '0'}
+validate_record(angle_out_of_range1, source_row=1, accepted_ids=set())
+#returns (None, ['angle_degrees out of range']), as expected
+
+#b. just within the lower range limit
+angle_out_of_range2 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '1'}
+validate_record(angle_out_of_range2, source_row=1, accepted_ids=set())
+# returns the record, meaning it is valid, as expected
+
+# c. just withing the upper range limit 
+angle_out_of_range3 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '90'}
+validate_record(angle_out_of_range3, source_row=1, accepted_ids=set())
+# returns the record, meaning it is valid, as expected
+
+# d. just over the upper range limit
+angle_out_of_range4 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '91'}
+validate_record(angle_out_of_range4, source_row=1, accepted_ids=set())
+# returns (None, ['angle_degrees out of range']), as expected
+
+# out of range angle_degrees check was succesful
+
+## Checking for order of error messages
+invalid_record = {
+    'record_id': '  ',
+    'location': "manor",
+    'genus': 'Quercuz',
+    'species': 'petraeaa',
+    'distance_m': '-1',
+    'angle_degrees': '91'}
+validate_record(invalid_record, source_row=1, accepted_ids=set())
+# returns (None, ['missing record_id', 'invalid record_id', 'invalid location', 'invalid genus', 'invalid species', 'distance_m out of range', 'angle_degrees out of range']), as expected
+# check succesful
+
+## Checking for duplicate (using process_records function)
+
+duplicate_records = [
+    {'record_id': 'ST001',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0'},
+    {'record_id': 'ST001',
+    'location': "Nash's Field",
+    'genus': 'Quercus', 
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0'}] 
+
+process_records(duplicate_records)
 
 
+# returns ([{'record_id': 'ST001', 'location': "Nash's Field", 'genus': 'Quercus', 'species': 'petraea',
+# 'distance_m': '8.2', 'angle_degrees': '45.0'}], [{'record_id': 'ST001', 'reasons': 'duplicate record_id'}])
+# This means that the first record was accepted, but not the second (as it was a duplicate), as expected.
 
+# check succesful
 
+## Checking the outputs of process records
+accepted_records, invalid_records = process_records(records)
 
+print(accepted_records)
+print(invalid_records)
 
+# Accepted records were printed as a list of dictionaries, as expected. 
+# Invalid records were printed as a list of dictionaries, with the record_id and reasons for rejection, as expected.
+# Check succesful
 
-
-
-
-
-
-
-
-
-
+## Checking summarise_oaks function
+summarise_oaks(accepted_records)
+# Returns a list of dictionaries with the species and count of accepted oak records, as expected.
 
 
 ###############################
