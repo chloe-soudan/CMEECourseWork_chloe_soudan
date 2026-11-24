@@ -34,7 +34,6 @@ VS Code (or equivalent environment that can run Unix and Bash terminal).
 - https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
 
 
-
 #### 1. Fasta exercises 
 
 **Filename**: unixPrac1.txt   
@@ -304,27 +303,155 @@ if valid record: a dictionary of the record followed by an empty list
 if unvalid reocrd: none, followed by a list of the reason(s) why
 => tuple[dict[str, str] | None, list[str]]
 
+**Code**:
+```
+def validate_record( 
+    row: dict[str, str],
+    source_row: int,
+    accepted_ids: set[str],
+) -> tuple[dict[str, str] | None, list[str]]:
+    """Clean one record, or return the reasons it cannot be used."""
+    reasons = [] #creating an empty list that will store reason for rejection
+    #checking for missing fields 
+    for field in INPUT_FIELDS:
+        if row[field] is None or row[field].strip() == "":
+            reasons.append(f"missing {field}") 
+        else: #removing whitspaces 
+            row[field] = row[field].strip()
 
-#### 2. Process_records ####
-INPUT: records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]
-AIMS: Validate every record; stop and report an error for invalid input & identify exact duplicate records and keep one copy of each.
-FUNCTION
+    # checking for invalid record_id
+    if not re.fullmatch(r"ST[0-9]{3}", row["record_id"]):
+        reasons.append("invalid record_id")
 
-Create accepted_records and invalid_records lists, and an accepted_ids set
-For each record row, going through each row and starting at the second one:
-  got through the cleaned record and pass it through the validate_records function (calling the output of this reasons)
+    # checking for invalid location
+    locations = ["silwood bottom", "nash's field", "manor house","reactor wood"]
 
-  if cleaned_record was not rejected (is not None):
-    then append this cleaned_record to the accepted_records list 
+    if row["location"].casefold() not in locations: 
+        reasons.append("invalid location")
 
-  else (if it was rejected):
-    append this record to the invalid_records list, and put its record_id and the reason of rejection in dictionaries
+    # checking for invalid genus 
+    valid_genus = ["quercus", "acer", "betula", "fagus", "fraxinus"]
+
+    if row["genus"].casefold() not in valid_genus:
+        reasons.append("invalid genus") 
+
+    # checking for invalid species
+    valid_species = ["robur", "petraea","pseudoplatanus","pendula","sylvatica","excelsior"]
+
+    if row["species"].casefold() not in valid_species:
+     reasons.append("invalid species")
+
+    # checking for invalid genus-species combinations
+    valid_combinations = [("quercus", "robur"), ("quercus", "petraea"), ("acer", "pseudoplatanus"), ("betula", "pendula"),
+                   ("fagus", "sylvatica"), ("fraxinus", "excelsior")]
+
+    if row["genus"].casefold() in valid_genus and row["species"].casefold() in valid_species:
+        if (row["genus"].casefold(), row["species"].casefold()) not in valid_combinations:
+            reasons.append("invalid genus/species combination")
+
+  
+    # checking for invalid numerical fields  (out of range values)
+    NUMERIC_FIELDS = ["distance_m", "angle_degrees"]
+
+    for field in NUMERIC_FIELDS:
+        if row[field] is None or row[field].strip() == "":
+            continue
+
+        try:
+            value = float(row[field])
+
+            if not math.isfinite(value):
+                reasons.append(f"invalid {field}")
+
+            else:
+                if field == "distance_m":
+                    if value <= 0 or value > 100:
+                        reasons.append("distance_m out of range")
+
+                if field == "angle_degrees":
+                    if value <= 0 or value >=90:
+                        reasons.append("angle_degrees out of range")
+
+        except ValueError:
+            reasons.append(f"invalid {field}")
+
+    # checking for duplicate record_id
+    if row["record_id"] in accepted_ids:
+        reasons.append("duplicate record_id")
+
+    # ordering reasons for unvalid record
+
+    REASONS_ORDER = ["missing record_id", "invalid record_id", "duplicate record_id", "missing location", "invalid location", "missing genus",
+                 "invalid genus", "missing species", "invalid species", "invalid genus/species combination", "missing distance_m",
+                 "invalid distance_m", "distance_m out of range", "missing angle_degrees", "invalid angle_degrees", "angle_degrees out of range"]
+
+    reasons_sorted = sorted(reasons, key=REASONS_ORDER.index)
+
+    if reasons_sorted:
+        return None, reasons_sorted
+
+    accepted_ids.add(row["record_id"]
+                 )
+    return row, []
+
+```
+
+##### 3. Process_records 
+
+**Input**:  
+Records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]
+
+**Aims**:  
+
+Validate every record of a file; stop and report an error for invalid input & identify exact duplicate records and keep one copy of each.
+
+**Function**:  
+
+Create empty ```accepted_records``` and ```invalid_records``` lists
+
+Create an empty ```accepted_ids``` set. 
+
+```for``` each record in rows, starting at the second row (```row in enumerate(rows, start = 2```):
+
+  pass the current row, its row number, and ```accepted_ids```through the validate_record() function and store the returned record in ```cleaned_record``` and any rejection reasons in ```reasons```.
+  
+  ```if``` ```cleaned_record``` is valid (```not None```), append it to ```accepted_records``` (```accepted_records.append(cleaned_record)```)
+
+  ```else``` (if it was rejected):
+    append a dictionary to the invalid_records list, contaning its record_id and the reason of rejection
+
+end of loop
+
+  ```return``` ```accepted_records``` and ```invalid_records```
   * sources
   https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
   https://realpython.com/nested-loops-python/
-  
-OUTPUT: Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
 
+**Output**:  
+Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
+
+**Code**:  
+``` 
+def process_records(
+    rows: Iterable[dict[str, str]],
+) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    """Sort records into accepted rows and issue reports."""
+    accepted_records = []
+    invalid_records = []
+    accepted_ids = set()
+
+    for record, row in enumerate(rows, start =2):
+        cleaned_record, reasons = validate_record(row, record, accepted_ids)
+        
+        if cleaned_record is not None:
+            accepted_records.append(cleaned_record)
+        else:
+            invalid_records.append({
+                "record_id": row["record_id"],
+                "reasons":",".join(reasons)})
+    return accepted_records, invalid_records
+
+```
 
 #### 3. Summarise_oaks ####
 INPUT: the validated records obtained through process_records. Format: (Iterable[dict[str, str]])
