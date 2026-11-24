@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+# Chloe Soudan - chloe.soudan26@imperial.ac.uk
+# Script: clean_silwood_trees.py
+# Date: Oct 2026
 """Validate and clean the synthetic Silwood tree survey."""
 
 from __future__ import annotations
@@ -133,7 +135,7 @@ def validate_record(
                  )
     return row, []
 
-## Processing all records
+## Processing all records - validating each record, or rejecting it and stating reasons for rejection 
 
 def process_records(
     rows: Iterable[dict[str, str]],
@@ -167,18 +169,20 @@ def process_records(
 def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
     """Count accepted oak records by species."""
 
-    oak_species = []
-
+    oak_species = [] # creating an empty list that will store the oak species' names 
+    # adding species names to oak_species when genus is quercus
     for row in clean_records:
         if row["genus"].casefold().strip() == "quercus":
             oak_species.append(row["species"].casefold().strip())
 
+    # counting the occurrences of each oak species
     oak_counts = Counter (oak_species)
 
+    # returning the species names and respectives counts as a list of dictionaries 
     return [{"species": species, "count": count}
             for species, count in oak_counts.items()]
 
-
+## Writing the output files into csv files 
 
 def write_csv(
     path: Path,
