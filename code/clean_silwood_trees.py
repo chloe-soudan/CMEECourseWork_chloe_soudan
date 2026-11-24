@@ -24,11 +24,11 @@ INPUT_FIELDS = [
     "distance_m",
     "angle_degrees",
 ]
+
 ISSUE_FIELDS = ["source_row", "record_id", "reasons"]
 OAK_COUNT_FIELDS = ["species", "count"]
 
-# Loading the records
-
+## Loading the records
 
 def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function returns a list of dictionaries 
     """Read the survey and check its column names."""
@@ -42,21 +42,20 @@ def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function re
         return list(reader) # return a list of dictionaries 
 
 
-# Validating each row 
+##  Validating each row
 
-def validate_record(
+def validate_record( 
     row: dict[str, str],
     source_row: int,
     accepted_ids: set[str],
 ) -> tuple[dict[str, str] | None, list[str]]:
     """Clean one record, or return the reasons it cannot be used."""
-
-    reasons = []
+    reasons = [] #creating an empty list that will store reason for rejection
     #checking for missing fields 
     for field in INPUT_FIELDS:
         if row[field] is None or row[field].strip() == "":
             reasons.append(f"missing {field}") 
-        else: #removing whitspaces and casefld sensitivity
+        else: #removing whitspaces 
             row[field] = row[field].strip()
 
     # checking for invalid record_id
@@ -82,7 +81,6 @@ def validate_record(
      reasons.append("invalid species")
 
     # checking for invalid genus-species combinations
-    # checking for invalid genus/species combination
     valid_combinations = [("quercus", "robur"), ("quercus", "petraea"), ("acer", "pseudoplatanus"), ("betula", "pendula"),
                    ("fagus", "sylvatica"), ("fraxinus", "excelsior")]
 
@@ -91,8 +89,7 @@ def validate_record(
             reasons.append("invalid genus/species combination")
 
   
-    # checking for invalid numerical fields and our of range values
-
+    # checking for invalid numerical fields  (out of range values)
     NUMERIC_FIELDS = ["distance_m", "angle_degrees"]
 
     for field in NUMERIC_FIELDS:
@@ -136,27 +133,36 @@ def validate_record(
                  )
     return row, []
 
+## Processing all records
 
 def process_records(
     rows: Iterable[dict[str, str]],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
     """Sort records into accepted rows and issue reports."""
-    accepted_records = []
+    # Creating empty lists and set that will store 
+    # the accepted records, the invalid records and 
+    # the accepted record_ids
+    accepted_records = [] 
     invalid_records = []
     accepted_ids = set()
 
-    for record, row in enumerate(rows, start =2):
-        cleaned_record, reasons = validate_record(row, record, accepted_ids)
-        
+    for record, row in enumerate(rows, start =2): # looping through eahc record, starting at the second row
+        # running the validate_record function on each row,
+        # and storing the cleaned record and reasons for rejection
+        cleaned_record, reasons = validate_record(row, record, accepted_ids) 
+        # appending the record to accepted_records, if it was valid
         if cleaned_record is not None:
             accepted_records.append(cleaned_record)
+        # appending the record to invalid_records, if it was invalid
+        # and storing the reaasons for rejection in a dictionary of record_id and reasons 
         else:
             invalid_records.append({
                 "record_id": row["record_id"],
                 "reasons":",".join(reasons)})
+    # returning the accepted and invalid records
     return accepted_records, invalid_records
 
-
+## Summarising oak records
 
 def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
     """Count accepted oak records by species."""
