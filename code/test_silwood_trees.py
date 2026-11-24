@@ -44,11 +44,6 @@ missing_record_id = {
     'distance_m': '8.2',
     'angle_degrees': '45.0' }
 
-for field in INPUT_FIELDS:
-    if row.get(field) is None or row[field].strip() == "":
-        reasons.append(f"missing {field}") 
-    else: #removing whitspaces 
-        row[field] = row[field].strip()
 
 validate_record(missing_record_id, source_row=1, accepted_ids=set())
 # returns (None, ['missing record_id', 'invalid record_id']), as expected
@@ -107,14 +102,65 @@ validate_record(invalid_species, source_row=1, accepted_ids=set())
 # returns (None, ['invalid species']), as expected
 # check succesful
 
+## Invalid genus-species combination
+invalid_combination = { 
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'sylvatica',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0'}
 
+validate_record(invalid_combination, source_row=1, accepted_ids=set())
+# returns (None, ['invalid genus/species combination']), as expected
+# check succesful
 
+## Distance out of range
+# a. just under the lower range limit
+distance_out_of_range1 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '-1',
+    'angle_degrees': '45.0'}
+validate_record(distance_out_of_range1, source_row=1, accepted_ids=set())
+# returns (None, ['distance_m out of range']), as expected
 
+# b. just within the lower range limit 
+distance_out_of_range2 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '1',
+    'angle_degrees': '45.0'}
+validate_record(distance_out_of_range2, source_row=1, accepted_ids=set())
+# return the record, meaning it is valid, as expected
 
+# c. just within the upper range limit
+distance_out_of_range3 = {
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '100',
+    'angle_degrees': '45.0'}
+validate_record(distance_out_of_range3, source_row=1, accepted_ids=set())
+# returns the record, meaning it is valid, as expected
 
+# d. just over the upper range limit
+distance_out_of_range4 = { 
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '101',
+    'angle_degrees': '45.0'}
+validate_record(distance_out_of_range4, source_row=1, accepted_ids=set())
+# returns (None, ['distance_m out of range']), as expected
 
-
-
+# dstance check was succesful 
 
 
 
