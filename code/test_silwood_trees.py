@@ -12,30 +12,128 @@ import math
 from pathlib import Path
 from typing import Iterable
 
+import sys
+from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1] 
-INPUT_PATH = PROJECT_ROOT / "data" / "silwood_trees_raw.csv"
-RESULTS_DIR = PROJECT_ROOT / "results"
+sys.path.insert(0, str(Path.cwd() / "code"))
 
-INPUT_FIELDS = [
-    "record_id",
-    "location",
-    "genus",
-    "species",
-    "distance_m",
-    "angle_degrees",
-]
-ISSUE_FIELDS = ["source_row", "record_id", "reasons"]
-OAK_COUNT_FIELDS = ["species", "count"]
+from clean_silwood_trees import (
+    load_records,
+    validate_record,
+    process_records,
+    summarise_oaks,
+    INPUT_FIELDS,
+    ISSUE_FIELDS,
+    OAK_COUNT_FIELDS,
+    PROJECT_ROOT,
+    INPUT_PATH,
+    RESULTS_DIR)
 
-from clean_silwood_trees import load_records, INPUT_FIELDS
 
-records = load_records()
+## 1. Load records
+records = load_records(INPUT_PATH)
 
-print(records[3])
-#note: went into code directory for testing instead of root directory
+## 2. Test validate_record function
 
-####### TEST VALIDATE RECORD ##############
+# Missing record id  and invalid record id
+missing_record_id = { 
+    'record_id': '  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0' }
+
+for field in INPUT_FIELDS:
+    if row.get(field) is None or row[field].strip() == "":
+        reasons.append(f"missing {field}") 
+    else: #removing whitspaces 
+        row[field] = row[field].strip()
+
+validate_record(missing_record_id, source_row=1, accepted_ids=set())
+# returns (None, ['missing record_id', 'invalid record_id']), as expected
+# check succesful 
+
+## Invalid record_id
+
+invalid_record_id = { 
+    'record_id': 'SA010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0' }
+
+validate_record(invalid_record_id, source_row=1, accepted_ids=set())
+# returns (None, ['invalid record_id']), as expected
+# check succesful
+
+##Checking for invalid location
+invalid_location = { 
+    'record_id': 'ST010  ',
+    'location': "manor",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0' }
+
+validate_record(invalid_location, source_row=1, accepted_ids=set())
+# returns (None, ['invalid location']), as expected
+# check succesful
+
+## Invalid genus 
+invalid_genus = { 
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercuz',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0' }
+
+validate_record(invalid_genus, source_row=1, accepted_ids=set())
+# returns (None, ['invalid genus']), as expected
+# check succesful
+
+## Invalid species
+invalid_species = { 
+    'record_id': 'ST010  ',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraeaa',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0' }
+
+validate_record(invalid_species, source_row=1, accepted_ids=set())
+# returns (None, ['invalid species']), as expected
+# check succesful
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################
 def validate_record(
     row: dict[str, str],
     source_row: int,
@@ -82,7 +180,7 @@ def validate_record(
         if (row["genus"].casefold(), row["species"].casefold()) not in valid_combinations:
             reasons.append("invalid genus/species combination")
 
-    # checking for invalid numerical fields
+    # checking for invalid numerical fields and our of range values
 
     NUMERIC_FIELDS = ["distance_m", "angle_degrees"]
 
