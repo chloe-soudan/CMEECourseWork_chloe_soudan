@@ -55,7 +55,7 @@ def validate_record(
     reasons = [] #creating an empty list that will store reason for rejection
     #checking for missing fields 
     for field in INPUT_FIELDS:
-        if row[field] is None or row[field].strip() == "":
+        if row.get(field) is None or row[field].strip() == "":
             reasons.append(f"missing {field}") 
         else: #removing whitspaces 
             row[field] = row[field].strip()
@@ -106,11 +106,11 @@ def validate_record(
 
             else:
                 if field == "distance_m":
-                    if value <= 0 or value > 100:
+                    if value < 0 or value >= 100:
                         reasons.append("distance_m out of range")
 
                 if field == "angle_degrees":
-                    if value <= 0 or value >=90:
+                    if value < 0 or value >=90:
                         reasons.append("angle_degrees out of range")
 
         except ValueError:
