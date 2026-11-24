@@ -145,13 +145,13 @@ Getting familiar with coding in Python.
 
 #### Aims 
 
-Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
+Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data (stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
 
 #### Software requirements 
-Vs Code (or equivalent environment that can run Python)
+VS Code (or equivalent environment that can run Python)
 
 #### Required data and scripts
-From MQB repostiory into own repository 
+From MQB repostiory into own repository: 
 (1) from content/data to project root data folder
     - silwood_trees_raw
     - silwood_trees_metadata
@@ -162,74 +162,144 @@ From MQB repostiory into own repository
 
 #### Workflow
 
-(1) Creating a function (load_records)that reads the CSV input file (load_records)
-(2) Creating a function (validate_records) that checks whether a row is valid, and if not, return why (error message)
-(3) Creating a function (process_records) that repeats the validation step for the whole survey 
-(4) Creating a function (summarise_oaks) that, based only on the valid records, summarises the oak species encountered and their respective counts.
-(5) Checking if the functions work correctly
+(1) Creating a function (load_records) that reads the CSV input file 
+(2) Creating a function (validate_records) that checks whether a row is valid, and if not, returns why it isn't (error message)  
+(3) Creating a function (process_records) that repeats the validation step for the whole survey   
+(4) Creating a function (summarise_oaks) that, using only the valid records, summarises the oak species encountered and their respective counts  
+(5) Checking if the functions work correctly.  
 
 ##### 1. Load_records 
 
+**Input**: path to a file (here INPUT_PATH)  
+**Aims**: loading the CSV input, checking its field names, and returning one dictionary per row  
+**Function**: function from MQB file, left untouched   
+**Output**: list of dictionaries   
+**Code**:
+
+```
+def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function returns a list of dictionaries 
+    """Read the survey and check its column names."""
+    with path.open(newline="", encoding="utf-8") as source:
+        reader = csv.DictReader(source) # reading the input file row by row
+        # checking that the input file fieldnames are different than expected INPUT_FIELDS
+        if reader.fieldnames != INPUT_FIELDS:
+            raise ValueError(
+                f"Expected columns {INPUT_FIELDS}, found {reader.fieldnames}"
+            )
+        return list(reader) # return a list of dictionaries 
+```
+
 ##### 2. Validated_records 
-INPUT: a record from records (records = load_records()). Format: row: dict[str, str], source_row: int, accepted_ids: set[str]
-AIMS: validating if a record is valid or not, and if unvalid, print the reason why
-FUNCTION:
-Defining validate_record() where:
-  for each field in INPUT_FIELDS: 
-  we check if that row[field] has no content (None) or just empty spaces "". if it does then:
-  add as reason (reason.append) for rejection of that row "missing <field>
-  *sources:
+
+**Input**: 
+- a dictionary of the data of one row (record, ```row:dict[str,str]```)
+- the source row (```source_row:int```)
+- set of accepted IDs (```accepted_ids:set[str]```)
+
+**Aims**
+
+- ordinary text cleaning
+- Removing row if: 
+  - missing or unrecognised values found
+  - invalid record ID, location, genus, species, genus-species combination
+  - measurements are outside allowed range
+  - it is a duplicate
+- Listing reasons for row rejection in specific order
+- Returning accepted rows or reasons for rejection (if rejected)
+
+**Function**  
+Defining (```def```) validate_record() where:
+> Checking for missing fields  
+
+  for each field in INPUT_FIELDS:  
+  ```if``` that row's field (```row[field]```) has no content (```None```) or just empty spaces (```row[field].strip() == ""```). if it does then:
+  add as reason (```reason.append()```) for rejection of that row "missing <field>
+  otherwise (```else```) remove whitespaces of the valid records (```row[field] = row[field].strip()```
+    *sources:
    -https://stackoverflow.com/questions/1278749/- - -how-do-i-detect-missing-fields-in-a-csv-file-in-a-pythonic-way
 
-  if the format of row[field] does not have the format (not re.fullmatc) "ST" followed by three integers [0-9]{3} then:
-  add as reason for rejection of that row: "invalid record_id"
+> Checking for invalid record ID  
+  
+  ```if``` the format of ```row[field]``` does not fully match the format (```nor re.fullmatch```) "ST" followed by three integers [0-9]{3} (```(r"ST[0-9]{3}", row["record_id"])```), then:
+  add as reason for rejection of that row (```reasons.append()```): "invalid record_id"
   *sources:
 https://stackoverflow.com/questions/64644087/python-validate-if-column-entries-match-a-desired-format
 https://zetcode.com/python/regex-fullmatch-function/ 
 
-  if location names (regardless of casing) are not in locations list, then:
-  add as reason for rejection of that row: "invalid location"
-    # sources: 
+> Checking for invalid location  
+
+setting ```locations``` to be (```=```) the following list: ```["silwood bottom", "nash's field", "manor house","reactor wood"]```
+
+ ```if``` the row's location name (```row[location]```), regardless of casefold (```.casefold()```) is not in in the set list of locations (```not in locations```), then:  
+ add as reason for rejection of that row (```reasons.append()```): "invalid location"
+  *sources: 
   -https://www.geeksforgeeks.org/python/python-string-casefold-method
 
-  repeat the same for genus and species
 
-  if row["genus"] and row["species"] were considered valid individually, but that (row["genus"], row["species"]) combination is not in valid_combinations list, then:
-  add as reason for rejection of that row: "invalid genus/species combination"
+> Checking for invalid genas and species  
 
-  setting NUMERIC_FIELDS  to be (=) "distance_m", "angle_degrees"
+Repeat the same as in invalid record but for set list of valid genii and species.
 
-  creating a loop where for each field in NUMERIC_FIELDS:
-  if that row[field] is empty (None) or just made of empty spaces "": 
-  skip the following chunk (continue) 
-  if not though try to create a float string from row[field] and name it value. 
-  if value is not mathematically finite :
-  add as reason for rejection of that row: "invalid {field}"
-  if field mathematically finite: 
-    if field is distance_m:
-      if value not greater than 0 or greater than 100: 
-        add as reason for rejection of the row: "distance_m out of range"
-    if filed is angle_degrees:
-      if value smaller not greater than 0 or larger than 90:
-        add as reason for rejection of the row: "angle_degrees out of range"
-  when converting to float fails (except ValueError):
+> Checking for invalid genus-species combinations  
+
+setting ```valid_combinations``` to be (```=```) a list (```[]```) of valid genus-species combinations,
+
+  ```if``` ```row["genus"]``` and ```row["species"]```, regardless of casefold (```.casefold```) were considered valid individually, but that ```(row["genus"].casefold(), row["species"].casefold()```) combination is ```not in valid_combinations``` list, then:
+  add as reason for rejection of that row (```reasons.append```()): "invalid genus/species combination"  
+
+> Checking for invalid numerical fialds of range values  
+
+setting ```NUMERIC_FIELDS```  to be (```=```)  ```"distance_m" and "angle_degrees"```
+
+  creating a loop where ```for``` each ```field in NUMERIC_FIELDS:```
+  ```if``` that ```row[field]``` is empty (```None```) or just made of empty spaces (```row[field].strip() == ""```): 
+  skip the following chunk (```continue```) 
+  if not, ```try``` to create a float string from row[field] and name it value (```value = float(row[field])```).
+
+  ```if``` value is ```not``` mathematically finite (```math.isfinite```):
+  add as reason for rejection of that row (```reasons.append()```): "invalid {field}"  
+
+  otherwise (```else```, field is mathematically finite),  
+    ```if``` field is (```==```) distance_m:  
+          ```if``` value not greater than 0 or greater than 100 (```value <= 0 or value > 100```): 
+        add as reason for rejection of the row (```reasons.append()```): "distance_m out of range"  
+    ```if``` field is (```==``) angle_degrees:  
+          ```if``` value not greater than 0 or larger than 90 (```value <= 0 or value >=90```):
+        add as reason for rejection of the row (```reasons.append()```): "angle_degrees out of range"
+
+  when converting to float fails (```except ValueError)```:
   add as reason for rejection of that row "invalid {field}
+
   *sources: 
   -AI to get a hint on how to tackle this (tried to find is.numeric (R) equivalent in python), and it suggested to use float 
   -https://www.geeksforgeeks.org/python/python-check-for-float-string/
 
-  if row["record_id"] is in accepted_ids (which means it was already passed during another iteration):
-  add as reason for rejection "duplicate record_id"
 
-  setting REASONS_ORDER to be [to order indicated in the instructions]
+> Checking for duplicate records  
 
-  creating reasons_sorted, all the rejection reasons obtained for each row in the order of REASON_ORDER
+  ```if``` the row's record ID  ```row["record_id"]``` is in accepted_ids (which means it was already passed during another iteration):
+  add as reason for rejection (```reasons.append()```) "duplicate record_id"
 
-*source
+> Listing rejectionreasons in specific order  
+
+  setting ```REASONS_ORDER``` to be (```=```) [the order indicated in the instructions]
+
+  setting ```reasons_sorted``` to be (```=```) all the rejection reasons obtained for each row (```reasons```), and putting them in the order of REASON_ORDER (```key = REASONS_ORDER.index```)
+
+*sources:
   - https://www.geeksforgeeks.org/python/python-sort-list-of-list-by-specified-index/
  -  wasn't working, asked AI why and itsuggested i add .index to the key 
 
-OUTPUT: a tuple with: 
+> Returning the output 
+
+  ```if``` there were reasons for rejection:  
+    return ```None``` followed by the reasons for rejection (in order)
+
+  otherwise, add the record ID to accepeted_ids and return the row
+
+
+**Output**
+a tuple with: 
 if valid record: a dictionary of the record followed by an empty list
 if unvalid reocrd: none, followed by a list of the reason(s) why
 => tuple[dict[str, str] | None, list[str]]
