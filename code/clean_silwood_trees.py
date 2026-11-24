@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Chloe Soudan - chloe.soudan26@imperial.ac.uk
+# Descr: validating and summarising Silwood tree survey data 
 # Script: clean_silwood_trees.py
 # Date: Oct 2026
 """Validate and clean the synthetic Silwood tree survey."""
@@ -106,11 +107,11 @@ def validate_record(
 
             else:
                 if field == "distance_m":
-                    if value < 0 or value >= 100:
+                    if value <= 0 or value > 100:
                         reasons.append("distance_m out of range")
 
                 if field == "angle_degrees":
-                    if value < 0 or value >=90:
+                    if value <= 0 or value >=90:
                         reasons.append("angle_degrees out of range")
 
         except ValueError:
