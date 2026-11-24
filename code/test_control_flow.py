@@ -4,6 +4,10 @@
 # Desc: Testing control_flow.py functions
 # Date: Oct 2026
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path.cwd() / "code"))
 
 """Checks for the small functions in control_flow.py."""
 
