@@ -40,7 +40,6 @@ TreeHeight <- function(Angle.degrees, Distance.m) {
     return(height_m)
 }
 
-
 ####################################################
 ### 6. Wranlging and validating the data, and calculating tree height
 
@@ -224,3 +223,10 @@ round(31.66583 * tan(41.28264 * pi /180), digits =1)) {
         print("wrong height")}
 
 #printed "correct"
+
+# checked height calculation with browser():
+# added browser before the trees <- trees %>% etc
+# this opened the browser mode (Browser[1] > )
+# I checked for Distance.m (31.66583), and Angle.degrees (41.28264)
+# i then calculated height manually and ont the terminal using n, results were the same
+# i then removed browser() from my code
