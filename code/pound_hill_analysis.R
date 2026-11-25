@@ -11,7 +11,6 @@
 #######################################
 ### 1. Installing and loading libraries
 
-library(languageserver)
 library(tidyverse)
 library(ggplot2)
 
@@ -46,7 +45,7 @@ head(data)
 dim(data) # dimensions are now 60x45
 
 # converting raw matrix to data frame 
-TempData <- as.data.frame(data[-1,],stringsAsFactors = F) #stringsAsFactors = F is important!
+TempData <- as.data.frame(data[-1,],stringsAsFactors = FALSE) #stringsAsFactors = F is important!
 colnames(TempData) <- data[1,] # assign column names from original data
 colnames(TempData)
 
@@ -78,7 +77,7 @@ if (any(is.na(mywrangleddata$Count))) {
 
 # checking that counts are not negative
 if (any(mywrangleddata$Count < 0)) {
-    stop <- ("Error: Negative counts detected")}
+    stop("Error: Negative counts detected")}
 
 
 ##############################
@@ -102,7 +101,7 @@ if (any(is.na(non_numeric_count))) {
 # returns Error: Missing or non-numeric count detected, as expected
 # check succesful
 
-# c. Negative coutns
+# c. Negative counts
 negative_count <- c("1","2", "-1")
 negative_count <- as.integer(negative_count)
 if (any(negative_count < 0)) {
@@ -110,8 +109,20 @@ if (any(negative_count < 0)) {
 # returns Eroor: Negative counts detected, as expected
 # check succesful
 
+# d. Valid counts
+valid_count <- c("1", "2", "3")
+valid_count <- as.integer(valid_count)
+
+if (any(is.na(valid_count))) {
+    print("Error: Missing or non-numeric count detected")}
+
+if (any(valid_count < 0)) {
+    print("Error: Negative counts detected")}
+
+# returns nothing, valid_count thus passed the validation checks, as expected 
+
 ############################
-### 6. Reinspecting the data
+### 7. Reinspecting the data
 
 # reinspecting the data 
 str(mywrangleddata) # verifying that class change was succesfull: it was
@@ -136,31 +147,30 @@ length(unique(mywrangleddata$Plot))
 
 print(mywrangleddata, n = 50)
 
-#####################################################
-######## CALCULATING AND PLOTTING RICHNESS ##########
-##################################################### 
+##########################
+### 8. Calculating richness
 
-# making quadrat-level table of species counts
+## making quadrat-level table of species counts
 quadrat_richness_table <- mywrangleddata %>%
-    filter(Count > 0 ) %>% # filtering for species that occure (Count > 0)
+    filter(Count > 0 ) %>% # filtering for species that occur (Count > 0)
     group_by(Quadrat, Plot, Cultivation, Block) %>%
-        summarise(Richness = length(unique(Species)))
+    summarise(Richness = length(unique(Species)))
 
 print(quadrat_richness_table, n = 60)
+head(quadrat_richness_table)
 
-# finding the mean species sum for each quadrat 
-
+## finding the mean species sum for each quadrat 
 # making a plot-level summary of the mean richness
-plot_mean_richness_table <- mywrangleddata %>%
-    filter(Count > 0 ) %>% # filtering for species that occure (Count > 0)
+plot_mean_richness_table <- quadrat_richness_table %>%
     group_by(Cultivation, Block, Plot) %>%
-        summarise(MeanRichness = mean(length(unique(Species))))
+    summarise(MeanRichness = mean((Richness))
+head(plot_mean_richness_table)
+print(plot_mean_richness_table, n = 60)
 
-# writing the plot-level summary as a csv file in my results
-write.csv(plot_mean_richness_table,"results/pound_hill_plot_richness.csv")
+##########################
+### 9. Plotting the results
 
 # drawing a figure comparing plot-level mean richness among three cultivation treatments 
-
 plot_mean_richness_fig <- ggplot(plot_mean_richness_table, aes(x = Cultivation, y = MeanRichness, colour = Cultivation)) +
   geom_point(size =4) +
   labs(
@@ -180,8 +190,14 @@ plot_mean_richness_fig <- ggplot(plot_mean_richness_table, aes(x = Cultivation, 
 
 plot_mean_richness_fig
 
+#######################################
+### 10. Saving and exporting the results 
+
+# writing the plot-level summary as a csv file in my results
+write.csv(plot_mean_richness_table,"results/pound_hill_plot_richness.csv", row.names = FALSE)
+
 # saving the figure in results folder as a pdf
 pdf("results/pound_hill_plot_richness.pdf", 11.7, 8.3)
 print(plot_mean_richness_fig)
 graphics.off()
-
+dev.off()

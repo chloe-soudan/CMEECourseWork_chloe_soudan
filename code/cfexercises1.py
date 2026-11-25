@@ -113,5 +113,5 @@ if __name__ == "__main__":
 # all functions work, foo_5 and foo_6 return 
 # the same output, as expected
 
-# ram the file from the coursework project root using: 
+# ran the file from the coursework project root using: 
 # python3 code/cfexercises1.py
