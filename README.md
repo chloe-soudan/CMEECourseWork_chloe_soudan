@@ -590,6 +590,8 @@ create a function check_trees where {
 - if row missing https://www.geeksforgeeks.org/r-language/address-errors-in-if-statements-in-r/
 - ordering columns: https://www.geeksforgeeks.org/r-language/reorder-the-column-of-dataframe-in-r-using-dplyr/
 - https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
+-  https://www.w3schools.com/r/r_for_loop.asp
+
 
 ##### Part 2 
 
