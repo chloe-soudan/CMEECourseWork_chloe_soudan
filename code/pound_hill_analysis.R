@@ -208,11 +208,15 @@ dev.off()
 
 ####################################
 ### 11. Interpretation 
-
 # The figure shows the mean species richness at each plot, in relation 
 # to culivation. Mean species richness in the March culitvation was either
 # very high or very low, depending on the plots.
-# Mean species richness in the May cultivation was similar across
-# plot and quite high. Mean species richness in october also had
-# quite some variation, but more evenly distributed. Species richness
-# was on averga ehigher in May and October, compared to the March cultivation.
+# Mean species richness was highest in the May cultivation  
+# in the May cultivation, but varied widely across plots. 
+# Mean species richness was very low in the October cultivation, with 
+# the exception of one plot. In the March cultivation, two plots
+# have very low species richness, while the two other had 
+# moderate species richness.
+
+# ran the script with the following command in the terminal (from project root):
+# Rscript code/pound_hill_analysis.R
