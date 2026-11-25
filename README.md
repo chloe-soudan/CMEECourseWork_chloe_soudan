@@ -19,7 +19,7 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
 > - ConcatenateTwoFiles.sh
 > - tiff2_png.sh
 
-### Assigment 1 
+### Assignment 1 
 
 #### Aims
 1. Using UNIX commands to inspect FASTA files and their contents. 
@@ -158,6 +158,7 @@ From MQB repostiory into own repository:
     - clean_silwood_trees
 (3) To create within project root code folder:
     - test_silwood_trees 
+  
 
 #### Workflow
 
@@ -166,6 +167,8 @@ From MQB repostiory into own repository:
 (3) Creating a function (process_records) that repeats the validation step for the whole survey   
 (4) Creating a function (summarise_oaks) that, using only the valid records, summarises the oak species encountered and their respective counts  
 (5) Checking if the functions work correctly.  
+
+N.B: more precise instruction in silwood_trees_metadata
 
 ##### 1. Load_records 
 
@@ -206,6 +209,8 @@ def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function re
 - Listing reasons for row rejection in specific order
 - Returning accepted rows or reasons for rejection (if rejected)
 
+N.B.: Specific instructions in silwood_trees_metadata
+
 **Function**  
 Defining (```def```) validate_record() where:
 > Checking for missing fields  
@@ -214,14 +219,14 @@ Defining (```def```) validate_record() where:
   ```if``` that row's field (```row[field]```) has no content (```None```) or just empty spaces (```row[field].strip() == ""```). if it does then:
   add as reason (```reason.append()```) for rejection of that row "missing <field>
   otherwise (```else```) remove whitespaces of the valid records (```row[field] = row[field].strip()```
-    *sources:
+    **Sources**:
    -https://stackoverflow.com/questions/1278749/- - -how-do-i-detect-missing-fields-in-a-csv-file-in-a-pythonic-way
 
 > Checking for invalid record ID  
   
   ```if``` the format of ```row[field]``` does not fully match the format (```nor re.fullmatch```) "ST" followed by three integers [0-9]{3} (```(r"ST[0-9]{3}", row["record_id"])```), then:
   add as reason for rejection of that row (```reasons.append()```): "invalid record_id"
-  *sources:
+  **Sources**:
 https://stackoverflow.com/questions/64644087/python-validate-if-column-entries-match-a-desired-format
 https://zetcode.com/python/regex-fullmatch-function/ 
 
@@ -231,7 +236,7 @@ setting ```locations``` to be (```=```) the following list: ```["silwood bottom"
 
  ```if``` the row's location name (```row[location]```), regardless of casefold (```.casefold()```) is not in in the set list of locations (```not in locations```), then:  
  add as reason for rejection of that row (```reasons.append()```): "invalid location"
-  *sources: 
+  **Sources**:
   -https://www.geeksforgeeks.org/python/python-string-casefold-method
 
 
@@ -269,7 +274,7 @@ setting ```NUMERIC_FIELDS```  to be (```=```)  ```"distance_m" and "angle_degree
   when converting to float fails (```except ValueError)```:
   add as reason for rejection of that row "invalid {field}
 
-  *sources: 
+  **Sources**: 
   -AI to get a hint on how to tackle this (tried to find is.numeric (R) equivalent in python), and it suggested to use float 
   -https://www.geeksforgeeks.org/python/python-check-for-float-string/
 
@@ -285,7 +290,7 @@ setting ```NUMERIC_FIELDS```  to be (```=```)  ```"distance_m" and "angle_degree
 
   setting ```reasons_sorted``` to be (```=```) all the rejection reasons obtained for each row (```reasons```), and putting them in the order of REASON_ORDER (```key = REASONS_ORDER.index```)
 
-*sources:
+**Sources**:
   - https://www.geeksforgeeks.org/python/python-sort-list-of-list-by-specified-index/
  -  wasn't working, asked AI why and itsuggested i add .index to the key 
 
@@ -423,7 +428,7 @@ Create an empty ```accepted_ids``` set.
 end of loop
 
   ```return``` ```accepted_records``` and ```invalid_records```
-  * sources
+  **Sources**:
   https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
   https://realpython.com/nested-loops-python/
 
@@ -432,23 +437,32 @@ Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[s
 
 **Code**:  
 ``` 
+
 def process_records(
     rows: Iterable[dict[str, str]],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
     """Sort records into accepted rows and issue reports."""
-    accepted_records = []
+    # Creating empty lists and set that will store 
+    # the accepted records, the invalid records and 
+    # the accepted record_ids
+    accepted_records = [] 
     invalid_records = []
     accepted_ids = set()
 
-    for record, row in enumerate(rows, start =2):
-        cleaned_record, reasons = validate_record(row, record, accepted_ids)
-        
+    for record, row in enumerate(rows, start =2): # looping through eahc record, starting at the second row
+        # running the validate_record function on each row,
+        # and storing the cleaned record and reasons for rejection
+        cleaned_record, reasons = validate_record(row, record, accepted_ids) 
+        # appending the record to accepted_records, if it was valid
         if cleaned_record is not None:
             accepted_records.append(cleaned_record)
+        # appending the record to invalid_records, if it was invalid
+        # and storing the reaasons for rejection in a dictionary of record_id and reasons 
         else:
             invalid_records.append({
                 "record_id": row["record_id"],
                 "reasons":",".join(reasons)})
+    # returning the accepted and invalid records
     return accepted_records, invalid_records
 
 ```
@@ -456,24 +470,44 @@ def process_records(
 ##### 4. Summarise_oaks
 
 **Input**:  
-The validated records obtained through process_records.  
-Format: (Iterable[dict[str, str]])
+The validated records obtained through process_records (clean_records) 
+Format: (Iterable[dict[str, str]]) 
 
 **Aims**:  
 Identifying all the oak species in the accepted records, counting the frequency of each species, and putting this into a list,
 
 **Function**:
 
-for each row in clean_records 
-  if the genus of that row (row[genus]), regardless of trailing whitespaces and casefold (.strip.casefold()), equals "quercus", then:
+Creating an empty list ```oak_species``` (which will store the different oak species)
+
+```for``` each row in ```clean_records```: 
+  ```if``` that row's genus (```row[genus]```), regardless of trailing whitespaces and casefold (.strip.casefold()), is (```==```) "quercus", then:
    append that row's species (removing casefold and stripping withespaces) to the oak_species list
 
-  then, using Counter, create oak_counts which is a list where all the species of oak_species are listed with their respective counts 
+  Creating ```oak_counts```, a list listing all the oak_species pseices and their respective counts (using the ```Counter``` command)
+  
+  Returning a list of dictionaries with each species (in the species dictionary) and its respective frequenncy (in the count dictionary) usig ```.items()```
 
-then, return a list of dict with each species (in the species dict) and its respective freqeuncy (in the count dict) usig .items() 
+**Output**: list of dictionaries of oak species and respective counts. Format: list[dict[str, str]]  
 
-OUTPUT: list of dictionaries of oak species and respective counts. Format: list[dict[str, str]]
-*sources
+**Code**:
+```
+def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
+    """Count accepted oak records by species."""
+
+    oak_species = []
+
+    for row in clean_records:
+        if row["genus"].casefold().strip() == "quercus":
+            oak_species.append(row["species"].casefold().strip())
+
+    oak_counts = Counter (oak_species)
+
+    return [{"species": species, "count": count}
+            for species, count in oak_counts.items()]
+```
+
+**Sources**
 - https://introcs-python.cs.luc.edu/dict_algorithms/overview.html
 - https://www.geeksforgeeks.org/python/python-counter-items-counter-keys-and-counter-values/
 - https://realpython.com/python-counter/
@@ -482,24 +516,47 @@ OUTPUT: list of dictionaries of oak species and respective counts. Format: list[
 - Asked AI for help with structurin my function's return
 - Asked AI to help with correcting indents
 
+##### 5. Functions check
 
-## ASSIGNMENT 3: R ##
+MAKE A README FOR THIS 
 
-AIMS: getting familiar with data wrangling and plotting in R. 
 
-SOFTWARE REQUIREMENTS: VS cde (or equivalent environment that can run R)
+### Assignment 3
 
-### Tree height practical ###
+#### 1. Tree height practical
 
-#### Part 1 ####
+**Filenames**: XXX
+**File types**: R scripts 
+**How to run**: Rscript code/TreeHeight.R (from porject root Bash terminal) 
 
-AIMS: checking trees data and calculating tree height, using tidyverse and already entered distance and angle data.
+##### Aims
 
-DETAILS: importing trees data and checking its formatting (missing values, NAs, if numeric values are finite, ranges of angles and distances,...). Then, using already inputted distances and angles, calculate tree height and adding it as a new column in the table (height_m). Checking that calculations were correct and saving the file in results as a cv.
+getting familiar with data wrangling and plotting in R. 
 
-INPUT: trees.csv from MQB/content/data
+#####  Software requirements
+VS cde (or equivalent environment that can run R)
 
-PSEUDOCODE FOR FUNCTION:
+##### Required data and scripts
+
+trees.csv from MQB/content/data
+
+##### Workflow 
+
+XXX
+#####  Part 1 
+
+**Input**:  
+trees.csv   
+
+**Aims**:  
+ checking trees data and calculating tree height, using tidyverse and already entered distance and angle data.  
+
+
+**Details**:
+importing trees data and checking its formatting (missing values, NAs, if numeric values are finite, ranges of angles and distances,...). Then, using already inputted distances and angles, calculate tree height and adding it as a new column in the table (height_m). Checking that calculations were correct and saving the file in results as a cv.
+
+**Function**:  
+
 create a function check_trees where {
   the col_order is c("Species", "Distance.m", "Angle.degrees")
   if the column names from trees are not identical (!identical) to col_order {
@@ -522,54 +579,77 @@ create a function check_trees where {
   state the message "done!" after having done all this
   return trees}
 
-Run command was: Rscript code/TreeHeight.R (from porject root Bash terminal) 
+**Outputs**:  
 
-OUTPUT: 
 (1) script named TreeHeight.R stored in codes
 (2) csv with the checked and modified data in results named TreeHts.csv
-SOURCES:
+
+*Sources:
 -  https://www.statology.org/r-filter-between-two-values/
 - https://dplyr.tidyverse.org/reference/filter.html
 - if row missing https://www.geeksforgeeks.org/r-language/address-errors-in-if-statements-in-r/
 - ordering columns: https://www.geeksforgeeks.org/r-language/reorder-the-column-of-dataframe-in-r-using-dplyr/
 - https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
 
-#### Part 2 ####
+##### Part 2 
 
-AIMS: checking trees data and calculating tree height, using tidyverse and already inputted distance and angle data and by passing trees.csv as an argument.
+**Inputs**: 
+trees.csv (passed as an argument)
 
-DETAILS:running a similar code than in part 1 (file: get_treeHeight.R) ). However, this time passing the input data as an argument when running the code from the Bash terminal. Thus, the code first ensures that exactly one argument gets passed, and that that argument actually exists. It then goes through the function and some checks for the calculations. Lastly, the output gets saved in results as a csv, and its name is set to be the basename of the argument that was passed. 
+**Aims**:  
+Checking trees data and calculating tree height, using tidyverse and already inputted distance and angle data and by passing trees.csv as an argument.
+
+**Details**:  
+Running a similar code than in part 1 (file: get_treeHeight.R) ). However, this time passing the input data as an argument when running the code from the Bash terminal. Thus, the code first ensures that exactly one argument gets passed, and that that argument actually exists. It then goes through the function and some checks for the calculations. Lastly, the output gets saved in results as a csv, and its name is set to be the basename of the argument that was passed. 
 
 Then, we created a shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash, and terminate execution if the script fails. 
 
-INPUT: trees.csv from MQB/content/data, passed as an argument
+**Outputs**:
 
-OUTPUT: 
 (1) get_TreeHeight.R, script file that checks the argument, has the function,...
 (2) run_get_TreeHeight.sh: a shell script has the command to run the get_TreeHeight.R script, and makes sure the command gets terminated if the script fails
 (3) csv file with the checked and modified data, stored in results as <input-basename-without-.csv>_treeheights.csv
 
-SOURCES:
+*Sources:
 - https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
 - asked AI to give me hint on how to tackle this, which led me to this website: https://maple60.github.io/en/posts/2026-02-06-r-extract-filename/
 - asked AI for hint to remove.csv after basename, it suggested tools::file_path_sans_ext
 - for terminating command if script fails: https://www.statology.org/reorder-columns-r/
 
 
-### Pound hill practical ###
+#### 2. Pound hill practical 
 
-AIMS: wrangling pound hill data, calculating mean species richness at plots, blocks, and cultivation combinations, and plotting it.
+**Filenames**: pount_hill_analysis.R
+**File types**: R scripts 
+**How to run**: Rscript code/pound_hill_analysis.R (from porject root Bash terminal) 
 
-DETAILS:  wrangling pound to convert blank spaces to observed zeros,transpose the data, convert table from wide to long format, and check counts (numeric, non-zero). Once data has been wrangled and coverted to a tibble, use %>% pipeline to modify it into a table that shows Cultivation, Plot, Quadrat, and Block and calculate richness at each of these combinations (richness here refers to number of species detected). Then use this table to find mean richness at each Cultivation, Block, and Plot combination. We then stored this table as a csv in the results folder, and used ggplot to create a figure of the mean species richness at each plot, in relation to cultivation. This plot was then saved as a pdf in the results folder of the root project. 
+##### Aims
+Wrangling pound hill data, calculating mean species richness at plots, blocks, and cultivation combinations, and plotting it.
 
-INPUT: pound_hill_data.csv and pound_hill_meta_data.csv from MQB/content/data
+#####  Software requirements
+VS cde (or equivalent environment that can run R)
 
-OUTPUT: 
+##### Required data and scripts
+From MQB repostiory into own repository: 
+from content/data to project root data folder
+    - pound_hill_data.csv
+    - pound_hill_metadata.csv
+ 
+ *Files are now in GitHub repository data folder
+  
+##### Workflow 
+**Inputs**: pound_hill_data.csv and pound_hill_meta_data.csv from MQB/content/data
+
+**Details**: 
+wrangling pound to convert blank spaces to observed zeros,transpose the data, convert table from wide to long format, and check counts (numeric, non-zero). Once data has been wrangled and coverted to a tibble, use %>% pipeline to modify it into a table that shows Cultivation, Plot, Quadrat, and Block and calculate richness at each of these combinations (richness here refers to number of species detected). Then use this table to find mean richness at each Cultivation, Block, and Plot combination. We then stored this table as a csv in the results folder, and used ggplot to create a figure of the mean species richness at each plot, in relation to cultivation. This plot was then saved as a pdf in the results folder of the root project. 
+
+**Outputs**:
+ 
 (1) pound_hill_analysis.R: R script stored in project root codes folder
-(2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.
-(3) pound_hill_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.
+(2) **pound_hill_plot_richness**.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.
+(3) pound_hill_plot_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.
 
-SOURCES: 
+*Sources 
 - https://www.geeksforgeeks.org/r-language/pivot-longer-in-r/
 - https://gist.github.com/ramhiser/93fe37be439c480dc26c4bed8aab03dd
 - https://ggplot2.tidyverse.org/reference/scale_manual.html
