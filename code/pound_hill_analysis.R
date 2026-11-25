@@ -154,7 +154,8 @@ print(mywrangleddata, n = 50)
 quadrat_richness_table <- mywrangleddata %>%
     filter(Count > 0 ) %>% # filtering for species that occur (Count > 0)
     group_by(Quadrat, Plot, Cultivation, Block) %>%
-    summarise(Richness = length(unique(Species)))
+    summarise(Richness = length(unique(Species)),
+    .groups = "drop")
 
 print(quadrat_richness_table, n = 60)
 head(quadrat_richness_table)
@@ -163,7 +164,9 @@ head(quadrat_richness_table)
 # making a plot-level summary of the mean richness
 plot_mean_richness_table <- quadrat_richness_table %>%
     group_by(Cultivation, Block, Plot) %>%
-    summarise(MeanRichness = mean((Richness))
+    summarise(MeanRichness = mean((Richness)),
+    .groups = "drop")
+
 head(plot_mean_richness_table)
 print(plot_mean_richness_table, n = 60)
 
@@ -177,7 +180,8 @@ plot_mean_richness_fig <- ggplot(plot_mean_richness_table, aes(x = Cultivation, 
     title = "Figure of the mean species richness at each plot, in relation to cultivation",
     x = "Cultivation",
     y = "Mean species richness",
-    caption = "Figure dislpaying the mean species richness (y-axis) for each cultivation (x-axis) at all the plots. \n Each point represents a different plot and different colours refer to different cultivations. \n Mean species richness was calculated by taking the mean of the number of the species recorded at each plot, thus removing species with count 0. "
+    caption = "Figure dislpaying the mean species richness (y-axis) for each cultivation (x-axis) at all the plots. \n Each point represents a different plot and different colours refer to different cultivations. \n Mean species richness was calculated by taking the mean of the number of the species recorded at each plot, 
+     thus removing species with count 0. "
   ) + 
   scale_colour_manual(values = c("march" = "#76BD6A",
     "may" = "#F49335",
@@ -199,5 +203,16 @@ write.csv(plot_mean_richness_table,"results/pound_hill_plot_richness.csv", row.n
 # saving the figure in results folder as a pdf
 pdf("results/pound_hill_plot_richness.pdf", 11.7, 8.3)
 print(plot_mean_richness_fig)
-graphics.off()
+
 dev.off()
+
+####################################
+### 11. Interpretation 
+
+# The figure shows the mean species richness at each plot, in relation 
+# to culivation. Mean species richness in the March culitvation was either
+# very high or very low, depending on the plots.
+# Mean species richness in the May cultivation was similar across
+# plot and quite high. Mean species richness in october also had
+# quite some variation, but more evenly distributed. Species richness
+# was on averga ehigher in May and October, compared to the March cultivation.
