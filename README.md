@@ -619,9 +619,9 @@ Then, we created a shell script(file: run_get_TreeHeights.sh) with code to run t
 
 #### 2. Pound hill practical 
 
-**Filenames**: pount_hill_analysis.R
-**File types**: R scripts 
-**How to run**: Rscript code/pound_hill_analysis.R (from porject root Bash terminal) 
+**Filenames**: pount_hill_analysis.R  
+**File types**: R scripts  
+**How to run**: Rscript code/pound_hill_analysis.R (from project root in Bash terminal)
 
 ##### Aims
 Wrangling pound hill data, calculating mean species richness at plots, blocks, and cultivation combinations, and plotting it.
@@ -638,16 +638,76 @@ from content/data to project root data folder
  *Files are now in GitHub repository data folder
   
 ##### Workflow 
-**Inputs**: pound_hill_data.csv and pound_hill_meta_data.csv from MQB/content/data
+(1) Loading the required libraries  
+(2) Loading the data and metadata  
+(3) Inspecting the data using ```head```, ```str```, and ```dim``` commands to investigate first lines of the data, its structure, and its dimensions respectively.  
+(4) Wrangling the data:  
+- Converting blank spaces to observed 0s (```data[data==""]=0```)
+- Transposing the data (```data <- t(data)```)
+- Converting data matrix to data frame (```as.data.frame```) and converting the obtained table from wide format to long formate (```pivot_longer()```)
+- Setting fields as class facotr (```as.factor```), except for Count that was set to class integer (```as.integer```)
 
-**Details**: 
-wrangling pound to convert blank spaces to observed zeros,transpose the data, convert table from wide to long format, and check counts (numeric, non-zero). Once data has been wrangled and coverted to a tibble, use %>% pipeline to modify it into a table that shows Cultivation, Plot, Quadrat, and Block and calculate richness at each of these combinations (richness here refers to number of species detected). Then use this table to find mean richness at each Cultivation, Block, and Plot combination. We then stored this table as a csv in the results folder, and used ggplot to create a figure of the mean species richness at each plot, in relation to cultivation. This plot was then saved as a pdf in the results folder of the root project. 
+(5) Validating that the counts are   
+- not missing and numeric (```if(any(is.na(){}```)
+- non-negative  (```if(any(COUNTDATA <0) {}```)
+N.B.: when count data was non-numeric, as.integer would have coerced it into NA. Thus, non-numeric counts will get flagged by ```is.na``` check.
+(6) Testing the data validation checks by creating fake counts and passing them through the checks:  
 
-**Outputs**:
+```
+# a. Missing counts
+na_count <- c("1", "2", "")
+na_count <- as.integer(na_count)
+# Warning message: NAs introduced by coercion 
+if (any(is.na(na_count))) {
+    print("Error: Missing or non-numeric count detected")}
+
+# returns Error: Missing or non-numeric count detected, as expected
+# check succesful
+
+
+# b. Non-numeric counts
+non_numeric_count <- c("1", "2", "abc")
+non_numeric_count <- suppressWarnings(as.integer(non_numeric_count))
+if (any(is.na(non_numeric_count))) {
+    print("Error: Missing or non-numeric count detected")}
+# returns Error: Missing or non-numeric count detected, as expected
+# check succesful
+
+# c. Negative counts
+negative_count <- c("1","2", "-1")
+negative_count <- as.integer(negative_count)
+if (any(negative_count < 0)) {
+    print("Error: Negative counts detected")}
+# returns Eroor: Negative counts detected, as expected
+# check succesful
+
+# d. Valid counts
+valid_count <- c("1", "2", "3")
+valid_count <- as.integer(valid_count)
+
+if (any(is.na(valid_count))) {
+    print("Error: Missing or non-numeric count detected")}
+
+if (any(valid_count < 0)) {
+    print("Error: Negative counts detected")}
+
+# returns nothing, valid_count thus passed the validation checks, as expected 
+
+```
+(7) Reinspecting the data with the ```head```, ```str```, and ```dim``` commands  
+(8) Calculating mean species richness by using ```%>%``` pipeline to modify it into a table that shows Cultivation, Plot, Quadrat, and Block
+and calculate richness at each of these combinations (richness here refers to number of species detected)  
+(9) Creating a figure, using ```ggplot```, showing the mean species richness at each plot, in relation to cultivation  
+(10) Saving the results using as "pound_hill_plot_richness.csv" (```write.csv()```) and the figure as "pound_hill_plot_richness.pdf"  (```pdf()```)  
+(11) Interpretating of the plot.  
+
+N.B. Ran the script twice to make sure it was reproducible.  
+
+##### Outputs
  
-(1) pound_hill_analysis.R: R script stored in project root codes folder
-(2) **pound_hill_plot_richness**.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.
-(3) pound_hill_plot_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.
+(1) pound_hill_analysis.R: R script stored in project root codes folder  
+(2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.  
+(3) pound_hill_plot_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.  
 
 *Sources 
 - https://www.geeksforgeeks.org/r-language/pivot-longer-in-r/
