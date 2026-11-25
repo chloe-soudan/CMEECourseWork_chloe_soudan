@@ -42,23 +42,30 @@ TreeHeight <- function(Angle.degrees, Distance.m) {
 
 
 ####################################################
-### 6. Validating the data and calculating tree height
+### 6. Wranlging and validating the data, and calculating tree height
 
 # Creating a function that checks the data and calculates tree height
 check_trees <- function(trees) { # creating a function
-    col_order <- c("Species", "Distance.m", "Angle.degrees") # setting the column order
+ 
+    col_order <- c("Species", "Distance.m", "Angle.degrees") # setting the column order # nolint
 
     if (!identical(names(trees), col_order)) { # checking that the columns are in the right order
         stop("wrong headers/ header order")}
+       
+    trees <- trees %>%
+    mutate(
+        Distance.m = as.numeric(Distance.m),
+        Angle.degrees = as.numeric(Angle.degrees))
+    num_col <- c("Distance.m", "Angle.degrees")
     
     for (col in num_col) {
-        if (any(is.na(trees[[col]]) | trees[[col]] == "")) { # checking for missing or non-numeric values 
-            stop(paste("Missing or non-numeric values in", col))} 
+        if (any(is.na(trees[[col]])))  { # checking for missing or non-numeric values 
+            stop(paste("Missing or non-numeric values in", col))}  
         if (any(!is.finite(trees[[col]]))) { #checking if values are valid
             stop(paste("invalid", col))} }
-    if (any(trees$Distance.m <= 0) | any(trees$Distance.m > 100)) { # checking the range
+    if (any(trees$Distance.m <= 0) || any(trees$Distance.m > 100)) { # checking the range
         stop("Distance.m out of range")}
-    if (any(trees$Angle.degrees <= 0) | any(trees$Angle.degrees >= 90)) { # checking the range
+    if (any(trees$Angle.degrees <= 0) || any(trees$Angle.degrees >= 90)) { # checking the range
         stop("Angle.degrees out of range")}
     
     trees <- trees %>% # calculating tree height
@@ -99,8 +106,7 @@ missing_values <- data.frame(
     Distance.m = "",
     Angle.degrees = "45")
 missing_values <- missing_values %>%
-    mutate(
-        Distance.m = as.numeric(Distance.m),
+    mutate( Distance.m = as.numeric(Distance.m),
         Angle.degrees = as.numeric(Angle.degrees))
 tryCatch(check_trees(missing_values), error = function(e) print(e$message))
 # returns "Missing or non-numeric values in Distance.m", as expected
@@ -183,7 +189,7 @@ tryCatch(check_trees(angle_out_of_range3), error = function(e) print(e$message))
 
 # angle range check successful
 
-. 
+
 ###########################
 ### 7. Running the function and inspecting the results
 
@@ -193,6 +199,8 @@ trees_height <- check_trees(trees)
 head(trees_height)
 str(trees_height)
 dim(trees_height)
+# note: the output has 120 rows and 4 columns
+# output looks as expected 
 
 ###################################
 ### 9. Writing the results into a csv file
@@ -208,12 +216,11 @@ write.csv(trees_height, "results/TreeHts.csv", row.names = FALSE)
 # looked at the first few rows using: head results/TreeHts.csv
 # columns were in some order as input
 
-# checked height measurement of 'Populus tremula' from porject root:
+# checked height measurement of 'Populus tremula'
 #
 if (round(trees_height$height_m[1], digits = 1) == 
 round(31.66583 * tan(41.28264 * pi /180), digits =1)) {
-    print("correct height")
-    } else {
+    print("correct height") } else {
         print("wrong height")}
 
 #printed "correct"
