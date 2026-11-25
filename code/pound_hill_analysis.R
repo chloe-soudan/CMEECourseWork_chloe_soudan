@@ -3,9 +3,7 @@
 # POUND HILL PRACTICAL
 
 # installing and loading libraries 
-install.packages("ggplot2")
-install.packages("tidyverse")
-install.packages("languageserver")
+
 library(languageserver)
 library(tidyverse)
 library(ggplot2)
