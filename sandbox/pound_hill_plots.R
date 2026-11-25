@@ -1,4 +1,4 @@
-#!/usr/bin/env R
+#!/usr/bin/env Rscript
 # chloe.soudan26@imperial.ac.uk
 # POUND HILL DATA WRANGLING AND PLOTTING
 
