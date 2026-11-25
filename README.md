@@ -2,7 +2,7 @@
 
 Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
-Based on BOOK!!!!!!! XXXX
+**Handbook**: https://mulquabio.github.io/MQB/intro.html
 
 ## Unix, Shell, and Git
 
@@ -148,6 +148,7 @@ Completing the clean_silwood_trees.py script (from MQB repository) functions so 
 
 #### Software requirements 
 VS Code (or equivalent environment that can run Python)
+
 
 #### Required data and scripts
 From MQB repostiory into own repository: 
@@ -519,6 +520,23 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
 ##### 5. Functions check
 
 MAKE A README FOR THIS 
+## R 
+
+Getting familiar with coding in Python.
+
+### In-class scripts
+
+- basic_io.R
+- boilerplate.R
+- control_flow.R
+- r_conditionals.R
+- break.R
+- next.R
+- try.R
+- browse.R
+- observations_practice.R
+- data_wrang.R
+- data_wrang_tidy.R
 
 
 ### Assignment 3
@@ -534,55 +552,78 @@ MAKE A README FOR THIS
 getting familiar with data wrangling and plotting in R. 
 
 #####  Software requirements
-VS cde (or equivalent environment that can run R)
+**Software**: VS code, or equivalent environment that can run **R**
+**R Packages**: tidyverse, dplyr
 
 ##### Required data and scripts
-
 trees.csv from MQB/content/data
 
-##### Workflow 
+##### Parts
+(1) Creating an R script (TreeHeight.R) containing functions that calculate tree height based on distance and angle and validate the input data, and that runs checks on these functions
+(2) Creating a generalised TreeHeight script (get_TreeHeight.R) that uses the functions from TreeHeight.R to calculate tree height, and where the inptu csv can be specified upon running the script from the terminal
+(3) Creating a shell script that runs the generalised R script with the trees.csv data as input
 
-XXX
-#####  Part 1 
+###### Part 1 
 
-**Input**:  
-trees.csv   
+WORKFLOW
 
+- Loading the required libraries and data (```read.csv("data/trees.csv```)
+- Inspecting the data 
+- Creating a functions (```TreeHeight```) that calculates tree height using tree distance and angle as inputs
+- Creating a function (```check_trees()```) that wrangles the data and calculates tree height for the contents of a data frames 
+- Testing the functions using toy measurements and deliberately invalid data
+- Conducted some debugging (when building the script) before calculating tree height in check_trees function (manual check of outputs)
+- Running the check_trees function (```check_trees(trees)```) 
+- Writing the outputs from the function into a csv file (```write.csv```)
+- Running the code in Bash terminal from root project  (```Rscript code/TreeHeight.R```)
+
+OUTPUTS   
+(1) script named TreeHeight.R stored in code
+(2) csv with the checked and modified data in results named TreeHts.csv
+
+**TreeHeight() function**
+>**Inputs**:  
+ Angle.degrees (angle in degrees) and Distance_m  (distance in meters))
 **Aims**:  
- checking trees data and calculating tree height, using tidyverse and already entered distance and angle data.  
+Calculating tree height using tree distance and angle as inputs  
+**Function**: 
+Converting  the angle from degrees to radians (```Angle.degrees * pi / 180```), computing the height (in meters, ```Distance_m * tan(angle_radians)```), and returning the computed tree height (```height_m```).  
+**Outputs**:  
+height_m
 
-
-**Details**:
-importing trees data and checking its formatting (missing values, NAs, if numeric values are finite, ranges of angles and distances,...). Then, using already inputted distances and angles, calculate tree height and adding it as a new column in the table (height_m). Checking that calculations were correct and saving the file in results as a cv.
-
+**check_trees() function**
+**Inputs**:  
+data frame
+**Aims**:
+validates measurements from tree data and calculates tree height using and already entered distance and angle data.  
 **Function**:  
-
-create a function check_trees where {
-  the col_order is c("Species", "Distance.m", "Angle.degrees")
-  if the column names from trees are not identical (!identical) to col_order {
-    stop the command and state as a reason "wrong/headers/ header order"
+create a function ```check_trees``` where {
+  the ```col_order``` is ```c("Species", "Distance_m", "Angle.degrees")```
+  ```if``` the column names from trees are not identical (```!identical```) to col_order {
+    ```stop``` the task and state as a reason "wrong/headers/ header order"
   }
-   for each col in num_col (num_col = Distance.m and Angle.degrees)
-    if the are any NA values or (|) any empty strings {
-      stop the command and state as a reason "missing", col}
-    if any col values are not finite (!finite) {
-    stop the command and state as a reason "invalid", col}
-  if any trees$Distance_m value is outside of its range {
-    stop the command and state as a reason "Distance_m out of range"}
+
+  Distance_m and Angle.degrees columns from the data frame are converted to be numeric (```as.numeric```)
+
+  A vector ```num_col``` containing (```<-```) ```c("Distance_m", "Angle.degrees")``` is created 
+
+   ```for``` each col ```in num_col```
+    ```if``` the are any NA values (```any(is.na())```) ```{```
+      ```stop``` the command and state as a reason ```"Missing or non-numeric valus in", col}```
+    ```if``` any col values are not finite (```!is.finite```) ```{```
+    ```stop``` the command and state as a reason ```"invalid", col}```
+  ```if``` any ```trees$Distance_m``` value is outside of its range ```{```
+    ```stop``` the command and state as a reason ```"Distance_m out of range"}```
   repeat last statement but for Angle.degrees range
   
-  set trees to be trees where (%>%)
-    a new column is created (mutate), called height_m and is equal to 
-    Distance.m *tan(Angle.degrees * pi /180)) %>%
-    and reorder (select) the columns to be: Species, Distance.m, Angle.degrees, height_m
+  set ```trees``` to be (```<-```) ```trees``` where (```%>%``)
+    a new column is created (```mutate```), called ```height_m``` and is equal to ```height_m``` obtained from running the ```TreeHeight``` function on ```(Angle.degrees, Distance_m)```
+    and reorder (```select```) the columns to be: ```(Species, Distance.m, Angle.degrees, height_m)```
 
-  state the message "done!" after having done all this
-  return trees}
-
+  state the ```message``` "done!" after having done all this
+  ```return``` output data frame```}```
 **Outputs**:  
-
-(1) script named TreeHeight.R stored in codes
-(2) csv with the checked and modified data in results named TreeHts.csv
+data frame with height_m column and values
 
 *Sources:
 -  https://www.statology.org/r-filter-between-two-values/
@@ -595,16 +636,45 @@ create a function check_trees where {
 
 ##### Part 2 
 
-**Inputs**: 
-trees.csv (passed as an argument)
-
-**Aims**:  
+AIMS
 Checking trees data and calculating tree height, using tidyverse and already inputted distance and angle data and by passing trees.csv as an argument.
 
-**Details**:  
-Running a similar code than in part 1 (file: get_treeHeight.R) ). However, this time passing the input data as an argument when running the code from the Bash terminal. Thus, the code first ensures that exactly one argument gets passed, and that that argument actually exists. It then goes through the function and some checks for the calculations. Lastly, the output gets saved in results as a csv, and its name is set to be the basename of the argument that was passed. 
+WORKFLOW
+- Load the required libraries
+- Import functions from TreeHeight.R using ```source()```
+- Creating an args() function that verifies that exactly one valid argument is being passed 
+- Reading the argument as a CSV file and storing it as ```trees1```
+- Running the ```check_trees()``` function (from TreeHeight.R) on trees1
+- Inspecting the results
+- Writing the results into a CSV file  by first creating a results folder (if it doesn't exist already), naming the file based on its ```basename```, and then writing it as a CSV (```write.csv```) in the results folder and name 'basename'_treeheights.csv
+- Running the script in Bash terminal from the project root, using trees.csv as the argument, using the following command: ```Rscript code/get_TreeHeight.R data/trees.csv
 
-Then, we created a shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash, and terminate execution if the script fails. 
+
+OUTPUTS:  
+(1) script named get_TreeHeight.R stored in code
+(2) csv file named 'basename'_treeheights.csv
+
+
+**args() function**
+**Inputs**:
+one argument (path to CSV file)
+**Aims**: checking that the amount of valid arguments being passed is exactly 1
+**Function**:
+get command line arguments (```commandArgs```) and store them in args
+  ```if``` the number of arguments is (```==```) 0:
+    ```stop``` the task and print "No argument provided"
+  ```if``` the number of arguments is larger than 1:
+    ```stop``` the task and print "Too many arguments provided"
+  ```if``` the file does not exist:
+    ```stop``` the task and print "Missing file"
+  ```if``` file is not readable:
+    ```stop``` the task and print "File is not readable"
+**Outputs**:
+- if argument is valid, CSV is accepted and can be use
+- if argument is not valid, error message gets printed and task gets terminated 
+
+##### Part 3 - run_get_TreeHeight.R
+Shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash, and terminate execution if the script fails. 
 
 **Outputs**:
 
@@ -647,7 +717,7 @@ from content/data to project root data folder
 - Converting blank spaces to observed 0s (```data[data==""]=0```)
 - Transposing the data (```data <- t(data)```)
 - Converting data matrix to data frame (```as.data.frame```) and converting the obtained table from wide format to long formate (```pivot_longer()```)
-- Setting fields as class facotr (```as.factor```), except for Count that was set to class integer (```as.integer```)
+- Setting fields as class factor (```as.factor```), except for Count that was set to class integer (```as.integer```)
 
 (5) Validating that the counts are   
 - not missing and numeric (```if(any(is.na(){}```)
