@@ -209,18 +209,11 @@ write.csv(trees_height, "results/TreeHts.csv", row.names = FALSE)
 # columns were in some order as input
 
 # checked height measurement of 'Populus tremula' from porject root:
-#if (round(trees_height$height_m[1], digits = 1) == 
-#    round(31.66583 * tan(41.28264 * pi /180), digits =1)
-#) {
-#    print("correct height") 
-#} else {
-#    print("wrong height")
-#}
-# printed "correct"
+#
+if (round(trees_height$height_m[1], digits = 1) == 
+round(31.66583 * tan(41.28264 * pi /180), digits =1)) {
+    print("correct height")
+    } else {
+        print("wrong height")}
 
-# forming a toy measurement to double-check the formula
-toy_measurement <- 8 * tan(45 * pi / 180) 
-toy_measurement
-
-# note: output is 8 (as expected)
-
+#printed "correct"
