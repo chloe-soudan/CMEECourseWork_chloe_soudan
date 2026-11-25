@@ -1,8 +1,12 @@
 #!/usr/bin/env Rscript
 # chloe.soudan26@imperial.ac.uk
-# POUND HILL PRACTICAL
+# Descr:
+# Script: pound_hill_analysis.R
+# Date: Oct 2026
 
-# installing and loading libraries 
+################## POUND HILL PRACTICAL ###############
+
+# Installing and loading libraries
 
 library(languageserver)
 library(tidyverse)
@@ -56,15 +60,20 @@ mywrangleddata <- mydata %>%
         Block = as.factor(Block),
         Plot = as.factor(Plot),
         Quadrat = as.factor(Quadrat),
-        Count = as.integer(Count)) 
+        Count = as.integer(Count))
+
+# Checking whether count conversion introduces NAs 
+if (any(is.na(mywrangleddata$Count))) {
+    stop("Error: Missing or non-numeric counts detected")}
+
+# Checking that counts are numeric
+if (any(!is.numeric(mywrangleddata$Count))) {
+    stop <- ("Error: Non-numeric counts detected")} 
 
 # checking that counts are not negative
 if (any(mywrangleddata$Count < 0)) {
-    message <- ("negative counts")}
+    stop <- ("Error: Negative counts detected")}
     
-# checking that counts are numeric
-if (any(!is.numeric(mywrangleddata$Count))) {
-    message <- ("non-numeric counts")} 
 
 # reinspecting the data 
 str(mywrangleddata) # verifying that class change was succesfull: it was
@@ -134,7 +143,7 @@ plot_mean_richness_fig <- ggplot(plot_mean_richness_table, aes(x = Cultivation, 
 plot_mean_richness_fig
 
 # saving the figure in results folder as a pdf
-pdf("results/pound_hill_richness.pdf", 11.7, 8.3)
+pdf("results/pound_hill_plot_richness.pdf", 11.7, 8.3)
 print(plot_mean_richness_fig)
 graphics.off()
 
