@@ -4,10 +4,9 @@ Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
 **Handbook**: https://mulquabio.github.io/MQB/intro.html
 
-## Unix, Shell, and Git
+## 1. Unix, Shell, and Git
 
 ### Aims 
-
 Getting familiar with unix, shell scripting, and using GitHub repositories
 
 ### In-class scripts
@@ -19,29 +18,24 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
 > - ConcatenateTwoFiles.sh
 > - tiff2_png.sh
 
-### Assignment 1 
-
-#### Aims
-1. Using UNIX commands to inspect FASTA files and their contents. 
-2. Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv).
-3. Using shell scripting to improve a script converting a comma-delimited file (csv)to a tab-delimited one. 
-
-#### Software requirements 
-VS Code (or equivalent environment that can run Unix and Bash terminal).
-
-#### External sources
+### Assignment 1: Unix and Shell
+*Sources:
 - https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
 - https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
 
 
-#### 1. Fasta exercises 
+#### 1.1 Fasta exercises 
 
 **Filename**: unixPrac1.txt   
 **File format**: text file  
 **How to run**: from project root using ```bash code/unixPrac1.txt```   
 
-##### Required data
-FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored in the data folder of the project root. 
+##### Aims
+Using UNIX commands to inspect FASTA files and their contents.
+
+##### Requirements
+- FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored in the data folder of the project root
+- VS Code (or equivalent environment that can run Unix and Bash terminal)
 
 ##### Workflow
 1. Counting lines in three different FASTA files using: ``` wc -l ```
@@ -52,11 +46,13 @@ FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored
 5. Calculating base rations in a FASTA file sequence using the 
 ``` ratio=$(echo "($a + $t) / ($c + $g)" | bc -l)``` command. 
 
+##### Outputs
+No output files, just printed resuls from the command
 
 Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) into one line of code.
 
 
-#### 2. Shell practical 
+#### 1.2 Shell practical 
 
 **Filename**: tabtocsv.sh  
 **File type**: shell script  
@@ -67,10 +63,12 @@ Note: need to first run following lines in terminal:
 printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
 printf 'Practice data: %s\n' "$shell_practice"
 ```
+##### Aims
+Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv)
 
-
-##### Required data 
+##### Requirements
 - tabtocsv.sh - Shell Scripting chapter 
+- VS Code (or equivalent environment that can run Unix and Bash terminal)
 
 ##### Workflow
 
@@ -93,16 +91,22 @@ cat "$1" | tr "\t" "," >  "results/$(basename "$1").csv"
   
 4.  Printing a completion message at the end of the script to mark that it has been completed (```echo "done"```)
 
+##### Outputs
+test.txt.csv (in results folder), test text file converted to csv 
 
-#### 3. New script practical 
+
+#### 1.3 New script practical 
 
 **Filename**: csvtospace.sh  
 **File type**: shell script  
 **How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv```
 
+##### Aims
+Using shell scripting to improve a script converting a comma-delimited file (csv)to a tab-delimited one. 
 
 ##### Required data
 - Any csv file (here used 1800.csv, stored in temperatures folder in the project root's data folder - acquired from from MQB repository (MQB/content/data/temperatures))
+- VS Code (or equivalent environment that can run Unix and Bash terminal)
 
 ##### Workflow
 
@@ -114,12 +118,12 @@ Workflow follows exact same steps as [Shell practical](#2-shell-practical) excep
 ```
 cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
 ```
+##### Outputs
+ 1800.csv.txt (in results folder), csv file that was converted to text format
 
-
-##  Python
+##  2. Python
 
 ### Aims 
-
 Getting familiar with coding in Python.
 
 ### In-class scripts
@@ -143,7 +147,6 @@ Getting familiar with coding in Python.
 **How to run**: XXXX
 
 #### Aims 
-
 Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data (stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
 
 #### Software requirements 
@@ -162,7 +165,6 @@ From MQB repostiory into own repository:
   
 
 #### Workflow
-
 (1) Creating a function (load_records) that reads the CSV input file 
 (2) Creating a function (validate_records) that checks whether a row is valid, and if not, returns why it isn't (error message)  
 (3) Creating a function (process_records) that repeats the validation step for the whole survey   
@@ -171,7 +173,7 @@ From MQB repostiory into own repository:
 
 N.B: more precise instruction in silwood_trees_metadata
 
-##### 1. Load_records 
+#### 2.1 Load_records 
 
 **Input**: path to a file (here INPUT_PATH)  
 **Aims**: loading the CSV input, checking its field names, and returning one dictionary per row  
@@ -192,7 +194,7 @@ def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function re
         return list(reader) # return a list of dictionaries 
 ```
 
-##### 2. Validated_records 
+#### 2,2 Validated_records 
 
 **Input**: 
 - a dictionary of the data of one row (record, ```row:dict[str,str]```)
@@ -402,7 +404,7 @@ def validate_record(
 
 ```
 
-##### 3. Process_records 
+#### 2.3 Process_records 
 
 **Input**:  
 Records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]
@@ -468,7 +470,7 @@ def process_records(
 
 ```
 
-##### 4. Summarise_oaks
+#### 2.4 Summarise_oaks
 
 **Input**:  
 The validated records obtained through process_records (clean_records) 
@@ -517,12 +519,12 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
 - Asked AI for help with structurin my function's return
 - Asked AI to help with correcting indents
 
-##### 5. Functions check
+#### 2.5 Functions check
 
-MAKE A README FOR THIS 
-## R 
+MAKE A README FOR THIS  XXXX
 
-Getting familiar with coding in Python.
+## 3. R 
+Getting familiar with coding in R.
 
 ### In-class scripts
 
@@ -541,32 +543,32 @@ Getting familiar with coding in Python.
 
 ### Assignment 3
 
-#### 1. Tree height practical
+#### 3.1 Tree height practical
 
-**Filenames**: XXX
-**File types**: R scripts 
-**How to run**: Rscript code/TreeHeight.R (from porject root Bash terminal) 
+**Filenames**: TreeHeight.R, get_TreeHeight.R, run_get_TreeHeight.sh
+**File types**: R scripts and shell script
+**How to run**: in bash terminal from project root: Rscript code/TreeHeight.R, Rscript code/get_TreeHeight.R data/trees.csv, bash code/run_get_TreeHeight.sh
 
-##### Aims
-
+AIMS
 getting familiar with data wrangling and plotting in R. 
 
-#####  Software requirements
+SOFTWARE REQUIREMENTS
 **Software**: VS code, or equivalent environment that can run **R**
 **R Packages**: tidyverse, dplyr
 
-##### Required data and scripts
+REQUIRED DATA AND SCRIPTS
 trees.csv from MQB/content/data
 
-##### Parts
+SCRIPTS OVERVIEW
 (1) Creating an R script (TreeHeight.R) containing functions that calculate tree height based on distance and angle and validate the input data, and that runs checks on these functions
 (2) Creating a generalised TreeHeight script (get_TreeHeight.R) that uses the functions from TreeHeight.R to calculate tree height, and where the inptu csv can be specified upon running the script from the terminal
 (3) Creating a shell script that runs the generalised R script with the trees.csv data as input
 
-###### Part 1 
+##### Part 1 - TreeHeight.R
 
-WORKFLOW
+**How to run**: Rscript code/TreeHeight.R
 
+**Workflow**
 - Loading the required libraries and data (```read.csv("data/trees.csv```)
 - Inspecting the data 
 - Creating a functions (```TreeHeight```) that calculates tree height using tree distance and angle as inputs
@@ -577,9 +579,6 @@ WORKFLOW
 - Writing the outputs from the function into a csv file (```write.csv```)
 - Running the code in Bash terminal from root project  (```Rscript code/TreeHeight.R```)
 
-OUTPUTS   
-(1) script named TreeHeight.R stored in code
-(2) csv with the checked and modified data in results named TreeHts.csv
 
 **TreeHeight() function**
 >**Inputs**:  
@@ -592,10 +591,10 @@ Converting  the angle from degrees to radians (```Angle.degrees * pi / 180```), 
 height_m
 
 **check_trees() function**
-**Inputs**:  
-data frame
+>**Inputs**:  
+data frame  
 **Aims**:
-validates measurements from tree data and calculates tree height using and already entered distance and angle data.  
+validates measurements from tree data and calculates tree height using and already entered distance and angle data.    
 **Function**:  
 create a function ```check_trees``` where {
   the ```col_order``` is ```c("Species", "Distance_m", "Angle.degrees")```
@@ -621,9 +620,17 @@ create a function ```check_trees``` where {
     and reorder (```select```) the columns to be: ```(Species, Distance.m, Angle.degrees, height_m)```
 
   state the ```message``` "done!" after having done all this
-  ```return``` output data frame```}```
+  ```return``` output data frame```}```  
 **Outputs**:  
-data frame with height_m column and values
+data frame with height_m column and values  
+
+
+**Testing the functions**
+XXX 
+
+**Outputs**:
+(1) script named TreeHeight.R stored in code
+(2) csv with the checked and modified data in results named TreeHts.csv
 
 *Sources:
 -  https://www.statology.org/r-filter-between-two-values/
@@ -634,12 +641,13 @@ data frame with height_m column and values
 -  https://www.w3schools.com/r/r_for_loop.asp
 
 
-##### Part 2 
+##### Part 2 - get_TreeHeight.R
+**How to run**: Rscript code/get_TreeHeight.R data/trees.csv  
 
-AIMS
+**Aims**
 Checking trees data and calculating tree height, using tidyverse and already inputted distance and angle data and by passing trees.csv as an argument.
 
-WORKFLOW
+**Workflow**
 - Load the required libraries
 - Import functions from TreeHeight.R using ```source()```
 - Creating an args() function that verifies that exactly one valid argument is being passed 
@@ -649,16 +657,10 @@ WORKFLOW
 - Writing the results into a CSV file  by first creating a results folder (if it doesn't exist already), naming the file based on its ```basename```, and then writing it as a CSV (```write.csv```) in the results folder and name 'basename'_treeheights.csv
 - Running the script in Bash terminal from the project root, using trees.csv as the argument, using the following command: ```Rscript code/get_TreeHeight.R data/trees.csv
 
-
-OUTPUTS:  
-(1) script named get_TreeHeight.R stored in code
-(2) csv file named 'basename'_treeheights.csv
-
-
 **args() function**
-**Inputs**:
-one argument (path to CSV file)
-**Aims**: checking that the amount of valid arguments being passed is exactly 1
+>**Inputs**:
+one argument (path to CSV file)  
+**Aims**: checking that the amount of valid arguments being passed is exactly 1  
 **Function**:
 get command line arguments (```commandArgs```) and store them in args
   ```if``` the number of arguments is (```==```) 0:
@@ -668,12 +670,21 @@ get command line arguments (```commandArgs```) and store them in args
   ```if``` the file does not exist:
     ```stop``` the task and print "Missing file"
   ```if``` file is not readable:
-    ```stop``` the task and print "File is not readable"
-**Outputs**:
-- if argument is valid, CSV is accepted and can be use
-- if argument is not valid, error message gets printed and task gets terminated 
+    ```stop``` the task and print "File is not readable"  
+**Outputs**:  
+if argument is valid, CSV is accepted and can be used    
+if argument is not valid, error message gets printed and task gets terminated 
+
+**Testing the function**
+XXX  
+**Outputs**
+(1) script named get_TreeHeight.R stored in code
+(2) csv file named 'basename'_treeheights.csv
+
 
 ##### Part 3 - run_get_TreeHeight.R
+**How to run**:bash code/run_get_TreeHeight.sh
+
 Shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash, and terminate execution if the script fails. 
 
 **Outputs**:
@@ -689,19 +700,19 @@ Shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash,
 - for terminating command if script fails: https://www.statology.org/reorder-columns-r/
 
 
-#### 2. Pound hill practical 
+#### 3.2 Pound hill practical 
 
 **Filenames**: pount_hill_analysis.R  
 **File types**: R scripts  
 **How to run**: Rscript code/pound_hill_analysis.R (from project root in Bash terminal)
 
-##### Aims
+AIMS
 Wrangling pound hill data, calculating mean species richness at plots, blocks, and cultivation combinations, and plotting it.
 
-#####  Software requirements
+SOFTWARE REQUIREMENTS
 VS cde (or equivalent environment that can run R)
 
-##### Required data and scripts
+REQUIRED DATA AND SCRIPTS
 From MQB repostiory into own repository: 
 from content/data to project root data folder
     - pound_hill_data.csv
@@ -709,7 +720,7 @@ from content/data to project root data folder
  
  *Files are now in GitHub repository data folder
   
-##### Workflow 
+WORKFLOW
 (1) Loading the required libraries  
 (2) Loading the data and metadata  
 (3) Inspecting the data using ```head```, ```str```, and ```dim``` commands to investigate first lines of the data, its structure, and its dimensions respectively.  
@@ -775,7 +786,7 @@ and calculate richness at each of these combinations (richness here refers to nu
 
 N.B. Ran the script twice to make sure it was reproducible.  
 
-##### Outputs
+OUTPUTS
  
 (1) pound_hill_analysis.R: R script stored in project root codes folder  
 (2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.  
@@ -787,3 +798,5 @@ N.B. Ran the script twice to make sure it was reproducible.
 - https://ggplot2.tidyverse.org/reference/scale_manual.html
 - https://www.r-bloggers.com/2025/03/how-to-center-ggplot-title-subtitle-and-caption-in-ggplot2-with-r/
 
+## AI USE
+For these assignemts, I used ChatGPT and copilot to understand error messages, debug scripts, and get hints on how to go further.
