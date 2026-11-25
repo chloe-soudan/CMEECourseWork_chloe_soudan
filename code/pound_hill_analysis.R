@@ -4,19 +4,25 @@
 # Script: pound_hill_analysis.R
 # Date: Oct 2026
 
+#######################################################
 ################## POUND HILL PRACTICAL ###############
+#######################################################
 
-# Installing and loading libraries
+#######################################
+### 1. Installing and loading libraries
 
 library(languageserver)
 library(tidyverse)
 library(ggplot2)
 
-# loading the data and metadata
+####################################
+### 2. Loading the data and metadata
 data <- as.matrix(read.csv("data/pound_hill_data.csv", header = FALSE))
 metadata <- read.csv("data/pound_hill_meta_data.csv", header = TRUE, sep = ";")
 
-# inspecting dimensions, column types, etc.
+#####################
+### 3. Data inspection
+#inspecting dimensions, column types, etc.
 head(data)
 str(data)
 dim(data)
@@ -25,10 +31,8 @@ head (metadata)
 str(metadata)
 dim(metadata)
 
-
-#######################
-#### DATA WRANGLING ### 
-#######################
+#####################
+### 4. Data wrangling
 
 # converting blank species to observed zeros 
 data[data == ""] = 0
@@ -47,7 +51,6 @@ colnames(TempData) <- data[1,] # assign column names from original data
 colnames(TempData)
 
 # Converting from wide to long format  
-
 mydata <- TempData %>%
     pivot_longer(
         cols = -c("Cultivation", "Block", "Plot", "Quadrat"),
@@ -62,18 +65,53 @@ mywrangleddata <- mydata %>%
         Quadrat = as.factor(Quadrat),
         Count = as.integer(Count))
 
+
+######################
+### 5. Data validation 
+
 # Checking whether count conversion introduces NAs 
 if (any(is.na(mywrangleddata$Count))) {
-    stop("Error: Missing or non-numeric counts detected")}
+    stop("Error: Missing or non-numeric count detected")}
 
-# Checking that counts are numeric
-if (any(!is.numeric(mywrangleddata$Count))) {
-    stop <- ("Error: Non-numeric counts detected")} 
+#note: if data was non-numeric, as.integer would have coerced it into NA. 
+# Thus, non-numeric counts will get flagged by the previous check
 
 # checking that counts are not negative
 if (any(mywrangleddata$Count < 0)) {
     stop <- ("Error: Negative counts detected")}
-    
+
+
+##############################
+### 6. Testing data validation 
+
+# a. Missing counts
+na_count <- c("1", "2", "")
+na_count <- as.integer(na_count)
+# Warning message: NAs introduced by coercion 
+if (any(is.na(na_count))) {
+    print("Error: Missing or non-numeric count detected")}
+
+# returns Error: Missing or non-numeric count detected, as expected
+# check succesful
+
+# b. Non-numeric counts
+non_numeric_count <- c("1", "2", "abc")
+non_numeric_count <- suppressWarnings(as.integer(non_numeric_count))
+if (any(is.na(non_numeric_count))) {
+    print("Error: Missing or non-numeric count detected")}
+# returns Error: Missing or non-numeric count detected, as expected
+# check succesful
+
+# c. Negative coutns
+negative_count <- c("1","2", "-1")
+negative_count <- as.integer(negative_count)
+if (any(negative_count < 0)) {
+    print("Error: Negative counts detected")}
+# returns Eroor: Negative counts detected, as expected
+# check succesful
+
+############################
+### 6. Reinspecting the data
 
 # reinspecting the data 
 str(mywrangleddata) # verifying that class change was succesfull: it was
