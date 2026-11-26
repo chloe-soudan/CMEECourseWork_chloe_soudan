@@ -6,10 +6,15 @@ Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
 **Requirements**
 - All scripts to be run in Bash terminal from the project root (except otherwise specified)
-- Project root must have a "code", "data", and "results" folder. "Sandbox" folder is not necessary but helpful for storing practice scripts, dtaa, ...
+- Project root must have a "code", "data", and "results" folder. "Sandbox" folder is not necessary but helpful for storing practice scripts, data, ... see structure below
 
-
-
+CMEECourseWork  
+├── code/      # folder with the in-class and assignment scripts  
+├── data/      # folder with the data files needed to run code scripts  
+└── results/   # not commited, will containt output files from code scripts after running them  
+├── Feedback/  # assignment feedbacks  
+├── README.md  
+└── sandbox/   # pracitce data, codes, etc  
 
 ## 1. Unix, Shell, and Git
 
