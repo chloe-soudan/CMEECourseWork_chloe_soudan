@@ -12,3 +12,6 @@ results/*
 # R workspace files
 .RData
 .Rhistory
+
+# Visual Studio Code settings
+.vscode/
