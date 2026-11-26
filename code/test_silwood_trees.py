@@ -257,6 +257,23 @@ validate_record(sens_record, source_row=1, accepted_ids=set())
 # returns the record, meaning it is valid, as expected
 # check succesful
 
+
+###############################
+## Checking validate_record  for valid data 
+###############################
+
+valid_record = {
+    'record_id': 'ST010',
+    'location': "Nash's Field",
+    'genus': 'Quercus',
+    'species': 'petraea',
+    'distance_m': '8.2',
+    'angle_degrees': '45.0'}    
+
+validate_record(valid_record, source_row=1, accepted_ids=set())
+# returns the record, meaning it is valid, as expected
+# check succesful
+
 #################################
 ### Checking for duplicate (using process_records function)
 #################################
