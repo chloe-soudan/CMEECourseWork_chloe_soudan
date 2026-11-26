@@ -8,6 +8,9 @@
 
 MyData <- read.csv("data/trees.csv", header = TRUE)
 
+# creating results folder of it doesn't already exist
+dir.create("results", showWarnings = FALSE)
+
 # writingcontaining my data
 write.csv(MyData, "results/MyData.csv")
 # appending a column to it
