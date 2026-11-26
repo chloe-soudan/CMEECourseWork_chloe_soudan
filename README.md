@@ -558,7 +558,7 @@ Getting familiar with coding in R.
 
 ### In-class scripts
 
-**Required packages**: 
+**Required package**: tidyverse
 
 >- basic_io.R  
   Run with: ```Rscript code/basic_io.R```
@@ -597,7 +597,7 @@ getting familiar with data wrangling and plotting in R.
 
 SOFTWARE REQUIREMENTS
 **Software**: VS code, or equivalent environment that can run **R**
-**R Packages**: tidyverse, dplyr
+**R Packages**: tidyverse
 
 REQUIRED DATA AND SCRIPTS
 trees.csv from MQB/content/data
@@ -669,7 +669,20 @@ data frame with height_m column and values
 
 
 **Testing the functions**
-XXX 
+- Testing the TreeHeight() function 
+> Creating a ```toy_measurement``` with distance of 8 meters and angle of 45 degrres, calculating expected tree height manually, passing same distance and angle in TreeHeight() function. comparing results. Both reurn a height of 8 meters, check was succesful
+
+- Testing the check_trees() function
+>(1) Column order: created a trees data frame but with wrong column order, ran the check_trees function on the data frame, expected error "wrong headers/header order", output matchced expectation, check succesful
+> (2) Column names: created a trees data frame with wrong column names. ran the check_trees function on the data frame, expected error "wrong headers/ header order", output matched exectations, check succesful
+>(3) Missing values: created a data frame with missing Distance_m values, ran the check_trees function on  the data frame, expected error "Missing or non-numeric values in Distance_m", output matched expected outputs, check succesful
+>(4) Infinite values: created a data frame with Inf as Distance_m, ran the check_trees function on  the data frame, expected error "invalid Distance_m", output matched expected outputs, check succesful
+>(5) Non-numeric values: created a data frame with "abc" as Distance_m input, ran the check_trees function on  the data frame, expected error "Missing or non-numeric values in Distance_m", output matched expected outputs, check succesful
+> (5) Out of range Distance_m: created a data frames with out of range Distance_m values (at the edges of the boundaries: 0 and 101), ran the check_trees function on  the data frame, expected error "Distance_m out of range", output matched expected outputs, check succesful. Checked with some valid Distance_m values too, and these were accepted. 
+> (6) Out of range angle.degrees: repeated the same as out of range Distance_m check but with edges angle.degrees boundaries (0 and 90)
+> (7) Running check_trees function on trees data set and inspecting results (checking that output has 120 rows and 4 columns with ```dim```)
+>(8) Comparing manually calculated Populus tremala height with height calculated with TreeHeight function (rounded values) and printing "correct height" (if the values match or) "wrong height" (if the values don't match), expected the values to match and thus "correct ehight" to be pringted, output matched expectation, check succesful
+
 
 **Outputs**:
 (1) script named TreeHeight.R stored in code
