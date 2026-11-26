@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 # Chloe Soudan - chloe.soudan26@imperial.ac.uk
-# Script: data_wrang_tidyverseR
+# Script: data_wrang_tidy.R
 # Desc: Wrangling the Pound Hill Dataset using the tidyverse library
 # Date: Oct 2026
 
