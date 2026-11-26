@@ -28,7 +28,7 @@ def buggyfunc(x):
     for i in range(x):
         y = y-1
         if y == 0:
-            breakpoint()
+        # breakpoint() (was added for practice but removed  for final version)
         z = x/y
     return z
 
