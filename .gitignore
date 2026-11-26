@@ -1,20 +1,14 @@
-# Temporary and backup files
-*~
-*.tmp
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Sandbox
+sandbox/
+
+# Generated results
+results/*
+!results/.gitkeep
 
 # R workspace files
 .RData
 .Rhistory
-
-# Python cache files
-__pycache__/
-*.py[cod]
-
-# Generated results
-results/*
-
-# Keep results directory
-!results/.gitkeep
-
-# Ignore sandbox
-sandbox/
