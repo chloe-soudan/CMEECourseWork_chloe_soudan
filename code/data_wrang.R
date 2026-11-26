@@ -7,10 +7,10 @@
 
 ############# Load the dataset ###############
 # header = false because the raw data don't have real headers
-MyData <- as.matrix(read.csv("../data/pound_hill_data.csv", header = FALSE))
+MyData <- as.matrix(read.csv("data/pound_hill_data.csv", header = FALSE))
 
 # header = true because we do have metadata headers
-MyMetaData <- read.csv("../data/pound_hill_meta_data.csv", header = TRUE, sep = ";")
+MyMetaData <- read.csv("data/pound_hill_meta_data.csv", header = TRUE, sep = ";")
 
 ############# Inspect the dataset ###############
 head(MyData) # looking at the first rows of MyData
