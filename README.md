@@ -199,11 +199,11 @@ From MQB repostiory into own repository:
 (2) Creating a function (validate_records) that checks whether a row is valid, and if not, returns why it isn't (error message)  
 (3) Creating a function (process_records) that repeats the validation step for the whole survey   
 (4) Creating a function (summarise_oaks) that, using only the valid records, summarises the oak species encountered and their respective counts  
-(5) Checking if the functions work correctly.  
+(5) Checking if the functions work correctly (in test_silwood_trees.py)
 
 N.B: more precise instruction in silwood_trees_metadata
 
-#### 2.1 Load_records 
+#### 2.1 Load_records - clean_silwood_trees.py
 
 **Input**: path to a file (here INPUT_PATH)  
 **Aims**: loading the CSV input, checking its field names, and returning one dictionary per row  
@@ -224,7 +224,7 @@ def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function re
         return list(reader) # return a list of dictionaries 
 ```
 
-#### 2,2 Validated_records 
+#### 2.2 Validated_records - clean_silwood_trees.py
 
 **Input**: 
 - a dictionary of the data of one row (record, ```row:dict[str,str]```)
@@ -341,7 +341,7 @@ if valid record: a dictionary of the record followed by an empty list
 if unvalid reocrd: none, followed by a list of the reason(s) why
 => tuple[dict[str, str] | None, list[str]]
 
-#### 2.3 Process_records 
+#### 2.3 Process_records - clean_silwood_trees.py
 
 **Input**:  
 Records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]
@@ -376,7 +376,7 @@ end of loop
 Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
 
 
-#### 2.4 Summarise_oaks
+#### 2.4 Summarise_oaks - clean_silwood_trees.py
 
 **Input**:  
 The validated records obtained through process_records (clean_records) 
@@ -398,23 +398,7 @@ Creating an empty list ```oak_species``` (which will store the different oak spe
   Returning a list of dictionaries with each species (in the species dictionary) and its respective frequenncy (in the count dictionary) usig ```.items()```
 
 **Output**: list of dictionaries of oak species and respective counts. Format: list[dict[str, str]]  
-
-**Code**:
-```
-def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
-    """Count accepted oak records by species."""
-
-    oak_species = []
-
-    for row in clean_records:
-        if row["genus"].casefold().strip() == "quercus":
-            oak_species.append(row["species"].casefold().strip())
-
-    oak_counts = Counter (oak_species)
-
-    return [{"species": species, "count": count}
-            for species, count in oak_counts.items()]
-```
+ 
 
 **Sources**
 - https://introcs-python.cs.luc.edu/dict_algorithms/overview.html
@@ -425,7 +409,8 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
 - Asked AI for help with structurin my function's return
 - Asked AI to help with correcting indents
 
-#### 2.5 Functions check
+#### 2.5 Functions check - test_silwood_trees.py
+
 - Importing the functions from clean_silwood_trees.py
 - Testing validate_record() function
 
@@ -641,7 +626,17 @@ if argument is valid, CSV is accepted and can be used
 if argument is not valid, error message gets printed and task gets terminated 
 
 **Testing the function**
-XXX
+
+| Test | Workflow | Expected outputs | Successful output |
+|---|---|---|---|
+| 1. No argument provided | Ran the fucntion without adding an argument with the following command: ```Rscript code/get_TreeHeight.R``` | Error: "No argument provided", termination of the task | Output matched expectations, check successful. |
+| 2. No argument provided | Ran the function inputting two arguments with following command: ```Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv``` | Error: "too many arguments provided", termination of the teas | Output matched expectations, check succesful. |
+| 3. Missing file | Ran the function with as argument a file that doesnt exist using the following command: ```Rscript code/get_TreeHeight.R  data/doesnotexist.csv``` | Error: "Missing file", termination of the teas | Output matched expectations, check succesful. |
+| 4. Directory instead of file | Ran the function with as argument a directory instead of a file that doesnt exist using the following command: ```Rscript code/get_TreeHeight.R  data/``` | Error: "Missing file", termination of the teas | Output matched expectations, check succesful. |
+| 5. Unreadable file | Created an unreadble file and ran the function with as argument the unerable file, using the following commands: ```touch data/unreadable.csv```,  ```chmod 000 data/unreadable.csv```, ```Rscript code/get_TreeHeight.R data/unreadable.csv``` | Error: "File is not readable, termination of the teas | Output matched expectations, check succesful. |
+
+
+
 
 **Outputs**
 (1) script named get_TreeHeight.R stored in code
