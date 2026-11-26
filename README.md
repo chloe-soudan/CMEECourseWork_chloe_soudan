@@ -423,7 +423,8 @@ Creating an empty list ```oak_species``` (which will store the different oak spe
 | 6. Distance out of range | Created records with out of range distances (at the boundaries: 0, 101). Also checked some valid distances (at the boundaries:1, 100). Ran the validate_record function on the records. | (None, ['distance_m out of range`]) (for invalid distances) and the printed record (for valid distances)| Output matched expectations, check successful. |
 | 7. Angle out of range | Created records with out of range angles(at the boundaries: 0, 90). Also checked some valid distances (at the boundaries:1, 89). Ran the validate_record function on the records.| (None, ['angle_degrees out of range`]) (for invalid angles) and the printed record (for valid angles)| Output matched expectations, check successful. |
 | 8. Order of error messages | Created record which should generate an error for each field, ran the validate_record function on the record | (None, ['missing record_id, 'invalid record_id', 'duplicate record_id', 'invalid location', 'invalid genus', 'invalid species', 'distance_m out of range', 'angle_degrees out of range']| Output matched expectations, check successful. |
-| 9. Trailing spaces and case sensitivity | Created a record with added spaces and abnormal casing in the field inputs, ran the validate_record function on the record | The printed record (valid record)| Output matched expectations, check successful. |
+| 9. Trailing spaces and case sensitivity | Created a record with added spaces and abnormal casing in the field inputs, ran the validate_record function on the record | The printed record (valid record)| Output matched expectations, check successful. 
+| 10. Valid data | Created a record with valid field inputs, ran the validate_record function on the record | The printed record (valid record)| Output matched expectations, check successful.
 
 - Testing process_records function
 
@@ -637,7 +638,6 @@ if argument is not valid, error message gets printed and task gets terminated
 
 
 
-
 **Outputs**
 (1) script named get_TreeHeight.R stored in code
 (2) csv file named 'basename'_treeheights.csv
@@ -697,47 +697,14 @@ WORKFLOW
 N.B.: when count data was non-numeric, as.integer would have coerced it into NA. Thus, non-numeric counts will get flagged by ```is.na``` check.
 (6) Testing the data validation checks by creating fake counts and passing them through the checks:  
 
-```
-# a. Missing counts
-na_count <- c("1", "2", "")
-na_count <- as.integer(na_count)
-# Warning message: NAs introduced by coercion 
-if (any(is.na(na_count))) {
-    print("Error: Missing or non-numeric count detected")}
 
-# returns Error: Missing or non-numeric count detected, as expected
-# check succesful
+| Test | Input | Workflow | Expected outputs | Succesful output |
+|---|---|---|---|---|
+| a. Missing counts | `c("1", "2", "")` | Created vector with a missing count, converted it to class integer, ran `if (any(is.na(na_count))) {print("Error: Missing or non-numeric count detected")}` | Error: Missing or non-numeric count detected | Outputs matched expectations, check succesful. |
+| b. Non-numeric counts | `c("1", "2", "abc")` | Created vector with a non-numeric count, converted it to class integer, ran `if (any(is.na(non_numeric_count))) {print("Error: Missing or non-numeric count detected")}` | Error: Missing or non-numeric count detected | Outputs matched expectations, check succesful. |
+| c.Negative counts | `c("1", "2", "-1")` | Created vector with a negative count, converted it to class integer, ran `if (any(negative_count < 0)) {print("Error: Negative counts detected")}` | Error: Negative counts detected | Outputs matched expectations, check succesful. |
+| d. Valid counts | `c("1", "2", "1")` | Created vector with valid counts, converted it to class integer, ran the if statements on them | Return nothing (meaning counts passed the validation check) | Outputs matched expectations, check succesful. |
 
-
-# b. Non-numeric counts
-non_numeric_count <- c("1", "2", "abc")
-non_numeric_count <- suppressWarnings(as.integer(non_numeric_count))
-if (any(is.na(non_numeric_count))) {
-    print("Error: Missing or non-numeric count detected")}
-# returns Error: Missing or non-numeric count detected, as expected
-# check succesful
-
-# c. Negative counts
-negative_count <- c("1","2", "-1")
-negative_count <- as.integer(negative_count)
-if (any(negative_count < 0)) {
-    print("Error: Negative counts detected")}
-# returns Eroor: Negative counts detected, as expected
-# check succesful
-
-# d. Valid counts
-valid_count <- c("1", "2", "3")
-valid_count <- as.integer(valid_count)
-
-if (any(is.na(valid_count))) {
-    print("Error: Missing or non-numeric count detected")}
-
-if (any(valid_count < 0)) {
-    print("Error: Negative counts detected")}
-
-# returns nothing, valid_count thus passed the validation checks, as expected 
-
-```
 (7) Reinspecting the data with the ```head```, ```str```, and ```dim``` commands  
 (8) Calculating mean species richness by using ```%>%``` pipeline to modify it into a table that shows Cultivation, Plot, Quadrat, and Block
 and calculate richness at each of these combinations (richness here refers to number of species detected)  
