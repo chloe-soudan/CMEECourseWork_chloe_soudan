@@ -33,6 +33,11 @@ fi
 # stating the  task
 echo "creating a comma delimited version of $1..."
 
+# creating a results directory if it does not exist
+if [ ! -d "results" ]; then
+    mkdir results
+fi
+
 # Converting the file
 cat "$1" | tr "\t" "," >  "results/$(basename "$1").csv"
 # note: asked AI how to do the following  ../results/<input-filename>.csv
