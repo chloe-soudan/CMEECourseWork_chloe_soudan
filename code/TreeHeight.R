@@ -18,21 +18,8 @@ trees
 head(trees)
 str(trees)
 
-
-##########################
-#### 4. Data wrangling 
-
-# setting Distance.m and Angle.degrees to be numeric
-trees <- trees %>%
-    mutate(
-        Distance.m = as.numeric(Distance.m),
-        Angle.degrees = as.numeric(Angle.degrees))
-
-# performing checks 
-num_col <- c("Distance.m", "Angle.degrees")
-
 ########################## 
-### 5. Tree height function 
+### 4. Tree height function 
 # Creating a function that calculates tree height from distance and angle measurements
 TreeHeight <- function(Angle.degrees, Distance.m) {
     angle_radians <- Angle.degrees * pi / 180
@@ -41,7 +28,7 @@ TreeHeight <- function(Angle.degrees, Distance.m) {
 }
 
 ####################################################
-### 6. Wranlging and validating the data, and calculating tree height
+### 5. Wranlging and validating the data, and calculating tree height
 
 # Creating a function that checks the data and calculates tree height
 check_trees <- function(trees) { # creating a function
@@ -207,7 +194,8 @@ if (sys.nframe() == 0) { # checking that the script is being run directly, not s
     # note: the output has 120 rows and 4 columns
     # output looks as expected 
 
-
+    # creating a results folder if it doesn't exist already
+    dir.create("results", showWarnings = FALSE)
     # writing the results into a csv
     write.csv(trees_height, "results/TreeHts.csv", row.names = FALSE)   
     # note: write.csv overwrites file if already exists by default
