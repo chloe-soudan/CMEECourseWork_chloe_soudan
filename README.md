@@ -2,33 +2,40 @@
 
 Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
-**Handbook**: https://mulquabio.github.io/MQB/intro.html
+**Handbook**: MulQuaBio handbook (https://mulquabio.github.io/MQB/intro.html)
 
-**Requirements**
-- All scripts to be run in Bash terminal from the project root (except otherwise specified)
-- Project root must have a "code", "data", and "results" folder. "Sandbox" folder is not necessary but helpful for storing practice scripts, data, ... see structure below
+**Contents**   
+1. [Unix, Shell, and Git](#1-unix-shell-and-git)
+2. [Python](#2-python)
+3. [R](#3-r)
 
+**Project structure**:
 CMEECourseWork  
 ├── code/      # folder with the in-class and assignment scripts  
 ├── data/      # folder with the data files needed to run code scripts  
-└── results/   # not commited, will containt output files from code scripts after running them  
+├── results/  # not commited, will containt output files from code scripts after running them  
 ├── Feedback/  # assignment feedbacks  
 ├── README.md  
 └── sandbox/   # pracitce data, codes, etc  
 
+**Requirements**
+- All scripts to be run in Bash terminal from the project root (except otherwise specified)
+- Create a results folder within the project root using:
+```bash mkdir -p results```
+
+
+
 ## 1. Unix, Shell, and Git
 
-### Aims 
 Getting familiar with unix, shell scripting, and using GitHub repositories
 
-### In-class scripts
-
+**In-class scripts**
 > - variables.sh  
   Run with: ```bash code/variables.sh "two words"```
 > - MyExampleScript.sh  
   Run with: ```bash code/MyExampleScript.sh```
 > - boilerplate.sh  
-  Run with: ```bash boilerplate.sh```
+  Run with: ```bash code/boilerplate.sh```
 > - CheckLabel.sh  
   Run with:  ```bash code/CheckLabel.sh oak```
 > - CountLines.sh  
@@ -45,15 +52,9 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
   bash code/tiff2_png.sh "$shell_practice"```
 
 
-
 ### Assignment 1: Unix and Shell
-**Sources**:
-- https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
-- https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
-
 
 #### 1.1 Fasta exercises 
-
 **Filename**: unixPrac1.txt   
 **File format**: text file  
 **How to run**: from project root using ```bash code/unixPrac1.txt```   
@@ -66,12 +67,12 @@ Using UNIX commands to inspect FASTA files and their contents.
 - VS Code (or equivalent environment that can run Unix and Bash terminal)
 
 ##### Workflow
-1. Counting lines in three different FASTA files using: ``` wc -l ```
-2. Displaying certain lines of a FASTA file using the ```tail``` command
-3. Counting sequence length of FASTA file using the ```wc -c```
-  - used ```-v "^>"``` and ```tr -d "\n"``` to remove lines starting with > and newline characters, respectively
-4. Counting motif occurance in a FASTA file sequence using the ```grep -o``` command to set the desired motif, and ```wc -l``` to count the mathches
-5. Calculating base rations in a FASTA file sequence using the 
+(1) Counting lines in three different FASTA files using: ``` wc -l ```
+(2) Displaying certain lines of a FASTA file using the ```tail``` command
+(3) Counting sequence length of FASTA file using the ```wc -c```
+   used ```-v "^>"``` and ```tr -d "\n"``` to remove lines starting with > and newline characters, respectively
+(4) Counting motif occurance in a FASTA file sequence using the ```grep -o``` command to set the desired motif, and ```wc -l``` to count the mathches
+(5) Calculating base rations in a FASTA file sequence using the 
 ``` ratio=$(echo "($a + $t) / ($c + $g)" | bc -l)``` command. 
 
 ##### Outputs
@@ -81,7 +82,6 @@ Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) in
 
 
 #### 1.2 Shell practical 
-
 **Filename**: tabtocsv.sh  
 **File type**: shell script  
 **How to run**: from project root using ```
@@ -98,32 +98,20 @@ Using shell scripting to improve a script converting a tab-delimited file to a c
 - VS Code (or equivalent environment that can run Unix and Bash terminal)
 
 ##### Workflow
-
 Worked through provided scripts and removed redudancies, unnecessary steps, and optimized the provided script.
-
-Final script workflow:
-1. Terminating the script when input is more than one readable path
+(1)Terminating the script when input is more than one readable path
 > if the number of inputs (```$~"```) is not equal to 1 (```-ne 1```); then an error message is printed to standard error (```>&2```) and the script is terminated with exit status 2.  
-
-2. Terminating the script when input is unreadable or invalid
+(2) Terminating the script when input is unreadable or invalid
 > if script is not valid (```! -f "$1"```) or (```|```) not readable (```! -r "$1"```); then an error message is printed to standard erroor and the script is terminated with exit status 2. 
-
-3. Converting the text file to a CSV format
-
+(3)Converting the text file to a CSV format
 >Reading the input file (```cat "$1$```), converting its tabs with commas (```tr "\t" ","```), and writing it (```>```) as a .csv output file in the results folder.  
-> Code:
-```
-cat "$1" | tr "\t" "," >  "results/$(basename "$1").csv"
-```
-  
-4.  Printing a completion message at the end of the script to mark that it has been completed (```echo "done"```)
+(4) Printing a completion message at the end of the script to mark that it has been completed (```echo "done"```)
 
 ##### Outputs
 test.txt.csv (in results folder), test text file converted to csv 
 
 
 #### 1.3 New script practical 
-
 **Filename**: csvtospace.sh  
 **File type**: shell script  
 **How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv```
@@ -136,24 +124,20 @@ Using shell scripting to improve a script converting a comma-delimited file (csv
 - VS Code (or equivalent environment that can run Unix and Bash terminal)
 
 ##### Workflow
-
 Adapted tabtocsv.sh to convert csv to tab (other way around).
 Workflow follows exact same steps as [Shell practical](#2-shell-practical) except for Step 3 (Converting the text file to a CSV format). Here,
 (1) instead of replacing the tabs with commas (```tr "\t" ","```), commas were replaced with tabs (```tr "," "\t"```),
 (2) the file was stored as a text filed (```.txt```) instead of a csv file ```.csv``` .
-> Code:
-```
-cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
-```
+
 ##### Outputs
  1800.csv.txt (in results folder), csv file that was converted to text format. can also be run with 1801-1803.csv.
 
 ##  2. Python
 
-### Aims 
+**Aims**
 Getting familiar with coding in Python.
 
-### In-class scripts
+**In-class scripts - python**
 > - loops.py  
   Run with: ```python3 code/loops.py```
 > - cfexercises1.py  
@@ -183,9 +167,9 @@ Getting familiar with coding in Python.
 
 ### Assignment 2
 
-**Filenames**: clean_silwood_trees.py and test_silwood_trees.py
-**File types**: python scripts 
-**How to run**: python3 code/clean_silwood_trees.py and python3 code/test_silwood_trees.py
+**Filenames**: clean_silwood_trees.py and test_silwood_trees.py  
+**File types**: python scripts   
+**How to run**: python3 code/clean_silwood_trees.py and python3 code/test_silwood_trees.py  
 
 #### Aims 
 Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data (stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
@@ -220,30 +204,13 @@ N.B: more precise instruction in silwood_trees_metadata
 **Aims**: loading the CSV input, checking its field names, and returning one dictionary per row  
 **Function**: function from MQB file, left untouched   
 **Output**: list of dictionaries   
-**Code**:
-
-```
-def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function returns a list of dictionaries 
-    """Read the survey and check its column names."""
-    with path.open(newline="", encoding="utf-8") as source:
-        reader = csv.DictReader(source) # reading the input file row by row
-        # checking that the input file fieldnames are different than expected INPUT_FIELDS
-        if reader.fieldnames != INPUT_FIELDS:
-            raise ValueError(
-                f"Expected columns {INPUT_FIELDS}, found {reader.fieldnames}"
-            )
-        return list(reader) # return a list of dictionaries 
-```
 
 #### 2.2 Validated_records - clean_silwood_trees.py
-
 **Input**: 
 - a dictionary of the data of one row (record, ```row:dict[str,str]```)
 - the source row (```source_row:int```)
 - set of accepted IDs (```accepted_ids:set[str]```)
-
 **Aims**
-
 - ordinary text cleaning
 - Removing row if: 
   - missing or unrecognised values found
@@ -252,99 +219,45 @@ def load_records(path: Path = INPUT_PATH) -> list[dict[str, str]]: # function re
   - it is a duplicate
 - Listing reasons for row rejection in specific order
 - Returning accepted rows or reasons for rejection (if rejected)
-
-N.B.: Specific instructions in silwood_trees_metadata
+  N.B.: Specific instructions in silwood_trees_metadata  
 
 **Function**  
-Defining (```def```) validate_record() where:
-> Checking for missing fields  
 
-  for each field in INPUT_FIELDS:  
-  ```if``` that row's field (```row[field]```) has no content (```None```) or just empty spaces (```row[field].strip() == ""```). if it does then:
-  add as reason (```reason.append()```) for rejection of that row "missing <field>
-  otherwise (```else```) remove whitespaces of the valid records (```row[field] = row[field].strip()```
-    **Sources**:
-   -https://stackoverflow.com/questions/1278749/- - -how-do-i-detect-missing-fields-in-a-csv-file-in-a-pythonic-way
-
-> Checking for invalid record ID  
-  
-  ```if``` the format of ```row[field]``` does not fully match the format (```nor re.fullmatch```) "ST" followed by three integers [0-9]{3} (```(r"ST[0-9]{3}", row["record_id"])```), then:
-  add as reason for rejection of that row (```reasons.append()```): "invalid record_id"
-  **Sources**:
-https://stackoverflow.com/questions/64644087/python-validate-if-column-entries-match-a-desired-format
-https://zetcode.com/python/regex-fullmatch-function/ 
-
-> Checking for invalid location  
-
-setting ```locations``` to be (```=```) the following list: ```["silwood bottom", "nash's field", "manor house","reactor wood"]```
-
- ```if``` the row's location name (```row[location]```), regardless of casefold (```.casefold()```) is not in in the set list of locations (```not in locations```), then:  
- add as reason for rejection of that row (```reasons.append()```): "invalid location"
-  **Sources**:
-  -https://www.geeksforgeeks.org/python/python-string-casefold-method
-
-
-> Checking for invalid genas and species  
-
-Repeat the same as in invalid record but for set list of valid genii and species.
-
-> Checking for invalid genus-species combinations  
-
-setting ```valid_combinations``` to be (```=```) a list (```[]```) of valid genus-species combinations,
-
-  ```if``` ```row["genus"]``` and ```row["species"]```, regardless of casefold (```.casefold```) were considered valid individually, but that ```(row["genus"].casefold(), row["species"].casefold()```) combination is ```not in valid_combinations``` list, then:
-  add as reason for rejection of that row (```reasons.append```()): "invalid genus/species combination"  
-
-> Checking for invalid numerical fialds of range values  
-
-setting ```NUMERIC_FIELDS```  to be (```=```)  ```"distance_m" and "angle_degrees"```
-
-  creating a loop where ```for``` each ```field in NUMERIC_FIELDS:```
-  ```if``` that ```row[field]``` is empty (```None```) or just made of empty spaces (```row[field].strip() == ""```): 
-  skip the following chunk (```continue```) 
-  if not, ```try``` to create a float string from row[field] and name it value (```value = float(row[field])```).
-
-  ```if``` value is ```not``` mathematically finite (```math.isfinite```):
-  add as reason for rejection of that row (```reasons.append()```): "invalid {field}"  
-
-  otherwise (```else```, field is mathematically finite),  
-    ```if``` field is (```==```) distance_m:  
-          ```if``` value not greater than 0 or greater than 100 (```value <= 0 or value > 100```): 
-        add as reason for rejection of the row (```reasons.append()```): "distance_m out of range"  
-    ```if``` field is (```==``) angle_degrees:  
-          ```if``` value not greater than 0 or larger than 90 (```value <= 0 or value >=90```):
-        add as reason for rejection of the row (```reasons.append()```): "angle_degrees out of range"
-
-  when converting to float fails (```except ValueError)```:
-  add as reason for rejection of that row "invalid {field}
-
-  **Sources**: 
-  -AI to get a hint on how to tackle this (tried to find is.numeric (R) equivalent in python), and it suggested to use float 
-  -https://www.geeksforgeeks.org/python/python-check-for-float-string/
-
-
-> Checking for duplicate records  
-
-  ```if``` the row's record ID  ```row["record_id"]``` is in accepted_ids (which means it was already passed during another iteration):
-  add as reason for rejection (```reasons.append()```) "duplicate record_id"
-
-> Listing rejectionreasons in specific order  
-
-  setting ```REASONS_ORDER``` to be (```=```) [the order indicated in the instructions]
-
-  setting ```reasons_sorted``` to be (```=```) all the rejection reasons obtained for each row (```reasons```), and putting them in the order of REASON_ORDER (```key = REASONS_ORDER.index```)
-
-**Sources**:
-  - https://www.geeksforgeeks.org/python/python-sort-list-of-list-by-specified-index/
- -  wasn't working, asked AI why and itsuggested i add .index to the key 
-
-> Returning the output 
-
-  ```if``` there were reasons for rejection:  
-    return ```None``` followed by the reasons for rejection (in order)
-
-  otherwise, add the record ID to accepeted_ids and return the row
-
+    
+  Defining validate_record() where:
+  > Checking for missing fields  
+  - looping through INPUT_FIELDS 
+  - ```if``` ```row[field]``` is ```None``` or empty (```row[field].strip() == ""```), appending "missing <field>" to reasons
+  - otherwise, stripping surrounding from the field 
+  > Checking for invalid record ID  
+  - checking ```if``` row["record_id"] matches r"ST[0-9]{3}" format using ```not re.fullmatch```  
+  - if it doesn't, appending "invalid_record_id" to reasons for rejection
+  > Checking for invalid location  
+  - setting a list of valid locations
+  - checking ```if``` row[location], regardless of casefold, doesn't belong (```not in``` to the set list of locations
+  - if not, appending "invalid location" to reasons for rejection
+  > Checking for invalid genas and species  
+  - Repeating the same as in invalid record but for set list of valid genii and species.
+  > Checking for invalid genus-species combinations  
+  - setting a list of valid genus-species combinations
+  - ```if``` genus and species were previously accepted, cheking    if the combination doesn't belong (```not in```) to the set   list of combinations 
+  - if it doesn't appending "invalid genus/species combination"to reasons for rejection 
+  > Checking for invalid numerical fields of range values 
+  - looping through numeric fiels (distance_m and angle_degrees)
+  - ```if``` that row[field] is empty or empty, skip to the following statement
+  - if it isn't, ```try``` to create a float string from row[field] and name it value (```value = float(row[field])```)
+  - if float is non-finite (```not math.isfinite```), appending "invalid {field}" to reasons for rejection
+  - otherwise (field is mathematically finite) checking the ranges (distance_m greater than 0 but no greater than 100, angle_degrees greater than 0 but less than 90)
+  - if values are outside of the range, appending "invalid {field} to reasons for rejection
+  - Failed float conversions handled with except ValueError
+  > Checking for duplicate records  
+  -  ```if```  ```row["record_id"]``` is in accepted_ids (which means it was already passed during another iteration), appending "duplicate record_id" to reasons for rejction
+  > Listing rejection reasons in specific order  
+  - setting REASONS_ORDER (the order in which rejection reasons should be printed according to the instructions)
+  - using ```key = REASONS_ORDER.index```) to order each row's reasons for rejection
+  > Returning the output 
+  - ```if``` there were reasons for rejection, return ```None``` followed by the reasons for rejection (in order)
+  - otherwise, add the record ID to accepeted_ids and return the row
 
 **Output**
 a tuple with: 
@@ -355,34 +268,18 @@ if unvalid reocrd: none, followed by a list of the reason(s) why
 #### 2.3 Process_records - clean_silwood_trees.py
 
 **Input**:  
-Records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]
-
+Records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]  
 **Aims**:  
-
-Validate every record of a file; stop and report an error for invalid input & identify exact duplicate records and keep one copy of each.
-
+Validate every record of a file; stop and report an error for invalid input & identify exact duplicate records and keep one copy of each.  
 **Function**:  
-
-Create empty ```accepted_records``` and ```invalid_records``` lists
-
-Create an empty ```accepted_ids``` set. 
-
-```for``` each record in rows, starting at the second row (```row in enumerate(rows, start = 2```):
-
-  pass the current row, its row number, and ```accepted_ids```through the validate_record() function and store the returned record in ```cleaned_record``` and any rejection reasons in ```reasons```.
-  
-  ```if``` ```cleaned_record``` is valid (```not None```), append it to ```accepted_records``` (```accepted_records.append(cleaned_record)```)
-
-  ```else``` (if it was rejected):
-    append a dictionary to the invalid_records list, contaning its record_id and the reason of rejection
-
-end of loop
-
-  ```return``` ```accepted_records``` and ```invalid_records```
-  **Sources**:
-  https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
-  https://realpython.com/nested-loops-python/
-
+- Creating empty  ```accepted_records``` and ```invalid_records``` lists
+- Creating an empty ```accepted_ids``` set. 
+- Looping through each row, starting at the second row (```row in enumerate(rows, start = 2```) and
+  -  pass the current row, its row number, and ```accepted_ids```through the validate_record() function and store the returned record in ```cleaned_record``` and any rejection reasons in ```reasons```.
+  - ```if``` ```cleaned_record``` is valid, append it to ```accepted_records``` 
+  - otherwise, append a dictionary to the invalid_records list, contaning its record_id and the reason of rejection
+- Ending loop
+- Returning ```accepted_records``` and ```invalid_records```
 **Output**:  
 Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
 
@@ -392,33 +289,19 @@ Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[s
 **Input**:  
 The validated records obtained through process_records (clean_records) 
 Format: (Iterable[dict[str, str]]) 
-
 **Aims**:  
-Identifying all the oak species in the accepted records, counting the frequency of each species, and putting this into a list,
-
-**Function**:
-
-Creating an empty list ```oak_species``` (which will store the different oak species)
-
-```for``` each row in ```clean_records```: 
-  ```if``` that row's genus (```row[genus]```), regardless of trailing whitespaces and casefold (.strip.casefold()), is (```==```) "quercus", then:
+Identifying all the oak species in the accepted records, counting the frequency of each species, and putting this into a list.  
+**Function**:  
+- Creating an empty list ```oak_species``` (which will store the different oak species)
+- Looping through each row in ```clean_records``` and
+  - ```if```that row's genus, regardless of trailing whitespaces and casefold (.strip.casefold()), is "quercus", 
    append that row's species (removing casefold and stripping withespaces) to the oak_species list
-
-  Creating ```oak_counts```, a list listing all the oak_species pseices and their respective counts (using the ```Counter``` command)
-  
-  Returning a list of dictionaries with each species (in the species dictionary) and its respective frequenncy (in the count dictionary) usig ```.items()```
+   - Ending loop
+- Creating ```oak_counts```, a list of all the oak_species species and their respective counts (using the ```Counter``` command)
+- Returning a list of dictionaries with each species (in the species dictionary) and its respective frequenncy (in the count dictionary) usig ```.items()```
 
 **Output**: list of dictionaries of oak species and respective counts. Format: list[dict[str, str]]  
  
-
-**Sources**
-- https://introcs-python.cs.luc.edu/dict_algorithms/overview.html
-- https://www.geeksforgeeks.org/python/python-counter-items-counter-keys-and-counter-values/
-- https://realpython.com/python-counter/
-- https://www.geeksforgeeks.org/python/counters-in-python-set-1/
-- https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
-- Asked AI for help with structurin my function's return
-- Asked AI to help with correcting indents
 
 #### 2.5 Functions check - test_silwood_trees.py
 
@@ -455,9 +338,8 @@ Creating an empty list ```oak_species``` (which will store the different oak spe
 ## 3. R 
 Getting familiar with coding in R.
 
-### In-class scripts
-
-**Required package**: tidyverse, reshape2
+**Required packages**: tidyverse, reshape2
+**In-class scripts**
 
 >- basic_io.R  
   Run with: ```Rscript code/basic_io.R```
@@ -594,13 +476,7 @@ data frame with height_m column and values
 (1) script named TreeHeight.R stored in code
 (2) csv with the checked and modified data in results named TreeHts.csv
 
-*Sources:
--  https://www.statology.org/r-filter-between-two-values/
-- https://dplyr.tidyverse.org/reference/filter.html
-- if row missing https://www.geeksforgeeks.org/r-language/address-errors-in-if-statements-in-r/
-- ordering columns: https://www.geeksforgeeks.org/r-language/reorder-the-column-of-dataframe-in-r-using-dplyr/
-- https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
--  https://www.w3schools.com/r/r_for_loop.asp
+
 
 
 ##### Part 2 - get_TreeHeight.R
@@ -657,7 +533,7 @@ if argument is not valid, error message gets printed and task gets terminated
 ##### Part 3 - run_get_TreeHeight.R
 **How to run**:bash code/run_get_TreeHeight.sh
 
-Shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash, and terminate execution if the script fails. 
+Shell script(file: run_get_TreeHeight.sh) with code to run the command in Bash, and terminate execution if the script fails. 
 
 **Outputs**:
 
@@ -665,16 +541,9 @@ Shell script(file: run_get_TreeHeights.sh) with code to run the command in Bash,
 (2) run_get_TreeHeight.sh: a shell script has the command to run the get_TreeHeight.R script, and makes sure the command gets terminated if the script fails
 (3) csv file with the checked and modified data, stored in results as <input-basename-without-.csv>_treeheights.csv
 
-*Sources:
-- https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
-- asked AI to give me hint on how to tackle this, which led me to this website: https://maple60.github.io/en/posts/2026-02-06-r-extract-filename/
-- asked AI for hint to remove.csv after basename, it suggested tools::file_path_sans_ext
-- for terminating command if script fails: https://www.statology.org/reorder-columns-r/
-
-
 #### 3.2 Pound hill practical 
 
-**Filenames**: pount_hill_analysis.R  
+**Filenames**: pound_hill_analysis.R  
 **File types**: R scripts  
 **How to run**: Rscript code/pound_hill_analysis.R (from project root in Bash terminal)
 
@@ -688,7 +557,7 @@ REQUIRED DATA AND SCRIPTS
 From MQB repostiory into own repository: 
 from content/data to project root data folder
     - pound_hill_data.csv
-    - pound_hill_metadata.csv
+    - pound_hill_meta_data.csv
  
  *Files are now in GitHub repository data folder
   
@@ -731,15 +600,40 @@ OUTPUTS
 (2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.  
 (3) pound_hill_plot_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.  
 
-SOURCES
+
+## External Sources 
+
+### AI use
+For these assignemts, I used ChatGPT and copilot to understand error messages, debug scripts, and get hints on how to go further.
+- Prompted Chat with Copilot to help me restrucutre README file
+
+
+### Websites and blogs
+
+- https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
+- https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
+- https://stackoverflow.com/questions/64644087/python-validate-if-column-entries-match-a-desired-format
+- https://zetcode.com/python/regex-fullmatch-function/ 
+- https://www.geeksforgeeks.org/python/python-check-for-float-string/
+- https://www.geeksforgeeks.org/python/python-string-casefold-method
+- https://www.geeksforgeeks.org/python/python-sort-list-of-list-by-specified-index/
+- https://stackoverflow.com/questions/1278749/-how-do-i-detect-missing-fields-in-a-csv-file-in-a-pythonic-way
+- https://www.geeksforgeeks.org/python/return-dictionary-from-a-function-in-python/#returning-a-dictionary-using-a-dictionary-constructor
+- https://realpython.com/nested-loops-python/
+- https://www.statology.org/r-filter-between-two-values/
+- https://dplyr.tidyverse.org/reference/filter.html
+- https://www.geeksforgeeks.org/r-language/address-errors-in-if-statements-in-r/
+- https://www.geeksforgeeks.org/r-language/reorder-the-column-of-dataframe-in-r-using-dplyr/
+- https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
+-  https://www.w3schools.com/r/r_for_loop.asp
+- https://introcs-python.cs.luc.edu/dict_algorithms/overview.html
+- https://www.geeksforgeeks.org/python/python-counter-items-counter-keys-and-counter-values/
+- https://realpython.com/python-counter/
+- https://www.geeksforgeeks.org/python/counters-in-python-set-1/
+- https://www.geeksforgeeks.org/r-language/how-to-read-command-line-parameters-from-an-r-script/
+- https://maple60.github.io/en/posts/2026-02-06-r-extract-filename/
+-  https://www.statology.org/reorder-columns-r/
 - https://www.geeksforgeeks.org/r-language/pivot-longer-in-r/
 - https://gist.github.com/ramhiser/93fe37be439c480dc26c4bed8aab03dd
 - https://ggplot2.tidyverse.org/reference/scale_manual.html
 - https://www.r-bloggers.com/2025/03/how-to-center-ggplot-title-subtitle-and-caption-in-ggplot2-with-r/
-
-## AI use
-For these assignemts, I used ChatGPT and copilot to understand error messages, debug scripts, and get hints on how to go further.
-
-
-
-
