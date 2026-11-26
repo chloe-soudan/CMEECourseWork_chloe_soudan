@@ -630,10 +630,10 @@ if argument is not valid, error message gets printed and task gets terminated
 | Test | Workflow | Expected outputs | Successful output |
 |---|---|---|---|
 | 1. No argument provided | Ran the fucntion without adding an argument with the following command: ```Rscript code/get_TreeHeight.R``` | Error: "No argument provided", termination of the task | Output matched expectations, check successful. |
-| 2. Too many arguments provided | Ran the function inputting two arguments with following command: ```Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv``` | Error: "too many arguments provided", termination of the teas | Output matched expectations, check succesful. |
-| 3. Missing file | Ran the function with as argument a file that doesnt exist using the following command: ```Rscript code/get_TreeHeight.R  data/doesnotexist.csv``` | Error: "Missing file", termination of the teas | Output matched expectations, check succesful. |
-| 4. Directory instead of file | Ran the function with as argument a directory instead of a file that doesnt exist using the following command: ```Rscript code/get_TreeHeight.R  data/``` | Error: "Missing file", termination of the teas | Output matched expectations, check succesful. |
-| 5. Unreadable file | Created an unreadble file and ran the function with as argument the unerable file, using the following commands: ```touch data/unreadable.csv```,  ```chmod 000 data/unreadable.csv```, ```Rscript code/get_TreeHeight.R data/unreadable.csv``` | Error: "File is not readable, termination of the teas | Output matched expectations, check succesful. |
+| 2. Too many arguments provided | Ran the function inputting two arguments with following command: ```Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv``` | Error: "too many arguments provided", termination of the task | Output matched expectations, check succesful. |
+| 3. Missing file | Ran the function with as argument a file that doesnt exist using the following command: ```Rscript code/get_TreeHeight.R  data/doesnotexist.csv``` | Error: "Missing file", termination of the task | Output matched expectations, check succesful. |
+| 4. Directory instead of file | Ran the function with as argument a directory instead of a file that doesnt exist using the following command: ```Rscript code/get_TreeHeight.R  data/``` | Error: "Missing file", termination of the task | Output matched expectations, check succesful. |
+| 5. Unreadable file | Created an unreadble file and ran the function with as argument the unerable file, using the following commands: ```touch data/unreadable.csv```,  ```chmod 000 data/unreadable.csv```, ```Rscript code/get_TreeHeight.R data/unreadable.csv``` | Error: "File is not readable, termination of the task | Output matched expectations, check succesful. |
 
 
 
