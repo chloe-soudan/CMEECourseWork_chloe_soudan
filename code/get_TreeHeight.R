@@ -36,9 +36,40 @@ if (file.access(args[1], 4) != 0) { # checking that the file is readable
     stop("File is not readable")
 }
 
+###################
+### 4. Testing the args function
+
+# No argument provided
+# Ran the fucntion without adding an argument with the following command: 
+#Rscript code/get_TreeHeight.R
+# returns 0Error: "No argument provided" and Execution halted, as expected
+
+# Too many arguments provided
+#Ran the function inputting two arguments with following command:
+# Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv
+# Returns Error: "too many arguments provided" and Execultion halted, as expected, termination of the teas 
+
+
+#Missing file 
+#Ran the function with as argument a file that doesnt exist using the following command
+# Rscript code/get_TreeHeight.R  data/doesnotexist.csv`
+# Returns Error: "Missing file" and Execution halted, as expected
+
+# Direcotry instead of file
+# Ran the function with as argument a directory instead of a file that doesnt exist using the following command
+# Rscript code/get_TreeHeight.R  data/
+# Returns Error: "Missing file" and Execution halted, as expected 
+
+# Unreadble file
+# Created an unreadble file and ran the function with as argument the unerable file, using the following commands:
+# touch data/unreadable.csv`
+# chmod 000 data/unreadable.csv
+# Rscript code/get_TreeHeight.R data/unreadable.csv
+# Returns Error: "File is not readable and execution halted, as expected 
+
 
 ###################
-### 4. Loading the input CSV file and inspecting it
+### 5. Loading the input CSV file and inspecting it
 
 # reads argument as a csv an stores it as trees1
 trees1 <- read.csv(args[1])
@@ -47,13 +78,13 @@ trees1 <- read.csv(args[1])
 head(trees1)
 
 ######################
-### 5. Reusing input checks from TreeHeight.R script
+### 6. Reusing input checks from TreeHeight.R script
 
 trees_height1 <- check_trees(trees1) # running the check_trees function on trees1   
 
 
 #####################
-### 6. Inspecting the results
+### 7. Inspecting the results
 head(trees_height1)
 str(trees_height1)
 dim(trees_height1)
@@ -77,4 +108,5 @@ row.names = FALSE)
 # I checked for Distance.m (31.665), and Angle.degrees (41.28264)
 # i then calculated height manually and ont the terminal using n, results were the same
 # i then removed browser() from my code
+
 
