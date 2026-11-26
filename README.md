@@ -34,6 +34,7 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
   convert -size 100x100 xc:blue test.tif
   bash code/tiff2_png.sh```
 
+
 ### Assignment 1: Unix and Shell
 **Sources**:
 - https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
@@ -142,32 +143,31 @@ cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
 Getting familiar with coding in Python.
 
 ### In-class scripts
-> - loops.py
-```
-python3 code/loops.py
-```
-> - cfexercises1.py
-python3 cfexercises1.py
-> - cfexercises2.py
-python3 cfexercises2.py
-> - MyExampleScript.py
-python3 MyExampleScript.py
-> - boilerplate.py
-python3 code/boilerplate.py
-> - using_name.py
-python3 code/using_name.py
-> - sysargv.py
-python3 code/sysargv.py oak12
-> - control_flow.py
-python3 code/control_flow.py
-> - test_control_flow.py
-python3 code/test_control_flow.py
-> - observations_practice.py
-python3 code/observations_practice.py
-> - test_observations_practice.py
-python3 code/test_observations_practice.py
-> - debugme.py
-python3 code/debugme.py
+> - loops.py  
+  Run with: ```python3 code/loops.py```
+> - cfexercises1.py  
+  Run with: ```python3 cfexercises1.py```
+> - cfexercises2.py  
+  Run with:```python3 cfexercises2.py```
+> - MyExampleScript.py  
+  Run with: ```python3 MyExampleScript.py```
+> - boilerplate.py    
+  Run with: ```python3 code/boilerplate.py```
+> - using_name.py  
+  Run with: ```python3 code/using_name.py```
+> - sysargv.py  
+  Run with: ```python3 code/sysargv.py oak12```
+> - control_flow.py  
+  Run with: ```python3 code/control_flow.py```
+> - test_control_flow.py  
+  Run with: ```python3 code/test_control_flow.py```
+> - observations_practice.py  
+  Run with: ```python3 code/observations_practice.py```
+> - test_observations_practice.py  
+  Run with: ```python3 code/test_observations_practice.py```
+> - debugme.py  
+  Run with: ```python3 code/debugme.py```
+  Note: this script was designed to have an error, as it is a debugging practice script
 
 
 ### Assignment 2
