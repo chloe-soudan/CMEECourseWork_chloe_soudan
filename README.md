@@ -4,32 +4,30 @@ Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
 **Handbook**: MulQuaBio handbook (https://mulquabio.github.io/MQB/intro.html)
 
-**Contents**   
+## Contents  
 1. [Unix, Shell, and Git](#1-unix-shell-and-git)
 2. [Python](#2-python)
 3. [R](#3-r)
 
-**Project structure**:
+## Project structure
 CMEECourseWork  
 ├── code/      # folder with the in-class and assignment scripts  
 ├── data/      # folder with the data files needed to run code scripts  
-├── results/  # not commited, will containt output files from code scripts after running them  
+├── results/  # contents are not tracked, will containt output files from code scripts after running them  
 ├── Feedback/  # assignment feedbacks  
 ├── README.md  
-└── sandbox/   # pracitce data, codes, etc  
+└── sandbox/   # not commited, practice data, codes, etc  
 
-**Requirements**
+## Requirements
 - All scripts to be run in Bash terminal from the project root (except otherwise specified)
 - Create a results folder within the project root using:
 ```bash mkdir -p results```
 
 
-
-## 1. Unix, Shell, and Git
-
+# 1. Unix, Shell, and Git
 Getting familiar with unix, shell scripting, and using GitHub repositories
 
-**In-class scripts**
+## In-class scripts
 > - variables.sh  
   Run with: ```bash code/variables.sh "two words"```
 > - MyExampleScript.sh  
@@ -52,21 +50,21 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
   bash code/tiff2_png.sh "$shell_practice"```
 
 
-### Assignment 1: Unix and Shell
+## Assignment 1: Unix and Shell
 
-#### 1.1 Fasta exercises 
+### 1.1 Fasta exercises 
 **Filename**: unixPrac1.txt   
 **File format**: text file  
 **How to run**: from project root using ```bash code/unixPrac1.txt```   
 
-##### Aims
+#### Aims
 Using UNIX commands to inspect FASTA files and their contents.
 
-##### Requirements
+#### Requirements
 - FASTA folder from MQB repository (MQB/content/data/fasta). Data should be stored in the data folder of the project root
 - VS Code (or equivalent environment that can run Unix and Bash terminal)
 
-##### Workflow
+#### Workflow
 (1) Counting lines in three different FASTA files using: ``` wc -l ```
 (2) Displaying certain lines of a FASTA file using the ```tail``` command
 (3) Counting sequence length of FASTA file using the ```wc -c```
@@ -75,13 +73,13 @@ Using UNIX commands to inspect FASTA files and their contents.
 (5) Calculating base rations in a FASTA file sequence using the 
 ``` ratio=$(echo "($a + $t) / ($c + $g)" | bc -l)``` command. 
 
-##### Outputs
+#### Outputs
 No output files, just printed resuls from the command
 
 Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) into one line of code.
 
 
-#### 1.2 Shell practical 
+### 1.2 Shell practical 
 **Filename**: tabtocsv.sh  
 **File type**: shell script  
 **How to run**: from project root using ```
@@ -90,14 +88,14 @@ printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
 printf 'Practice data: %s\n' "$shell_practice"
 bash code/tabtocsv.sh "$shell_practice/test.txt"```  
 
-##### Aims
+#### Aims
 Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv)
 
-##### Requirements
+#### Requirements
 - tabtocsv.sh - Shell Scripting chapter 
 - VS Code (or equivalent environment that can run Unix and Bash terminal)
 
-##### Workflow
+#### Workflow
 Worked through provided scripts and removed redudancies, unnecessary steps, and optimized the provided script.
 (1)Terminating the script when input is more than one readable path
 > if the number of inputs (```$~"```) is not equal to 1 (```-ne 1```); then an error message is printed to standard error (```>&2```) and the script is terminated with exit status 2.  
@@ -107,37 +105,37 @@ Worked through provided scripts and removed redudancies, unnecessary steps, and 
 >Reading the input file (```cat "$1$```), converting its tabs with commas (```tr "\t" ","```), and writing it (```>```) as a .csv output file in the results folder.  
 (4) Printing a completion message at the end of the script to mark that it has been completed (```echo "done"```)
 
-##### Outputs
+#### Outputs
 test.txt.csv (in results folder), test text file converted to csv 
 
 
-#### 1.3 New script practical 
+### 1.3 New script practical 
 **Filename**: csvtospace.sh  
 **File type**: shell script  
 **How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv```
 
-##### Aims
+#### Aims
 Using shell scripting to improve a script converting a comma-delimited file (csv)to a tab-delimited one. 
 
-##### Required data
+#### Required data
 - Any csv file (here used 1800.csv, stored in temperatures folder in the project root's data folder - acquired from from MQB repository (MQB/content/data/temperatures))
 - VS Code (or equivalent environment that can run Unix and Bash terminal)
 
-##### Workflow
+#### Workflow
 Adapted tabtocsv.sh to convert csv to tab (other way around).
 Workflow follows exact same steps as [Shell practical](#2-shell-practical) except for Step 3 (Converting the text file to a CSV format). Here,
 (1) instead of replacing the tabs with commas (```tr "\t" ","```), commas were replaced with tabs (```tr "," "\t"```),
 (2) the file was stored as a text filed (```.txt```) instead of a csv file ```.csv``` .
 
-##### Outputs
+#### Outputs
  1800.csv.txt (in results folder), csv file that was converted to text format. can also be run with 1801-1803.csv.
 
-##  2. Python
+#  2. Python
 
 **Aims**
 Getting familiar with coding in Python.
 
-**In-class scripts - python**
+## In-class scripts - python
 > - loops.py  
   Run with: ```python3 code/loops.py```
 > - cfexercises1.py  
@@ -165,20 +163,20 @@ Getting familiar with coding in Python.
   Note: this script was designed to have an error, as it is a debugging practice script
 
 
-### Assignment 2
+## Assignment 2
 
 **Filenames**: clean_silwood_trees.py and test_silwood_trees.py  
 **File types**: python scripts   
 **How to run**: python3 code/clean_silwood_trees.py and python3 code/test_silwood_trees.py  
 
-#### Aims 
+### Aims 
 Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data (stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
 
-#### Software requirements 
+### Software requirements 
 VS Code (or equivalent environment that can run Python)
 
 
-#### Required data and scripts
+### Required data and scripts
 From MQB repostiory into own repository: 
 (1) from content/data to project root data folder
     - silwood_trees_raw
@@ -189,7 +187,7 @@ From MQB repostiory into own repository:
     - test_silwood_trees 
   
 
-#### Workflow
+### Workflow
 (1) Creating a function (load_records) that reads the CSV input file 
 (2) Creating a function (validate_records) that checks whether a row is valid, and if not, returns why it isn't (error message)  
 (3) Creating a function (process_records) that repeats the validation step for the whole survey   
@@ -198,14 +196,14 @@ From MQB repostiory into own repository:
 
 N.B: more precise instruction in silwood_trees_metadata
 
-#### 2.1 Load_records - clean_silwood_trees.py
+### 2.1 Load_records - clean_silwood_trees.py
 
 **Input**: path to a file (here INPUT_PATH)  
 **Aims**: loading the CSV input, checking its field names, and returning one dictionary per row  
 **Function**: function from MQB file, left untouched   
 **Output**: list of dictionaries   
 
-#### 2.2 Validated_records - clean_silwood_trees.py
+### 2.2 Validated_records - clean_silwood_trees.py
 **Input**: 
 - a dictionary of the data of one row (record, ```row:dict[str,str]```)
 - the source row (```source_row:int```)
@@ -222,8 +220,6 @@ N.B: more precise instruction in silwood_trees_metadata
   N.B.: Specific instructions in silwood_trees_metadata  
 
 **Function**  
-
-    
   Defining validate_record() where:
   > Checking for missing fields  
   - looping through INPUT_FIELDS 
@@ -265,7 +261,7 @@ if valid record: a dictionary of the record followed by an empty list
 if unvalid reocrd: none, followed by a list of the reason(s) why
 => tuple[dict[str, str] | None, list[str]]
 
-#### 2.3 Process_records - clean_silwood_trees.py
+### 2.3 Process_records - clean_silwood_trees.py
 
 **Input**:  
 Records (obtained from records = load(records)), format: rows: Iterable[dict[str, str]]  
@@ -284,7 +280,7 @@ Validate every record of a file; stop and report an error for invalid input & id
 Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
 
 
-#### 2.4 Summarise_oaks - clean_silwood_trees.py
+### 2.4 Summarise_oaks - clean_silwood_trees.py
 
 **Input**:  
 The validated records obtained through process_records (clean_records) 
@@ -303,7 +299,7 @@ Identifying all the oak species in the accepted records, counting the frequency 
 **Output**: list of dictionaries of oak species and respective counts. Format: list[dict[str, str]]  
  
 
-#### 2.5 Functions check - test_silwood_trees.py
+### 2.5 Functions check - test_silwood_trees.py
 
 - Importing the functions from clean_silwood_trees.py
 - Testing validate_record() function
@@ -335,11 +331,11 @@ Identifying all the oak species in the accepted records, counting the frequency 
 | 2. Exact oak names | Created a data set with two  records having the exact same scientific oak names (Quercus robur). Ran process_records on the data set |[{species:'robur', count:2}] (list of dictionaries with oak species and count of the species)| Output matched expectations, check successful. |
 | 3. Near match with oak names | Created a data set with a record having Quercus genus  (robur species) and another having typo in genus name (Quercuss)). Ran process_records on the data set|[{species:'robur', count:1}] (list of dictionaries with oak species and count of the species where the reocrd with the typo is not included)| Output matched expectations, check successful. |
 
-## 3. R 
+# 3. R 
 Getting familiar with coding in R.
 
 **Required packages**: tidyverse, reshape2
-**In-class scripts**
+## In-class scripts
 
 >- basic_io.R  
   Run with: ```Rscript code/basic_io.R```
@@ -365,30 +361,30 @@ Getting familiar with coding in R.
   Run with: ```Rscript code/data_wrang_tidy.R```
 
 
-### Assignment 3
+## Assignment 3
 
-#### 3.1 Tree height practical
+### 3.1 Tree height practical
 
 **Filenames**: TreeHeight.R, get_TreeHeight.R, run_get_TreeHeight.sh
 **File types**: R scripts and shell script
 **How to run**: in bash terminal from project root: Rscript code/TreeHeight.R, Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv, bash code/run_get_TreeHeight.sh
 
-AIMS
+#### Aims
 getting familiar with data wrangling and plotting in R. 
 
-SOFTWARE REQUIREMENTS
+#### Software requirements
 **Software**: VS code, or equivalent environment that can run **R**
 **R Packages**: tidyverse
 
-REQUIRED DATA AND SCRIPTS
+#### Required data and scripts
 trees.csv from MQB/content/data
 
-SCRIPTS OVERVIEW
+#### Script overview
 (1) Creating an R script (TreeHeight.R) containing functions that calculate tree height based on distance and angle and validate the input data, and that runs checks on these functions
 (2) Creating a generalised TreeHeight script (get_TreeHeight.R) that uses the functions from TreeHeight.R to calculate tree height, and where the inptu csv can be specified upon running the script from the terminal
 (3) Creating a shell script that runs the generalised R script with the trees.csv data as input
 
-##### Part 1 - TreeHeight.R
+#### Part 1 - TreeHeight.R
 
 **How to run**: Rscript code/TreeHeight.R
 
@@ -479,7 +475,7 @@ data frame with height_m column and values
 
 
 
-##### Part 2 - get_TreeHeight.R
+#### Part 2 - get_TreeHeight.R
 **How to run**: Rscript code/get_TreeHeight.R data/trees.csv  
 
 **Aims**
@@ -541,19 +537,19 @@ Shell script(file: run_get_TreeHeight.sh) with code to run the command in Bash, 
 (2) run_get_TreeHeight.sh: a shell script has the command to run the get_TreeHeight.R script, and makes sure the command gets terminated if the script fails
 (3) csv file with the checked and modified data, stored in results as <input-basename-without-.csv>_treeheights.csv
 
-#### 3.2 Pound hill practical 
+### 3.2 Pound hill practical 
 
 **Filenames**: pound_hill_analysis.R  
 **File types**: R scripts  
 **How to run**: Rscript code/pound_hill_analysis.R (from project root in Bash terminal)
 
-AIMS
+#### Aims
 Wrangling pound hill data, calculating mean species richness at plots, blocks, and cultivation combinations, and plotting it.
 
-SOFTWARE REQUIREMENTS
+#### Software requirements
 VS cde (or equivalent environment that can run R)
 
-REQUIRED DATA AND SCRIPTS
+#### Required data and scripts
 From MQB repostiory into own repository: 
 from content/data to project root data folder
     - pound_hill_data.csv
@@ -561,7 +557,7 @@ from content/data to project root data folder
  
  *Files are now in GitHub repository data folder
   
-WORKFLOW
+#### Workflow
 (1) Loading the required libraries  
 (2) Loading the data and metadata  
 (3) Inspecting the data using ```head```, ```str```, and ```dim``` commands to investigate first lines of the data, its structure, and its dimensions respectively.  
@@ -570,7 +566,6 @@ WORKFLOW
 - Transposing the data (```data <- t(data)```)
 - Converting data matrix to data frame (```as.data.frame```) and converting the obtained table from wide format to long formate (```pivot_longer()```)
 - Setting fields as class factor (```as.factor```), except for Count that was set to class integer (```as.integer```)
-
 (5) Validating that the counts are   
 - not missing and numeric (```if(any(is.na(){}```)
 - non-negative  (```if(any(COUNTDATA <0) {}```)
@@ -594,8 +589,7 @@ and calculate richness at each of these combinations (richness here refers to nu
 
 N.B. Ran the script twice to make sure it was reproducible.  
 
-OUTPUTS
- 
+#### Outputs
 (1) pound_hill_analysis.R: R script stored in project root codes folder  
 (2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.  
 (3) pound_hill_plot_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.  
