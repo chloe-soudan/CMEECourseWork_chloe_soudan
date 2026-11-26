@@ -37,7 +37,7 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
 > - CheckLabel.sh  
   Run with:  ```bash code/CheckLabel.sh oak```
 > - CountLines.sh  
-  Run with: ```bash code/CountLines.sh "data/field notes.csv"```
+  Run with: ```bash code/CountLines.sh data/"field notes.csv"```
 > - ConcatenateTwoFiles.sh  
   Run with ```shell_practice=$(mktemp -d)  
   printf 'oak\n' > "$shell_practice/first.txt"
@@ -82,11 +82,10 @@ Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) in
 ### 1.2 Shell practical 
 **Filename**: tabtocsv.sh  
 **File type**: shell script  
-**How to run**: from project root using ```
-shell_practice=$(mktemp -d)
+**How to run**: from project root with ```shell_practice=$(mktemp -d)
 printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
-printf 'Practice data: %s\n' "$shell_practice"
-bash code/tabtocsv.sh "$shell_practice/test.txt"```  
+printf 'Practice data: %s\n' "$shell_practice"```
+and then ```bash code/tabtocsv.sh "$shell_practice/test.txt"```  
 
 #### Aims
 Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv)
@@ -112,7 +111,7 @@ test.txt.csv (in results folder), test text file converted to csv
 ### 1.3 New script practical 
 **Filename**: csvtospace.sh  
 **File type**: shell script  
-**How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv```
+**How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv``` or
 
 #### Aims
 Using shell scripting to improve a script converting a comma-delimited file (csv)to a tab-delimited one. 
@@ -139,9 +138,9 @@ Getting familiar with coding in Python.
 > - loops.py  
   Run with: ```python3 code/loops.py```
 > - cfexercises1.py  
-  Run with: ```python3 cfexercises1.py```
+  Run with: ```python3 code/cfexercises1.py```
 > - cfexercises2.py  
-  Run with:```python3 cfexercises2.py```
+  Run with:```python3 code/cfexercises2.py```
 > - MyExampleScript.py  
   Run with: ```python3 MyExampleScript.py```
 > - boilerplate.py    
