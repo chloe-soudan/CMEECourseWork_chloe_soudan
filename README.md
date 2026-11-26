@@ -341,99 +341,6 @@ if valid record: a dictionary of the record followed by an empty list
 if unvalid reocrd: none, followed by a list of the reason(s) why
 => tuple[dict[str, str] | None, list[str]]
 
-**Code**:
-```
-def validate_record( 
-    row: dict[str, str],
-    source_row: int,
-    accepted_ids: set[str],
-) -> tuple[dict[str, str] | None, list[str]]:
-    """Clean one record, or return the reasons it cannot be used."""
-    reasons = [] #creating an empty list that will store reason for rejection
-    #checking for missing fields 
-    for field in INPUT_FIELDS:
-        if row[field] is None or row[field].strip() == "":
-            reasons.append(f"missing {field}") 
-        else: #removing whitspaces 
-            row[field] = row[field].strip()
-
-    # checking for invalid record_id
-    if not re.fullmatch(r"ST[0-9]{3}", row["record_id"]):
-        reasons.append("invalid record_id")
-
-    # checking for invalid location
-    locations = ["silwood bottom", "nash's field", "manor house","reactor wood"]
-
-    if row["location"].casefold() not in locations: 
-        reasons.append("invalid location")
-
-    # checking for invalid genus 
-    valid_genus = ["quercus", "acer", "betula", "fagus", "fraxinus"]
-
-    if row["genus"].casefold() not in valid_genus:
-        reasons.append("invalid genus") 
-
-    # checking for invalid species
-    valid_species = ["robur", "petraea","pseudoplatanus","pendula","sylvatica","excelsior"]
-
-    if row["species"].casefold() not in valid_species:
-     reasons.append("invalid species")
-
-    # checking for invalid genus-species combinations
-    valid_combinations = [("quercus", "robur"), ("quercus", "petraea"), ("acer", "pseudoplatanus"), ("betula", "pendula"),
-                   ("fagus", "sylvatica"), ("fraxinus", "excelsior")]
-
-    if row["genus"].casefold() in valid_genus and row["species"].casefold() in valid_species:
-        if (row["genus"].casefold(), row["species"].casefold()) not in valid_combinations:
-            reasons.append("invalid genus/species combination")
-
-  
-    # checking for invalid numerical fields  (out of range values)
-    NUMERIC_FIELDS = ["distance_m", "angle_degrees"]
-
-    for field in NUMERIC_FIELDS:
-        if row[field] is None or row[field].strip() == "":
-            continue
-
-        try:
-            value = float(row[field])
-
-            if not math.isfinite(value):
-                reasons.append(f"invalid {field}")
-
-            else:
-                if field == "distance_m":
-                    if value <= 0 or value > 100:
-                        reasons.append("distance_m out of range")
-
-                if field == "angle_degrees":
-                    if value <= 0 or value >=90:
-                        reasons.append("angle_degrees out of range")
-
-        except ValueError:
-            reasons.append(f"invalid {field}")
-
-    # checking for duplicate record_id
-    if row["record_id"] in accepted_ids:
-        reasons.append("duplicate record_id")
-
-    # ordering reasons for unvalid record
-
-    REASONS_ORDER = ["missing record_id", "invalid record_id", "duplicate record_id", "missing location", "invalid location", "missing genus",
-                 "invalid genus", "missing species", "invalid species", "invalid genus/species combination", "missing distance_m",
-                 "invalid distance_m", "distance_m out of range", "missing angle_degrees", "invalid angle_degrees", "angle_degrees out of range"]
-
-    reasons_sorted = sorted(reasons, key=REASONS_ORDER.index)
-
-    if reasons_sorted:
-        return None, reasons_sorted
-
-    accepted_ids.add(row["record_id"]
-                 )
-    return row, []
-
-```
-
 #### 2.3 Process_records 
 
 **Input**:  
@@ -468,37 +375,6 @@ end of loop
 **Output**:  
 Valid and invalid records lists. Format: tuple[list[dict[str, str]], list[dict[str, str]]]
 
-**Code**:  
-``` 
-
-def process_records(
-    rows: Iterable[dict[str, str]],
-) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
-    """Sort records into accepted rows and issue reports."""
-    # Creating empty lists and set that will store 
-    # the accepted records, the invalid records and 
-    # the accepted record_ids
-    accepted_records = [] 
-    invalid_records = []
-    accepted_ids = set()
-
-    for record, row in enumerate(rows, start =2): # looping through eahc record, starting at the second row
-        # running the validate_record function on each row,
-        # and storing the cleaned record and reasons for rejection
-        cleaned_record, reasons = validate_record(row, record, accepted_ids) 
-        # appending the record to accepted_records, if it was valid
-        if cleaned_record is not None:
-            accepted_records.append(cleaned_record)
-        # appending the record to invalid_records, if it was invalid
-        # and storing the reaasons for rejection in a dictionary of record_id and reasons 
-        else:
-            invalid_records.append({
-                "record_id": row["record_id"],
-                "reasons":",".join(reasons)})
-    # returning the accepted and invalid records
-    return accepted_records, invalid_records
-
-```
 
 #### 2.4 Summarise_oaks
 
@@ -550,8 +426,34 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
 - Asked AI to help with correcting indents
 
 #### 2.5 Functions check
+- Importing the functions from clean_silwood_trees.py
+- Testing validate_record() function
 
-MAKE A README FOR THIS  XXXX
+| Test | Workflow | Expected outputs | Successful output |
+|---|---|---|---|
+| 1. Missing record_id | Created a record with an empty record_id, ran the validate_record on the record | (None, ['invalid record_id`]) | Output matched expectations, check successful. |
+| 3. Invalid genus | Created a record with an invalid genus ran the validate_record on the record | (None, ['invalid genus`]) | Output matched expectations, check successful. |
+| 4. Invalid species | Created a record with an invalid species, ran the validate_record on the record | (None, ['invalid species`]) | Output matched expectations, check successful. |
+| 5. Invalid genus-species combination | Created a record with an invalid genus-species combination, ran the validate_record on the record | (None, ['invalid genus/species combination`]) | Output matched expectations, check successful. |
+| 6. Distance out of range | Created records with out of range distances (at the boundaries: 0, 101). Also checked some valid distances (at the boundaries:1, 100). Ran the validate_record function on the records. | (None, ['distance_m out of range`]) (for invalid distances) and the printed record (for valid distances)| Output matched expectations, check successful. |
+| 7. Angle out of range | Created records with out of range angles(at the boundaries: 0, 90). Also checked some valid distances (at the boundaries:1, 89). Ran the validate_record function on the records.| (None, ['angle_degrees out of range`]) (for invalid angles) and the printed record (for valid angles)| Output matched expectations, check successful. |
+| 8. Order of error messages | Created record which should generate an error for each field, ran the validate_record function on the record | (None, ['missing record_id, 'invalid record_id', 'duplicate record_id', 'invalid location', 'invalid genus', 'invalid species', 'distance_m out of range', 'angle_degrees out of range']| Output matched expectations, check successful. |
+| 9. Trailing spaces and case sensitivity | Created a record with added spaces and abnormal casing in the field inputs, ran the validate_record function on the record | The printed record (valid record)| Output matched expectations, check successful. |
+
+- Testing process_records function
+
+| Test | Workflow | Expected outputs | Successful output |
+|---|---|---|---|
+| 1. Duplicate records | Created a data set with duplicate records, ran the process_records function on the record |Printed record of the first one, followed by 'reasons':'duplicate record' (accepted first record but not the duplicate| Output matched expectations, check successful. |
+| 2. Outputs | Ran process_records on records data set |Accepted records as a list of discitonaries, invalid records printed as a list of dictionaries  with the record_id and the reasons for rejection| Output matched expectations, check successful. |
+
+- Testing summaries_oaks function
+
+| Test | Workflow | Expected outputs | Successful output |
+|---|---|---|---|
+| 1. No oaks | Created a data set with no records having 'Quercus' genus, ran the summarise_oaks function on the data| [] (an empty list as there are no oaks)| Output matched expectations, check successful. |
+| 2. Exact oak names | Created a data set with two  records having the exact same scientific oak names (Quercus robur). Ran process_records on the data set |[{species:'robur', count:2}] (list of dictionaries with oak species and count of the species)| Output matched expectations, check successful. |
+| 3. Near match with oak names | Created a data set with a record having Quercus genus  (robur species) and another having typo in genus name (Quercuss)). Ran process_records on the data set|[{species:'robur', count:1}] (list of dictionaries with oak species and count of the species where the reocrd with the typo is not included)| Output matched expectations, check successful. |
 
 ## 3. R 
 Getting familiar with coding in R.
@@ -686,7 +588,7 @@ data frame with height_m column and values
 | 3. Missing values | Created a data frame with missing Distance_m values, ran the check_trees function on the data frame. | Error: "Missing or non-numeric values in Distance_m" | Output matched expectations, check successful. |
 | 4. Infinite values | Created a data frame with Inf as Distance_m, ran the check_trees function on the data frame. | Error: "invalid Distance_m" | Output matched expectations, check successful. |
 | 5. Non-numeric values | Created a data frame with "abc" as Distance_m input, ran the check_trees function on the data frame. | Error: "Missing or non-numeric values in Distance_m" | Output matched expectations, check successful. |
-| 6. Out of range Distance_m | Created data frames with out of range Distance_m values (at the edges of the boundaries: 0 and 101), ran the check_trees function on the data frame. Also checked some valid Distance_m values. | Error: "Distance_m out of range" for invalid values. Valid values accepted. | Output matched expectations, check successful. |
+| 6. Out of range Distance_m | Created data frames with out of range Distance_m values (at the edges of the boundaries: 0 and 101), ran the check_trees function on the data frame. Also checked some valid Distance_m values. | Error: "Distance_m out of range" for invalid values. (for invalid distance)Valid values accepted (for valid distances). | Output matched expectations, check successful. |
 | 7. Out of range Angle.degrees | Repeated the same as out of range Distance_m check but with edge angle.degrees boundaries (0 and 90). | Error: "Angle.degrees out of range" | Output matched expectations, check successful. |
 | 8. Running check_trees | Ran check_trees on the trees data set and inspected results using dim(). | Output should contain 120 rows and 4 columns. | Output matched expectations, check successful. |
 | 9. Checking calculated height | Compared manually calculated Populus tremula height with height calculated using TreeHeight (rounded values). | Expected values to match and print "correct height". | Output matched expectations, "correct height" printed, check successful. |
