@@ -4,22 +4,38 @@ Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
 **Handbook**: https://mulquabio.github.io/MQB/intro.html
 
+**All scripts to be run in Bash terminal from the project root (except otherwise specified)**
+
 ## 1. Unix, Shell, and Git
 
 ### Aims 
 Getting familiar with unix, shell scripting, and using GitHub repositories
 
 ### In-class scripts
-> - variables.sh
-> - MyExampleScript.sh
-> - boilerplate.sh
-> - CheckLabel.sh
-> - CountLines.sh
-> - ConcatenateTwoFiles.sh
-> - tiff2_png.sh
+
+> - variables.sh  
+  Run with: ```bash code/variables.sh "two words"```
+> - MyExampleScript.sh  
+  Run with: ```bash code/MyExampleScript.sh```
+> - boilerplate.sh  
+  Run with: ```bash boilerplate.sh```
+> - CheckLabel.sh  
+  Run with:  ```bash code/CheckLabel.sh oak```
+> - CountLines.sh  
+  Run with: ```bash code/CountLines.sh "data/field notes.csv"```
+> - ConcatenateTwoFiles.sh  
+  Run with ```shell_practice=$(mktemp -d)  
+  printf 'oak\n' > "$shell_practice/first.txt"
+  printf 'pine\n' > "$shell_practice/second.txt"
+  bash code/ConcatenateTwoFiles.sh "$shell_practice/first.txt" "$shell_practice/second.txt" "$shell_practice/combined.txt"```
+> - tiff2_png.sh  
+  Run with: ```mkdir "$shell_practice/images"
+  cd "$shell_practice/images"
+  convert -size 100x100 xc:blue test.tif
+  bash code/tiff2_png.sh```
 
 ### Assignment 1: Unix and Shell
-*Sources:
+**Sources**:
 - https://askubuntu.com/questions/558977/checking-for-a-file-and-whether-it-is-readable-and-writable
 - https://askubuntu.com/questions/1334801/how-do-multiple-and-work-with-if-statements
 
@@ -56,13 +72,12 @@ Note: used AI for help on assembling parts of tasks (like wc -l, grep -v,...) in
 
 **Filename**: tabtocsv.sh  
 **File type**: shell script  
-**How to run**: from project root using ```bash code/tabtocsv.sh "$shell_practice/test.txt"```  
-
-Note: need to first run following lines in terminal:
-```shell_practice=$(mktemp -d)
+**How to run**: from project root using ```
+shell_practice=$(mktemp -d)
 printf 'species\tcount\noak\t12\n' > "$shell_practice/test.txt"
 printf 'Practice data: %s\n' "$shell_practice"
-```
+bash code/tabtocsv.sh "$shell_practice/test.txt"```  
+
 ##### Aims
 Using shell scripting to improve a script converting a tab-delimited file to a comma-delimited one (csv)
 
@@ -119,7 +134,7 @@ Workflow follows exact same steps as [Shell practical](#2-shell-practical) excep
 cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
 ```
 ##### Outputs
- 1800.csv.txt (in results folder), csv file that was converted to text format
+ 1800.csv.txt (in results folder), csv file that was converted to text format. can also be run with 1801-1803.csv.
 
 ##  2. Python
 
@@ -128,23 +143,38 @@ Getting familiar with coding in Python.
 
 ### In-class scripts
 > - loops.py
+```
+python3 code/loops.py
+```
 > - cfexercises1.py
+python3 cfexercises1.py
 > - cfexercises2.py
+python3 cfexercises2.py
 > - MyExampleScript.py
+python3 MyExampleScript.py
 > - boilerplate.py
+python3 code/boilerplate.py
 > - using_name.py
+python3 code/using_name.py
 > - sysargv.py
+python3 code/sysargv.py oak12
 > - control_flow.py
+python3 code/control_flow.py
 > - test_control_flow.py
+python3 code/test_control_flow.py
 > - observations_practice.py
+python3 code/observations_practice.py
 > - test_observations_practice.py
+python3 code/test_observations_practice.py
 > - debugme.py
+python3 code/debugme.py
+
 
 ### Assignment 2
 
 **Filenames**: clean_silwood_trees.py and test_silwood_trees.py
 **File types**: python scripts 
-**How to run**: XXXX
+**How to run**: python3 code/clean_silwood_trees.py and python3 code/test_silwood_trees.py
 
 #### Aims 
 Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data (stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
@@ -529,25 +559,36 @@ Getting familiar with coding in R.
 ### In-class scripts
 
 - basic_io.R
+Rscript code/basic_io.R
 - boilerplate.R
+Rscript code/boilerplate.R
 - control_flow.R
+Rscript code/control_flow.R
 - r_conditionals.R
+Rscript code/r_conditionals.R
 - break.R
+Rscript code/break.R
 - next.R
+Rscript code/next.R
 - try.R
+Rscript code/try.R
 - browse.R
+Rscript code/browse.R
 - observations_practice.R
+Rscript code/observations_practice.R
 - data_wrang.R
+Rscript code/data_wrang.R
 - data_wrang_tidy.R
+Rscript code/data_wrang_tidy.R
 
-
+require: reshape2, tidyverse,ggplot2
 ### Assignment 3
 
 #### 3.1 Tree height practical
 
 **Filenames**: TreeHeight.R, get_TreeHeight.R, run_get_TreeHeight.sh
 **File types**: R scripts and shell script
-**How to run**: in bash terminal from project root: Rscript code/TreeHeight.R, Rscript code/get_TreeHeight.R data/trees.csv, bash code/run_get_TreeHeight.sh
+**How to run**: in bash terminal from project root: Rscript code/TreeHeight.R, Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv, bash code/run_get_TreeHeight.sh
 
 AIMS
 getting familiar with data wrangling and plotting in R. 
@@ -792,11 +833,15 @@ OUTPUTS
 (2) pound_hill_plot_richness.csv: csv with the mean richness data at each cultivation, block, and plot combination. File stored in project root results folder.  
 (3) pound_hill_plot_richness.pdf: figure of the mean species richness at each plot, in relation to cultivation. File stored in the project root results folder.  
 
-*Sources 
+SOURCES
 - https://www.geeksforgeeks.org/r-language/pivot-longer-in-r/
 - https://gist.github.com/ramhiser/93fe37be439c480dc26c4bed8aab03dd
 - https://ggplot2.tidyverse.org/reference/scale_manual.html
 - https://www.r-bloggers.com/2025/03/how-to-center-ggplot-title-subtitle-and-caption-in-ggplot2-with-r/
 
-## AI USE
+## AI use
 For these assignemts, I used ChatGPT and copilot to understand error messages, debug scripts, and get hints on how to go further.
+
+
+
+
