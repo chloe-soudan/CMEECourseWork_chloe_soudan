@@ -29,7 +29,7 @@ def buggyfunc(x):
         y = y-1
         if y == 0:
         # breakpoint() (was added for practice but removed  for final version)
-        z = x/y
+            z = x/y
     return z
 
 buggyfunc(20)
