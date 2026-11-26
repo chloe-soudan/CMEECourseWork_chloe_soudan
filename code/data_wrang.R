@@ -34,15 +34,11 @@ TempData <- as.data.frame(MyData[-1,],stringsAsFactors = F) #stringsAsFactors = 
 colnames(TempData) <- MyData[1,] # assign column names from original data
 
 ############# Convert from wide to long format  ###############
-require(reshape2) # load the reshape2 package
+library(reshape2) # load the reshape2 package
 # note: error message saying there was no reshape2 package installed
 
-# install reshape2
-install.packages("reshape2")
-# load reshape2
-library(reshape2)
 
-?melt #check out the melt function
+#?melt #check out the melt function
 # note: melt converts an object into a molten data frame 
 
 MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
@@ -60,11 +56,8 @@ dim(MyWrangledData) # dimensions: 2419x6
 
 ############# Exploring the data (extend the script below)  ###############
 
-# installing tidyverse
-install.packages("tidyverse")
-
-# oading the tidyverse library 
-libvrary(tidyverse)
+# Loading the tidyverse library 
+library(tidyverse)
 
 tidyverse_packages(include_self = TRUE) # the include_self = TRUE means list "tidyverse" as well 
 # should show the packages included in tidyverse, did not work 
