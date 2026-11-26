@@ -166,7 +166,7 @@ Getting familiar with coding in Python.
 > - test_observations_practice.py  
   Run with: ```python3 code/test_observations_practice.py```
 > - debugme.py  
-  Run with: ```python3 code/debugme.py```
+  Run with: ```python3 code/debugme.py```  
   Note: this script was designed to have an error, as it is a debugging practice script
 
 
@@ -558,28 +558,30 @@ Getting familiar with coding in R.
 
 ### In-class scripts
 
-- basic_io.R
-Rscript code/basic_io.R
-- boilerplate.R
-Rscript code/boilerplate.R
-- control_flow.R
-Rscript code/control_flow.R
-- r_conditionals.R
-Rscript code/r_conditionals.R
-- break.R
-Rscript code/break.R
-- next.R
-Rscript code/next.R
-- try.R
-Rscript code/try.R
-- browse.R
-Rscript code/browse.R
-- observations_practice.R
-Rscript code/observations_practice.R
-- data_wrang.R
-Rscript code/data_wrang.R
-- data_wrang_tidy.R
-Rscript code/data_wrang_tidy.R
+**Required packages**: 
+
+>- basic_io.R  
+  Run with: ```Rscript code/basic_io.R```
+>- boilerplate.R  
+  Run script: ```Rscript code/boilerplate.R```
+>- control_flow.R  
+  Run with: ```Rscript code/control_flow.R```
+>- r_conditionals.R  
+  Run with: ```Rscript code/r_conditionals.R```
+>- break.R  
+  Run with: ```Rscript code/break.R```
+>- next.R  
+  Run with: ```Rscript code/next.R```
+>- try.R  
+  Run with: ```Rscript code/try.R```
+>- browse.R  
+  Run with: ```Rscript code/browse.R```
+>- observations_practice.R  
+  Run with: ```Rscript code/observations_practice.R```
+>- data_wrang.R  
+  Run with: ```Rscript code/data_wrang.R```
+>- data_wrang_tidy.R  
+  Run with: ```Rscript code/data_wrang_tidy.R```
 
 require: reshape2, tidyverse,ggplot2
 ### Assignment 3
