@@ -4,7 +4,12 @@ Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 
 **Handbook**: https://mulquabio.github.io/MQB/intro.html
 
-**All scripts to be run in Bash terminal from the project root (except otherwise specified)**
+**Requirements**
+- All scripts to be run in Bash terminal from the project root (except otherwise specified)
+- Project root must have a "code", "data", and "results" folder. "Sandbox" folder is not necessary but helpful for storing practice scripts, dtaa, ...
+
+
+
 
 ## 1. Unix, Shell, and Git
 
@@ -29,10 +34,11 @@ Getting familiar with unix, shell scripting, and using GitHub repositories
   printf 'pine\n' > "$shell_practice/second.txt"
   bash code/ConcatenateTwoFiles.sh "$shell_practice/first.txt" "$shell_practice/second.txt" "$shell_practice/combined.txt"```
 > - tiff2_png.sh  
-  Run with: ```mkdir "$shell_practice/images"
-  cd "$shell_practice/images"
-  convert -size 100x100 xc:blue test.tif
-  bash code/tiff2_png.sh```
+  Run with: ```shell_practice=$(mktemp -d)
+  mkdir "$shell_practice/images"
+  convert -size 100x100 xc:blue "$shell_practice/images/test.tif"
+  bash code/tiff2_png.sh "$shell_practice"```
+
 
 
 ### Assignment 1: Unix and Shell
@@ -446,7 +452,7 @@ Getting familiar with coding in R.
 
 ### In-class scripts
 
-**Required package**: tidyverse
+**Required package**: tidyverse, reshape2
 
 >- basic_io.R  
   Run with: ```Rscript code/basic_io.R```
