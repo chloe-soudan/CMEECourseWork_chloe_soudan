@@ -30,6 +30,11 @@ fi
 # stating our task
 echo "creating a tab delimited version of $1..."
 
+# if the results directory does not exist, create it
+if [ ! -d "results" ]; then
+    mkdir results
+fi
+
 # converting text file to csv format
 # note: asked AI how to do the following  CMEECourseWork/results/<input-filename>.txt
 cat "$1" | tr "," "\t" >  "results/$(basename "$1").txt"
