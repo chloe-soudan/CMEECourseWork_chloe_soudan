@@ -159,7 +159,7 @@ Getting familiar with coding in Python.
   Run with: ```python3 code/test_observations_practice.py```
 > - debugme.py  
   Run with: ```python3 code/debugme.py```  
-  Note: this script was designed to have an error, as it is a debugging practice script
+  Note: this script was designed to have an error, as it is a debugging practice script. Practiced with debugger in ipython3 and added breakpoint() before error to explore these tools.
 
 
 ## Assignment 2
@@ -352,6 +352,7 @@ Getting familiar with coding in R.
   Run with: ```Rscript code/try.R```
 >- browse.R  
   Run with: ```Rscript code/browse.R```
+  Note: ran source("code/browse.R") from R console, which opened the Browser() tool. Examined the variables using n, c, Q, and ls(). ls() returned "generations", "N", "N0", "r", and "t"
 >- observations_practice.R  
   Run with: ```Rscript code/observations_practice.R```
 >- data_wrang.R  
@@ -597,8 +598,7 @@ N.B. Ran the script twice to make sure it was reproducible.
 ## External Sources 
 
 ### AI use
-For these assignemts, I used ChatGPT and copilot to understand error messages, debug scripts, and get hints on how to go further.
-- Prompted Chat with Copilot to help me restrucutre README file
+For these assignments and in-class scripts, I used ChatGPT and copilot in GitHub to understand error messages and given scripts, debug scripts, and get hints on how to go further. Additionnaly, I prompted Chat with Copilot to help me create a structure for the README file.
 
 
 ### Websites and blogs
