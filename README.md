@@ -166,7 +166,7 @@ Getting familiar with coding in Python.
 
 **Filenames**: clean_silwood_trees.py and test_silwood_trees.py  
 **File types**: python scripts   
-**How to run**: python3 code/clean_silwood_trees.py and python3 code/test_silwood_trees.py  
+**How to run**: ```python3 code/clean_silwood_trees.py``` and ```python3 code/test_silwood_trees.py```  
 
 ### Aims 
 Completing the clean_silwood_trees.py script (from MQB repository) functions so that running the script results in the creation of a cleaned record(csv file) of the trees data (stored locally in results folder of the project root, not on the GitHub repository), along with a record of invalid rows and their respective issues (csv file), and a file listing all the oak species encountered and their respective counts. 
@@ -366,7 +366,7 @@ Getting familiar with coding in R.
 
 **Filenames**: TreeHeight.R, get_TreeHeight.R, run_get_TreeHeight.sh
 **File types**: R scripts and shell script
-**How to run**: in bash terminal from project root: Rscript code/TreeHeight.R, Rscript code/get_TreeHeight.R data/trees.csv data/trees.csv, bash code/run_get_TreeHeight.sh
+**How to run**: in bash terminal from project root: ```Rscript code/TreeHeight.R```, ```Rscript code/get_TreeHeight.R data/trees.csv```, ```bash code/run_get_TreeHeight.sh```
 
 #### Aims
 getting familiar with data wrangling and plotting in R. 
