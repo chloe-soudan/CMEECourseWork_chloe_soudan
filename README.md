@@ -142,7 +142,7 @@ Getting familiar with coding in Python.
 > - cfexercises2.py  
   Run with:```python3 code/cfexercises2.py```
 > - MyExampleScript.py  
-  Run with: ```python3 MyExampleScript.py```
+  Run with: ```python3 code/MyExampleScript.py```
 > - boilerplate.py    
   Run with: ```python3 code/boilerplate.py```
 > - using_name.py  
