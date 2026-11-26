@@ -55,12 +55,12 @@ if (file.access(args[1], 4) != 0) { # checking that the file is readable
 # Rscript code/get_TreeHeight.R  data/doesnotexist.csv`
 # Returns Error: "Missing file" and Execution halted, as expected
 
-# Direcotry instead of file
+# Directory instead of file
 # Ran the function with as argument a directory instead of a file that doesnt exist using the following command
 # Rscript code/get_TreeHeight.R  data/
 # Returns Error: "Missing file" and Execution halted, as expected 
 
-# Unreadble file
+# Unreadable file
 # Created an unreadble file and ran the function with as argument the unerable file, using the following commands:
 # touch data/unreadable.csv`
 # chmod 000 data/unreadable.csv
