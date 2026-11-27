@@ -13,7 +13,7 @@ Chloe Soudan - MSc CMEE - chloe.soudan26@imperial.ac.uk
 CMEECourseWork  
 ├── code/      # folder with the in-class and assignment scripts  
 ├── data/      # folder with the data files needed to run code scripts  
-├── results/  # contents are not tracked, will contain output files from code scripts after running them  
+├── results/  # not committed, will contain output files from code scripts after running them  
 ├── Feedback/  # assignment feedbacks  
 ├── README.md  
 └── sandbox/   # not committed, practice data, codes, etc  
