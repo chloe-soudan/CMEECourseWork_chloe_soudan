@@ -6,8 +6,7 @@ __pycache__/
 sandbox/
 
 # Generated results
-results/*
-!results/.gitkeep
+results/
 
 # R workspace files
 .RData
