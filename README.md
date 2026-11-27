@@ -18,10 +18,8 @@ CMEECourseWork
 ├── README.md  
 └── sandbox/   # not committed, practice data, codes, etc  
 
-## Requirements
-- All scripts to be run in Bash terminal from the project root (except otherwise specified)
-- Create a results folder within the project root using:
-```bash mkdir -p results```
+All scripts to be run in Bash terminal from the project root (except otherwise specified).
+
 
 
 # 1. Unix, Shell, and Git
@@ -111,7 +109,7 @@ test.txt.csv (in results folder), test text file converted to csv
 ### 1.3 New script practical 
 **Filename**: csvtospace.sh  
 **File type**: shell script  
-**How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv``` or
+**How to run**: from project root using ```bash code/csvtospace.sh data/temperatures/1800.csv``` (input file can be any csv file, so could replace with data/temperature/1901.csv etc)
 
 #### Aims
 Using shell scripting to improve a script converting a comma-delimited file (csv) to a tab-delimited one. 
