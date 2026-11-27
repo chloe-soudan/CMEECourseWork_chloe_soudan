@@ -18,7 +18,7 @@ CMEECourseWork
 ├── README.md  
 └── sandbox/   # not committed, practice data, codes, etc  
 
-All scripts to be run in Bash terminal from the project root (except otherwise specified).
+All scripts to be run in Bash terminal from the project root (except otherwise specified). Results will be stored in results folder (within project root). If the results folder doesn't exist yet, scripts are designed to create one when needed.
 
 
 
